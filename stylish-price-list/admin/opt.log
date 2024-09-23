@@ -1,0 +1,11 @@
+Array
+(
+    [result] => success
+    [message] => License key activated
+    [google_fonts_preview_out] => google_fonts_preview
+    [html_out] => select_html
+    [get_fonts_options] => get_fonts_options
+    [max_cat_count] => 999
+    [max_service_count] => 999
+    [max_list_count] => 999
+)

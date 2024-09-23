@@ -1,0 +1,15 @@
+.edit-post-visual-editor .df-spl-gutenberg--wrap .components-placeholder__fieldset,
+.edit-widgets-block-editor .df-spl-gutenberg--wrap .components-placeholder__fieldset,
+.editor-styles-wrapper .df-spl-gutenberg--wrap .components-placeholder__fieldset {
+    justify-content: center;
+    align-self: center;
+    max-width: 400px;
+    flex-direction: row !important
+}
+
+.edit-post-visual-editor .df-spl-gutenberg--wrap .components-base-control,
+.edit-widgets-block-editor .df-spl-gutenberg--wrap .components-base-control,
+.editor-styles-wrapper .df-spl-gutenberg--wrap .components-base-control {
+    margin-top: 15px;
+    width: 100%
+}
