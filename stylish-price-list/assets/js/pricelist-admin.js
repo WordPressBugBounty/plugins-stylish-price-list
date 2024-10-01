@@ -378,6 +378,7 @@ function splOnMediaImageSelect( mediaUploader, inputSrc ) {
 	}
 	
 	jQuery( inputSrc ).closest('.service-price-length').find( 'img' ).attr( 'src', attachment.url );
+	jQuery( inputSrc ).closest('.category-image-wrapper').find( 'img' ).attr( 'src', attachment.url );
 			
 		jQuery( inputSrc ).parent().find( 'input:hidden' ).val( attachment.url );	
 		
@@ -389,33 +390,6 @@ function splOnMediaImageSelect( mediaUploader, inputSrc ) {
 
 		</div></div>`;
 		jQuery( inputSrc ).parent().append(html);
-		
-
-		
-		jQuery(document).on('click', '.spl-icon', function() {
-			var container = jQuery(this).closest('.spl-container');
-			var parentDiv = container.parent();
-		
-			
-			container.remove();
-		
-			var fileInput = parentDiv.find('input[type="file"]');
-			fileInput.css('display', 'block');
-		
-
-			parentDiv.find('input[type="hidden"]').val('');
-			fileInput.val('');
-		
-
-			if (!fileInput.val()) {
-				var defaultImageSrc = SPL_admin_url.url +"../wp-content/plugins/stylish-price-list/assets/images/def-thumb.png";
-				parentDiv.parent().find('img').attr('src', defaultImageSrc);
-				parentDiv.find('input[type="hidden"]').val('');
-			}
-			else {
-				
-			}
-		});
 }
 
 // initiate tooltip
@@ -538,6 +512,32 @@ window.onload = function() {
 
 		parentDiv.find('.spl-container-icon').css('display', 'none');
 		
+	});
+
+			
+	jQuery(document).on('click', '.spl-icon', function() {
+		var container = jQuery(this).closest('.spl-container');
+		var parentDiv = container.parent();
+	
+		
+		container.remove();
+	
+		var fileInput = parentDiv.find('input[type="file"]');
+		fileInput.css('display', 'block');
+	
+
+		parentDiv.find('input[type="hidden"]').val('');
+		fileInput.val('');
+	
+
+		if (!fileInput.val()) {
+			var defaultImageSrc = SPL_admin_url.url +"../wp-content/plugins/stylish-price-list/assets/images/def-thumb.png";
+			parentDiv.parent().find('img').attr('src', defaultImageSrc);
+			parentDiv.find('input[type="hidden"]').val('');
+		}
+		else {
+			
+		}
 	});
 
 		

@@ -5,9 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <div class="spl-header-wrapper">
 	<div class="spl-header-logo">
-		<div class="spl-header-backgound">
-			
-		</div>
+		<p></p>
 		<div class="spl-container-header">
 		<a href="https://stylishpricelist.com/" class="spl-header">
 			<img src="<?php echo SPL_URL . '/assets/images/Stylish-Price-List-Logo-418x134.png'; ?>" class="img-responsive1" alt="Image" style="max-height: 40px;">
