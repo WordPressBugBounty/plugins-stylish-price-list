@@ -32,7 +32,6 @@ class df_spl_convert_lang {
 		$language['EN']['Break_line_of_categories_on_Tablets'] = df_spl_remove_slash_quotes( 'Break Line of Categories on Tablets' );
 		$language['EN']['Price_List_Description']              = df_spl_remove_slash_quotes( 'Price List Description' );
 		$language['EN']['Items_Price_Currency']                = df_spl_remove_slash_quotes( 'Select Price Currency (for SEO JSON-LD)' );
-		$language['EN']['Enable_Product_Seo_Schema']           = df_spl_remove_slash_quotes( 'Enable Product SEO Schema (JSON-LD)' );
 		$language['EN']['Title']                               = df_spl_remove_slash_quotes( 'Title' );
 		$language['EN']['Category_Tabs']                       = df_spl_remove_slash_quotes( 'Category (Tabs)' );
 		$language['EN']['Category_description_Tabs']           = df_spl_remove_slash_quotes( 'Category Description' );
@@ -98,7 +97,6 @@ class df_spl_convert_lang {
 		$language['SP']['Break_line_of_categories_on_Tablets'] = df_spl_remove_slash_quotes( 'Romper la línea de categorías en Tabletas' );
 		$language['SP']['Price_List_Description']              = df_spl_remove_slash_quotes( 'Descripción de la lista de precios' );
 		$language['SP']['Items_Price_Currency']                = df_spl_remove_slash_quotes( 'Seleccione la moneda del precio (para SEO JSON-LD)' );
-		$language['SP']['Enable_Product_Seo_Schema']           = df_spl_remove_slash_quotes( 'Habilitar esquema de SEO de producto (JSON-LD)' );
 		$language['SP']['Title']                               = df_spl_remove_slash_quotes( 'Título' );
 		$language['SP']['Category_Tabs']                       = df_spl_remove_slash_quotes( 'Categoría (pestañas)' );
 		$language['SP']['Category_description_Tabs']           = df_spl_remove_slash_quotes( 'Descripción de categorías (pestañas)' );
@@ -162,7 +160,6 @@ class df_spl_convert_lang {
 		$language['FR']['Break_line_of_categories_on_Tablets'] = df_spl_remove_slash_quotes( 'Briser la ligne de catégories sur les tablettes' );
 		$language['FR']['Price_List_Description']              = df_spl_remove_slash_quotes( 'Description de la liste de prix' );
 		$language['FR']['Items_Price_Currency']                = df_spl_remove_slash_quotes( 'Sélectionnez la devise du prix (pour SEO JSON-LD)' );
-		$language['FR']['Enable_Product_Seo_Schema']           = df_spl_remove_slash_quotes( 'Activer le schéma SEO du produit (JSON-LD)' );
 		$language['FR']['Title']                               = df_spl_remove_slash_quotes( 'Titre' );
 		$language['FR']['Category_Tabs']                       = df_spl_remove_slash_quotes( 'Catégorie (onglets)' );
 		$language['FR']['Category_description_Tabs']           = df_spl_remove_slash_quotes( 'Description de la Catégorie (onglets)' );
@@ -226,7 +223,6 @@ class df_spl_convert_lang {
 		$language['DE']['Break_line_of_categories_on_Tablets'] = df_spl_remove_slash_quotes( 'Breek lijn van categorieën op tablets' );
 		$language['DE']['Price_List_Description']              = df_spl_remove_slash_quotes( 'Prijslijst beschrijving' );
 		$language['DE']['Items_Price_Currency']                = df_spl_remove_slash_quotes( 'Preiswährung auswählen (für SEO JSON-LD)' );
-		$language['DE']['Enable_Product_Seo_Schema']           = df_spl_remove_slash_quotes( 'Produkt-SEO-Schema aktivieren (JSON-LD)' );
 		$language['DE']['Title']                               = df_spl_remove_slash_quotes( 'Titel' );
 		$language['DE']['Category_Tabs']                       = df_spl_remove_slash_quotes( 'Categorie (tabbladen)' );
 		$language['DE']['Category_description_Tabs']           = df_spl_remove_slash_quotes( 'beschrijving Categorie (tabbladen)' );

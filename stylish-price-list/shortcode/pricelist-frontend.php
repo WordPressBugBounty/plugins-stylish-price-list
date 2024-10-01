@@ -88,7 +88,6 @@ if ( ! empty( $id ) ) {
 	$description_font_weight     = isset( $cats_data['description_font-weight'] ) ? $cats_data['description_font-weight'] : '';
 	$opt_cats                    = $cats_data['category'];
 	$jsonld_currency		     = isset( $cats_data['jsonld_currency'] ) ? $cats_data['jsonld_currency'] : 'USD';
-	$enable_seo_jsonld           = isset( $cats_data['enable_seo_jsonld'] ) ? $cats_data['enable_seo_jsonld'] : 0;
 	$spl_data_values             = $opt_cats;
 
      
@@ -1312,7 +1311,7 @@ if ( ! function_exists( 'output_dropdown_choices' ) ) {
 			function ( $cat, $index ) use ( $id, $default ) {
 				$target = $index . '_' . $id;
 				$selected_string = $index == $default ? 'selected="selected"' : '';
-				return "<option data-target-cat-key=\"$index\" value=\"#$target\" $selected_string>" . $cat['name'] . '</option>';
+				return "<option value=\"#$target\" $selected_string>" . $cat['name'] . '</option>';
 			},
 			$cats,
 			array_keys( $cats )
@@ -1602,7 +1601,7 @@ if ( ! function_exists( 'output_tab_contents_col1' ) ) {
 			}
 		}
 		?>
-		<div class="tab <?php echo ( $default ) ? '' : 'active'; ?>" id="all_<?php echo esc_attr($shortcode_id); ?>" style="<?php echo ( $default ) ? 'display:none' : 'display:flex'; ?>">
+		<div class="tab <?php echo ( $default ) ? '' : 'active'; ?>" id="all_<?php echo esc_attr($shortcode_id); ?>" style="<?php echo ( $default ) ? 'display:none' : 'display:block'; ?>">
 			<?php
 			foreach ( $all_services as $key => $service ) {
 				echo output_service_col1( $service, $is_buy_btn_newtab_enabled );
@@ -1886,31 +1885,15 @@ if ( ! function_exists( 'output_service_style8' ) ) {
 		}
 		ob_start();
 		?>
-		<div class="style-8-card clearfix spl-item-root <?php echo $service['service_image'] ? 'style8-has-images' : ''; ?>" <?php foreach ($tooltip_config as $key => $value) {
+		<div class="style-8-card clearfix spl-item-root" <?php foreach ($tooltip_config as $key => $value) {
 			if ( empty( $value ) ) continue;
     		echo esc_attr($key) . '="' . esc_attr($value) . '" ';
 		} ?>>
-			<?php if ( $service['service_image'] ) { ?>
-				<div class="style8-desc-with-image">
-					<div class="spl-style8-img-container df-spl-pull-left">
-						<img src="<?php echo esc_attr($service['service_image']); ?>">
-					</div>
-					<div class="style-8-card-content">
-						<div class="style-8-title-with-pricetag">
-							<div class="style-8-title-container">
-								<h3 data-price-list-fragment="item_name"><?php echo esc_attr($name); ?></h3>
-								<small><?php echo esc_attr($desc); ?></small>
-							</div>
-						</div>
-						<p class="style-8-description"><?php echo esc_attr($service_long_description); ?></p>
-					</div>
+			<?php if ( $service['service_image'] ) : ?>
+				<div class="spl-style8-img-container df-spl-pull-left">
+					<img src="<?php echo esc_attr($service['service_image']); ?>">
 				</div>
-				<div class="style-8-pricetag-container">
-					<div class="pricetag">
-						<span data-price-list-fragment="price"><?php echo spl_esc_output($price); ?></span>
-					</div>
-				</div>
-			<?php } else { ?>
+			<?php endif; ?>
 			<div class="style-8-card-content">
 				<div class="style-8-title-with-pricetag">
 					<div class="style-8-title-container">
@@ -1925,7 +1908,6 @@ if ( ! function_exists( 'output_service_style8' ) ) {
 				</div>
 				<p class="style-8-description"><?php echo esc_attr($service_long_description); ?></p>
 			</div>
-			<?php } ?>
 		</div>
 		<?php
 		$html = ob_get_clean();
@@ -2015,7 +1997,7 @@ if ( ! function_exists( 'output_tab_contents' ) ) {
 			}
 		}
 		?>
-		<div class="tab <?php echo ( $default ) ? '' : 'active'; ?>" id="all_<?php echo esc_attr($shortcode_id); ?>" style="<?php echo ( $default ) ? 'display:none' : 'display:flex'; ?>">
+		<div class="tab <?php echo ( $default ) ? '' : 'active'; ?>" id="all_<?php echo esc_attr($shortcode_id); ?>" style="<?php echo ( $default ) ? 'display:none' : 'display:block'; ?>">
 			<?php
 			foreach ( $all_services as $key => $service ) {
 				echo output_service( $service, $is_buy_btn_newtab_enabled );
@@ -2039,7 +2021,7 @@ if ( ! function_exists( 'output_tab_contents' ) ) {
 			}
 			?>
 			<div class="tab <?php echo esc_attr($act_tab); ?>" id="<?php echo esc_attr($key) . '_' . $shortcode_id; ?>" style="<?php echo esc_attr($style_act); ?>">
-			<?php
+				<?php
 				if ( $cat['description'] != '' ) {
 					?>
 					<div class="df-spl-row">
@@ -2092,7 +2074,7 @@ if ( ! function_exists( 'output_tabs' ) ) {
 			}
 			?>
 						">
-				<a href="javascript:void(0)" data-target-cat-key="<?php echo esc_attr( $key ); ?>" data-href="#<?php echo esc_attr($key) . '_' . $shortcode_id; ?>"><?php echo wp_kses_post( spl_esc_output( $name ) ); ?></a>
+				<a href="javascript:void(0)" data-href="#<?php echo esc_attr($key) . '_' . $shortcode_id; ?>"><?php echo wp_kses_post( spl_esc_output( $name ) ); ?></a>
 			</li>
 		<?php endforeach ?>
 		<?php
@@ -2396,12 +2378,12 @@ if ( $style == 'style_6' ) {
 if ( $style == 'with_tab' ) {
 	$max_width = '1200px';
 }
-if ( $style == 'with_tab' || $style == '' ) {
+if ( $style == 'with_tab' || $style == '' || $style == 'style_6' ) {
 	if ( $df_number_of_cats ) {
 		$cats = array_slice( $cats, 0, $df_number_of_cats, true );
 	}
 	?>
-	<div class="body-inner container-fluid price_wrapper with_tab df-spl-pull-left col-md-12 spl_main_content_box" data-config=<?php echo esc_js( json_encode( $pricelist_config ) ); ?> id="spl_<?php echo esc_attr($id); ?>" data-style="<?php echo esc_attr($style); ?>" style="max-width:<?php echo isset( $max_width ) ? esc_attr($max_width) : ''; ?>;margin-left:auto;margin-right:auto; ">
+	<div class="body-inner container-fluid price_wrapper df-spl-pull-left col-md-12 spl_main_content_box" data-config=<?php echo esc_js( json_encode( $pricelist_config ) ); ?> id="spl_<?php echo esc_attr($id); ?>" data-style="<?php echo esc_attr($style); ?>" style="max-width:<?php echo isset( $max_width ) ? esc_attr($max_width) : ''; ?>;margin-left:auto;margin-right:auto; ">
 		<?php if ( ! empty( $service['service_button'] ) ) { ?>
 			<div class="head-title">
 				<span class="with_tab_style1">
@@ -2517,6 +2499,7 @@ if ( $style == 'with_tab' || $style == '' ) {
 				if ( ! $show_dropdown ) :
 					?>
 					<!-- Nav tabs -->
+					<!-- <input style="display: none" id="input-tags" value="awesome,neat" autocomplete="off" placeholder="How cool is this?"> -->
 					<ul class="tab-links_spl">
 						<?php
 						if ( $all_tab != '' && $toggle_all_tab == 1 ) {
@@ -2565,7 +2548,6 @@ if ( $style == 'with_tab' || $style == '' ) {
 	</div>
 	<?php
 }
-
 if ( $style == 'without_tab' ) {
 	?>
 	<div class="body-inner container-fluid price_wrapper without_tab spl_main_content_box" id="spl_<?php echo esc_attr($id); ?>" data-config=<?php echo esc_js( json_encode( $pricelist_config ) ); ?> data-style="<?php echo esc_attr($style); ?>" style="max-width:1200px;margin-left:auto;margin-right:auto;">
@@ -2853,9 +2835,9 @@ if ( $style == 'style_5' ) {
 				</div>
 		</div>
 	<?php } else { ?>
-		<div class="col-md-8">
+		<div class="col-md-3 col-lg-3">
 			<div class="head-title">
-				<span class="style5">
+				<span>
 				<?php
 				if ( $spl_remove_title != 1 ) {
 							echo esc_attr($list_name);
@@ -3238,176 +3220,6 @@ if ( $style == 'style_8' ) :
 		}
 	</style>
 <?php endif; ?>
-<?php if ($style == 'style_6'): ?>
-	<style type="text/css">
-		#spl_<?php echo esc_attr($id) ?>,
-		#spl6_<?php echo esc_attr($id) ?> {
-			--spl-s6-title-color: <?php echo esc_attr($title_color_top); ?>;
-			--spl-s6-title-font-size: <?php echo esc_attr($title_size); ?>;
-			--spl-s6-title-font-style: <?php echo esc_attr($list_name_font); ?>;
-			--spl-s6-title-font-weight: <?php echo esc_attr($title_font_weight); ?>;
-			
-			--spl-s6-category-font-size: <?php echo esc_attr($tab_size); ?>;
-			--spl-s6-category-color: <?php echo esc_attr($title_color); ?>;
-			--spl-s6-category-font-style: <?php echo esc_attr($title_font); ?>;
-			--spl-s6-category-font-weight: <?php echo esc_attr($tab_font_weight); ?>;
-			--spl-s6-category-cover-image-overlay-color: <?php echo esc_attr($category_image_overlay_value); ?>;
-
-			--spl-s6-price-font-size: <?php echo esc_attr($select_price); ?>;
-			--spl-s6-price-color: <?php echo esc_attr($price_color); ?>;
-			--spl-s6-price-font-style: <?php echo esc_attr($price_font); ?>;
-			--spl-s6-price-font-weight: <?php echo esc_attr($service_price_font_weight); ?>;
-
-			--spl-s6-item-name-font-size: <?php echo esc_attr($service_size); ?>;
-			--spl-s6-item-name-color: <?php echo esc_attr($service_color); ?>;
-			--spl-s6-item-name-font-style: <?php echo esc_attr($desc_font); ?>;
-			--spl-s6-item-name-hover-color: <?php echo esc_attr($hover_color); ?>;
-			--spl-s6-item-name-font-weight: <?php echo esc_attr($service_font_weight); ?>;
-
-			--spl-s6-desc-font-size: <?php echo esc_attr($service_description_font_size); ?>;
-			--spl-s6-desc-color: <?php echo esc_attr($service_description_color); ?>;
-			--spl-s6-desc-font-style: <?php echo esc_attr($service_description_font); ?>;
-			--spl-s6-desc-font-weight: <?php echo esc_attr($description_font_weight); ?>;
-
-			--spl-s6-cat-desc-font-size: <?php echo ! empty( $tab_description_font_size ) ? esc_attr($tab_description_font_size) : 'inherit'; ?>;
-			--spl-s6-cat-desc-color: <?php echo isset( $tab_description_color ) ? esc_attr($tab_description_color) : '#999'; ?>;
-			--spl-s6-cat-desc-font-style: <?php echo esc_attr($tab_description_font); ?>;
-			--spl-s6-cat-desc-font-weight: <?php echo esc_attr($tab_description_font_weight); ?>;
-			--spl-s6-item-name-font-size: 18px;
-		}
-	</style>
-<?php endif; ?>
-
-<?php
-if ( $style == 'style_6' ) {
-	wp_enqueue_style( 'spl-style-6' );
-	$number_of_cols = ( $cats_data['select_column'] === 'Two' ) ? 'two' : 'one';
-	if ( $df_number_of_cats ) {
-		$cats = array_slice( $cats, 0, $df_number_of_cats, true );
-	}
-	?>
-	<script id="style6_<?php echo esc_attr($id); ?>" type="text/javascript">
-		addEventListener('DOMContentLoaded', (event) => {
-			const pricelistRoot = document.querySelector('#spl_<?php echo esc_attr($id); ?>');
-			const navTargets = pricelistRoot.querySelectorAll('.tab-links_spl li a');
-			navTargets.forEach((navTarget) => {
-				navTarget.addEventListener('click', (event) => {
-					const navTargetParent = navTarget.parentElement;
-					const navTargetSiblings = navTargetParent.parentElement.querySelectorAll('li');
-					navTargetSiblings.forEach((navTargetSibling) => {
-						navTargetSibling.classList.remove('active');
-					});
-					navTargetParent.classList.add('active');
-					const targetItemCategoryKey = navTarget.getAttribute('data-target-cat-key');
-					const priceItemNodes = pricelistRoot.querySelectorAll('.service-item');
-					const targetItems = pricelistRoot.querySelectorAll(`.service-item[data-cat-key="${targetItemCategoryKey}"]`);
-					if ( ! targetItemCategoryKey ) {
-						priceItemNodes.forEach((priceItemNode) => {
-							priceItemNode.classList.remove('spl-hidden');
-						});
-						return;
-					}
-					const excludedItems = pricelistRoot.querySelectorAll(`.service-item:not([data-cat-key="${targetItemCategoryKey}"])`);
-					priceItemNodes.forEach((priceItemNode) => {
-						priceItemNode.classList.add('spl-hidden');
-					});
-					targetItems.forEach((targetItem) => {
-						targetItem.classList.remove('spl-hidden');
-					});
-				});
-			});
-		});
-	</script>
-	<div class="style-6 spl_main_content_box price_wrapper body-inner" style="max-width:<?php echo isset( $max_width ) ? esc_attr($max_width) : ''; ?>;margin-left:auto;margin-right:auto; " data-style="style_6" data-list-columns=<?php echo esc_attr( $number_of_cols ); ?> id="spl_<?php echo esc_attr($id); ?>">
-		<?php if ( intval( $cats_data['spl_remove_title'] ) === 0 ) { ?>
-		<div class="spl-s6-title-wrapper">
-			<div class="spl-s6-title"><?php echo esc_attr($list_name); ?></div>
-		</div>
-		<?php } ?>
-		<div>
-		<?php if ( $show_dropdown ) : ?>
-				<select class="cats-dd-style6" autocomplete="off" <?php if ($dropdown_mobile_no_keyboard == '1') echo 'data-no-keyboard-popup=1' ?>>
-					<?php echo output_dropdown_choices( $cats, $id, $toggle_all_tab == 1, $default, $all_tab ); ?>
-				</select>
-				<?php
-			endif;
-			if ( ! $show_dropdown ) : ?>
-			<!-- Nav tabs -->
-			<ul class="tab-links_spl style-6">
-				<?php
-				if ( $all_tab != '' && $toggle_all_tab == 1 ) {
-					?>
-					<li class="<?php echo ( $default ) ? '' : 'active'; ?>">
-						<a href="javascript:void(0)" data-href="#all_<?php echo esc_attr($id); ?>"><?php echo esc_attr($all_tab); ?></a>
-					</li>
-					<?php
-				}
-				if ( $all_tab == '' && $toggle_all_tab == '' ) {
-					?>
-					<li class="<?php echo ( $default ) ? '' : 'active'; ?>">
-						<a href="javascript:void(0)" data-href="#all_<?php echo esc_attr($id); ?>">All</a>
-					</li>
-					<?php
-				}
-				echo output_tabs( $cats, $default, $id, $is_buy_btn_newtab_enabled );
-				?>
-			</ul>
-		<?php endif; ?>	
-		<?php if ( $enable_searchbar ) : ?>
-			<nav class="pricelist-searchbar clearfix">
-				<input type="text" name="search" class="spl-mysearch" data-target="spl_<?php echo esc_attr($shortcode_id); ?>">
-				<div class="spl-searchbar-icon" style="background-color: <?php echo esc_attr($title_color_top); ?>"><span class="spl-icon-wrapper"><svg xmlns="http://www.w3.org/2000/svg" height="14px" viewBox="0 0 24 24" width="14px" fill="#fff">
-							<path d="M0 0h24v24H0V0z" fill="none" />
-							<path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
-						</svg></span>
-				</div>
-			</nav>
-		<?php endif; ?>
-		</div>
-		<?php
-		$all_services = array();
-		$columns      = 'col-md-6';
-		foreach ( $cats as $cat_key => $cat ) {
-			$services = $cat['services'];
-			foreach ( $services as $key => $service ) {
-				$name               = $service['name'];
-				$service['cat_key'] = $cat_key;
-				$all_services[]     = $service;
-			}
-		}
-		?>
-		<div class="spl-s6-cat-wrapper clearfix <?php echo ( $default ) ? '' : 'active'; ?>" id="<?php echo esc_attr( $cat_key.'_'.$id ); ?>">
-			<ul class="spl-s6-list-wrapper <?php echo $number_of_cols === 'two' ? 'spl-s6-two-cols' : ''; ?>">
-				<?php foreach ($all_services as $cat_item_key => $item_data) {
-						$item_data['price'] = empty($item_data['settings_compare_at']) ? $item_data['price'] : '<s>'.$item_data['settings_compare_at'].'</s>'. ' ' . $item_data['price'];
-						$long_description = trim( empty( trim( $item_data['service_long_description'] ) ) ? $item_data['desc'] : $item_data['service_long_description'] );
-					?>
-					<div class="service-item" data-cat-key="<?php echo esc_attr( $item_data['cat_key'] ); ?>">
-						<?php if ( ! empty( $item_data['service_image'] ) ) { ?>
-							<img src="<?php echo esc_url($item_data['service_image']); ?>">
-						<?php } ?>
-						<div>
-							<h3><?php echo sanitize_text_field($item_data['name']); ?></h3>
-							<p class="spl-s6-muted"><?php echo sanitize_text_field($long_description); ?></p>	
-							<?php if (! ( empty( $item_data['price'] ) && empty( $item_data['service_button_url'] ) && empty( $item_data['service_button'] ) ) ) : ?>
-								<div class="price">
-									<div class="original-price"><?php echo html_entity_decode($item_data['price']); ?></div>
-									<!-- <button class="buy-now"><?php echo esc_attr( $item_data['service_button'] ); ?></button> -->
-									<?php if ( ! empty( $item_data['service_button_url'] ) ) : ?>
-										<a class="buy-now" href="<?php echo esc_url($item_data['service_button_url']); ?>"><?php echo esc_attr( $item_data['service_button'] ); ?></a>
-									<?php endif; ?>
-								</div>
-							<?php endif; ?>
-						</div>
-					</div>
-				<?php } ?>
-			</ul>
-		</div>
-	</div>
-	<?php
-}
-?>
-
 <!--AK Style -->
 <style type="text/css">
 	<?php
@@ -4247,10 +4059,8 @@ Style
 <!-- Include the plug-in -->
 <?php 
 $url = plugins_url();
-add_action('wp_footer', function() use ( $spl_data_values, $jsonld_currency, $enable_seo_jsonld ) {
-	if ( intval( $enable_seo_jsonld ) ) {
-		spl_generate_schema_markup( $spl_data_values, $jsonld_currency );
-	}
+add_action('wp_footer', function() use ( $spl_data_values, $jsonld_currency ) {
+    spl_generate_schema_markup( $spl_data_values, $jsonld_currency );
 });
 ?>
 <script type="text/javascript">

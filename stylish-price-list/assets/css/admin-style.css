@@ -28,9 +28,6 @@ body {
 	background-color: #fff;
     color: #000;
 }
-#category-rows-wrapper .action-button {
-	background-color: unset;
-}
 .price_wrapper.action-button {
 	width: unset;
 	position: sticky;
@@ -63,7 +60,13 @@ body {
 .df-spl-edit-nav.preview-docked-bottom,
 .preview-docked-bottom .font_setting_container,
 #more-settings-wrapper.preview-docked-bottom {
+	max-width: 1600px;
+	margin: 5px auto 0 auto;
 	padding: 0;
+}
+.show_hide_shortcode,
+.preview-docked-bottom .df-spl-edit-nav {
+	margin: 15px auto;
 }
 .preview-docked-bottom .show_hide_shortcode,
 .preview-docked-bottom .df-spl-edit-nav {
@@ -78,7 +81,7 @@ body {
 	border: 1px solid #F0AD4E;
 	color: #fff;
 	font-weight: 700;
-	padding: 13px 25px;
+	padding: 9px 25px;
 }
 .gg-spinner {
 	transform: scale(var(--ggs,1))
@@ -181,7 +184,7 @@ to { transform: rotate(359deg) }
     min-height: 143PX;
 }
 .spl-header-wrapper .spl-back-to-dashboard-btn {
-    border-radius: 4px;
+    border-radius: 2px;
     background: #5BB3A7;
     color: #FFF;
     font-family: Poppins;
@@ -193,10 +196,6 @@ to { transform: rotate(359deg) }
 	border:  2px solid  #fff;
 }
 
-.df-spl-edit-nav .col-sm-3.col-md-3 {
-	padding-top: 28px;
-	padding-bottom: 28px;
-}
 
 .category-rows-master-cls {
     display: flex;
@@ -279,7 +278,7 @@ div#style5_category_container {
 	display: flex;
 	-webkit-align-items: center;
 	align-items: center;
-	margin-right: 15px;
+	margin-right: 6px;
 }
 .price_wrapper .navbar-secondary .navbar-nav>li>a {
 	color: #B0AFAF;
@@ -361,7 +360,7 @@ div#sortable {
 }
 
 .df-spl-d-none {
-	display: none !important;
+	display: none;
 }
 #user-scc-sv .df-spl-euiModal {
     width: 700px;
@@ -526,15 +525,9 @@ div#sortable {
 .dropdown-active .item {
 	height: 40px;
 }
-input[type="file"].category_image,
-.category-image-wrapper .spl-container {
-	width: 70%;
-    float: right;
-}
 .ts-wrapper.form-control.single.full {
     max-width: 270px;
     min-width: 270px;
-	height: unset !important;
 }
 .field-wrapper .wp-color-result-text {
 	line-height: 3.445455;
@@ -566,29 +559,6 @@ input[type=radio]:checked+label.radio-inline span:before {
 	transition: width 150ms ease .1s
 }
 input[type=radio]:checked+label.radio-inline span:after {
-	width: 11px;
-	background: #fff;
-	transition: width 150ms ease .1s
-}
-input[type=checkbox] {
-	z-index: 9999;
-	position: relative;
-	opacity: 0;
-	float: left;
-	width: 25px;
-	height: 21px;
-	top: -3px
-}
-input[type=checkbox]:checked+label.radio-inline span {
-	background-color: #5bb3a7;
-	transform: scale(1.25)
-}
-input[type=checkbox]:checked+label.radio-inline span:before {
-	width: 6px;
-	background: #fff;
-	transition: width 150ms ease .1s
-}
-input[type=checkbox]:checked+label.radio-inline span:after {
 	width: 11px;
 	background: #fff;
 	transition: width 150ms ease .1s
@@ -728,18 +698,6 @@ div#flip {
 	font-size: 18px;
 	text-decoration: none;
 	text-shadow: 0 0 0 #df9ece, 0 0 1px #5bb3a7, 0 0 0 #5bb3a7, -1px 0 1px #5bb3a7
-}
-.submit .button-primary {
-	text-shadow: unset;
-}
-.price_wrapper .more_setting .checkbox label {
-	padding-left: 45px;
-}
-.price_wrapper .more_setting .checkbox+.checkbox {
-	margin-top: 10px;
-}
-.font-settings-body .dropdown-active .item {
-	height: 100%;
 }
 #splButtom.spl_btn_primary.button-primary,
 #splButtom.spl_btn_primary.button-primary:hover,
@@ -882,7 +840,7 @@ span.all_tab_span {
 	margin: 15px 0;
 	/* width: 100%; */
 }
-.bottom-save p.submit .button.button-primary[type="submit"] {
+.bottom-save p.submit input.button.button-primary[type="submit"] {
 	width: 60%;
 	height: 50px;
 	padding: 24px 0;

@@ -2911,9 +2911,8 @@
  .price_wrapper .tab-content1>.tab-pane {
 	 display: none
  }
- .with_tab .tab-content1>.active {
-	display: flex;
-    flex-wrap: wrap;
+ .price_wrapper .tab-content1>.active {
+	 display: block
  }
  .price_wrapper .nav-tabs .dropdown-menu {
 	 margin-top: -1px;
@@ -4565,26 +4564,27 @@
 	 color: #000;
 	 text-shadow: 0 1px 0 #fff;
 	 filter: alpha(opacity=20);
-	 opacity: .8
+	 opacity: .2
  }
  .price_wrapper .close:focus,
  .price_wrapper .close:hover {
+	 color: #000;
 	 text-decoration: none;
 	 cursor: pointer;
 	 filter: alpha(opacity=50);
-	 opacity: 1
+	 opacity: .5
  }
  .price_wrapper button.close {
 	 -webkit-appearance: none;
 	 padding: 0;
 	 cursor: pointer;
-	 color: #d63638;
+	 background: 0 0;
 	 position: absolute;
 	 right: -15px;
 	 top: -10px;
 	 width: 25px;
 	 border-radius: 15px;
-	 border: 2px solid #d63638;
+	 border: 2px solid #000;
  }
  .price_wrapper .modal-open {
 	 overflow: hidden
@@ -4637,9 +4637,6 @@
 	 outline: 0;
 	 -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
 	 box-shadow: 0 3px 9px rgba(0, 0, 0, .5)
- }
- .mw-400 {
-	max-width: 400px;
  }
  .price_wrapper .modal-backdrop {
 	 position: fixed;

@@ -165,42 +165,6 @@ jQuery( document ).ready(
 				);
 			},
 		);
-		$( '.cats-dd-style6' ).each(
-			( i, e ) => {
-            	const selection = new TomSelect(
-					e,
-					{
-						create: true,
-						allowEmptyOption: false,
-						onChange: ( currentAttrValue ) => {
-							const targetItemCategoryKey = selection.options[currentAttrValue].targetCatKey;
-							const pricelistRoot = selection.wrapper.closest('.style-6');
-							const priceItemNodes = pricelistRoot.querySelectorAll('.service-item');
-							const targetItems = pricelistRoot.querySelectorAll(`.service-item[data-cat-key="${targetItemCategoryKey}"]`);
-							if ( ! targetItemCategoryKey ) {
-								priceItemNodes.forEach((priceItemNode) => {
-									priceItemNode.classList.remove('spl-hidden');
-								});
-								return;
-							}
-							priceItemNodes.forEach((priceItemNode) => {
-								priceItemNode.classList.add('spl-hidden');
-							});
-							targetItems.forEach((targetItem) => {
-								targetItem.classList.remove('spl-hidden');
-							});
-						},
-						onInitialize() {
-							if ( this.input.getAttribute( 'data-no-keyboard-popup' ) == 1 ) {
-								if ( isBreakPoint( 600 ) || isBreakPoint( 480 ) ) {
-									this.control_input.setAttribute( 'disabled', '' );
-								}
-							}
-						},
-					},
-				);
-			},
-		);
 		$( '.cats-dd-style-8' ).each(
 			( i, e ) => {
             	const selection = new TomSelect(
@@ -247,7 +211,7 @@ jQuery( document ).ready(
 				const $priceList = $( '#' + priceListId );
 				const style = $priceList.data( 'style' );
 				let $priceItems = $priceList.find( '.internal-box' );
-				let scanTargets = ['.name.a-tag', '.desc.a-tag', '[data-price-list-fragment="item_name"]'];
+				const scanTargets = ['.name.a-tag', '.desc.a-tag', '[data-price-list-fragment="item_name"]'];
 				if ( style === 'style_8') {
 					$priceItems = $priceList.find( '.spl-item-root' );
 					scanTargets.push('.style-8-title-container small');
@@ -256,13 +220,17 @@ jQuery( document ).ready(
 				if ( ! $priceItems.length ) {
 					$priceItems = $priceList.find( '.name-price-desc' );
 				}
-				if ( style === 'style_6' ) {
-					$priceItems = $priceList.find('.service-item');
+				if ( $priceItems.hasClass( 'style-6-2-section' ) ) {
+					$priceItems = $priceList.find( '.style-6-two-column' );
 					isStyle6 = true;
-					scanTargets = ['h3', 'p'];
 				}
 				// var $rows = $('#table tr');
 				const val = $.trim( $( this ).val() ).replace( / +/g, ' ' ).toLowerCase();
+				if ( isStyle6 ) {
+					$priceItems.each( ( index, row ) => {
+						jQuery( row ).next().show();
+					} );
+				}
 				const filtered = $priceItems.show().filter(
 					function() {
 						const text = $( this ).find( scanTargets.join( ',' ) ).text().replace( /\s+/g, ' ' ).toLowerCase();
@@ -270,16 +238,14 @@ jQuery( document ).ready(
 					},
 				);
 				filtered.hide();
+				if ( isStyle6 ) {
+					filtered.each( ( index, row ) => {
+						jQuery( row ).next().hide();
+					} );
+				}
 				switch ( style ) {
 					case 'style_3':
 						$( '.grid-sizer', $priceList ).show().filter( ( i, e ) => ! Boolean( $( e ).find( '.internal-box:visible' ).length ) ).hide();
-						break;
-					case 'style_6':
-						$priceItems.each( ( index, row ) => {
-							if ( row.style.display !== 'none' ) {
-								row.style.display = 'flex';
-							}
-						});
 						break;
 					case ( 'without_tab' ):
 						$( '.head-title.tab-links_spl.spl_cat_title_style_2' ).show().next( '.cat_descreption.row' ).show();

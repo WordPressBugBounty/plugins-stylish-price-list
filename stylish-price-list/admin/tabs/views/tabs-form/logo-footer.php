@@ -523,6 +523,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 .modal-dialog .df-spl-row {
+    padding-top: 70px;
     justify-content: center;
     display: flex;
     flex-direction: column;

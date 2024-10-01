@@ -1,10 +1,3 @@
-= 7.1.9 - 2023-10-1
-* refactor: Improved UX for the price list editor
-* refactor: Centered images for Style 1
-* refactor: Smaller image size for Style 8
-* refactor: Style 6 improvements
-* refactor: UX improvements for Style 5
-
 = 7.1.8 - 2023-08-26
 * Enhanced Security: Implemented measures to prevent Cross-Site Scripting (XSS) vulnerabilities.
 * Bug Fix: Resolved an issue where switching to the "All" category in Style 1 did not function as expected.
