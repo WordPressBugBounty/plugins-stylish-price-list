@@ -11,15 +11,51 @@ jQuery( '.advance_setting' ).click( function() {
 } );
 
 jQuery( '.preview_list' ).click( function() {
-	jQuery( '#preview_content' ).toggle(), jQuery( '.backup_content' ).hide(), jQuery( '.restore_content' ).hide();
+	jQuery( '.backup_content' ).hide(), jQuery( '.restore_content' ).hide();
 } );
 
-jQuery( '.backup' ).click( function() {
-	jQuery( '#preview_content' ).hide(), jQuery( '.backup_content' ).toggle(), jQuery( '.restore_content' ).hide();
+jQuery( '.backup' ).click( function({target}) {
+	const {action, listId, listName, nonce} = target.dataset;
+	// quit if any of the required fields are empty
+	if ( ! action || ! listId || ! listName || ! nonce ) {
+		return;
+	}
+	jQuery( '.restore_content' ).hide();
+	fetch(action, {
+		"headers": {
+		  "cache-control": "no-cache",
+		  "content-type": "application/x-www-form-urlencoded",
+		  "pragma": "no-cache",
+		  "upgrade-insecure-requests": "1"
+		},
+		"referrer": "http://freshsite.test/wp-admin/admin.php?page=spl-tabs&action=edit&id=" + listId,
+		"referrerPolicy": "strict-origin-when-cross-origin",
+		"body": new URLSearchParams({
+			"_wpnonce": nonce,
+			"_wp_http_referer": window.location.href,
+			"list_id": listId,
+			"backup": listName
+		}),
+		"method": "POST",
+		"mode": "cors",
+		"credentials": "include"
+	  }).then(response => response.blob())
+		.then(blob => {
+			const link = document.createElement('a');
+			const url = URL.createObjectURL(blob);
+			link.href = url;
+			link.download = listName + '.csv';
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+		})
+		.catch(error => {
+			console.error('Error fetching and downloading the file:', error);
+		});
 } );
 
 jQuery( '.restore' ).click( function() {
-	jQuery( '#preview_content' ).hide(), jQuery( '.backup_content' ).hide(), jQuery( '.restore_content' ).toggle();
+	jQuery( '.backup_content' ).hide(), jQuery( '.restore_content' ).toggle();
 } );
 
 const settingsWithDependency = jQuery('[data-dependency-settings]');
@@ -63,7 +99,7 @@ jQuery( '.sel1' ).on(
 			jQuery( 'select[name="description_font-weight"]' ).val( '400' ).attr( 'selected', ! 0 ),
 
 			// Item Name
-			jQuery( 'select[name="service_font_size"]' ).val( '20px' ).attr( 'selected', ! 0 ),
+			jQuery( 'select[name="service_font_size"]' ).val( '18px' ).attr( 'selected', ! 0 ),
 			jQuery( 'input[name="service_color"]' ).val( '#000' ).trigger( 'change' ),
 			jQuery( 'select[name="desc_font"]' ).val( 'Gothic-A1' ).attr( 'selected', ! 0 ),
 			jQuery( 'input[name="hover_color"]' ).val( '#000' ).trigger( 'change' ),
@@ -72,7 +108,7 @@ jQuery( '.sel1' ).on(
 			// Price
 			jQuery( 'select[name="price_font"]' ).val( 'Gothic-A1' ).attr( 'selected', ! 0 ),
 			jQuery( 'input[name="price_color"]' ).val( '#65b5a8' ).trigger( 'change' ),
-			jQuery( 'select[name="service_price_font_size"]' ).val( '20px' ).attr( 'selected', ! 0 ),
+			jQuery( 'select[name="service_price_font_size"]' ).val( '18px' ).attr( 'selected', ! 0 ),
 			jQuery( 'select[name="service_price_font-weight"]' ).val( '700' ).attr( 'selected', ! 0 ),
 			jQuery( jQuery( '.color-picker' )[ 4 ] ).val( '#65b5a8' ).trigger( 'change' ),
 			//   jQuery('select[name="title_font-weight"]').val("Raleway").attr("selected",!0),

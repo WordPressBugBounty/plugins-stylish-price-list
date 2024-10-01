@@ -134,6 +134,7 @@ if ( ! empty( $id ) ) {
 	$brack_title_desktop       = isset( $cats_data['brack_title_desktop'] ) ? $cats_data['brack_title_desktop'] : ''; //$cats_data['brack_title_desktop']
 	$brack_title_tablets       = isset( $cats_data['brack_title_tablets'] ) ? $cats_data['brack_title_tablets'] : ''; //$cats_data['brack_title_tablets']
 	$jsonld_currency		   = isset( $cats_data['jsonld_currency'] ) ? $cats_data['jsonld_currency'] : 'USD'; //$cats_data['jsonld_currency']
+	$enable_seo_jsonld		   = isset( $cats_data['enable_seo_jsonld'] ) ? $cats_data['enable_seo_jsonld'] : 0;
 }
 // phpcs:ignore
 $id         = isset( $_GET['id'] ) ? intval($_GET['id']) : '';
@@ -173,6 +174,7 @@ if ( isset( $_REQUEST['lang'] ) ) {
 	$Break_line_of_categories_on_Tablets   = $lang_obj->convert_lang_function( $language_choice, 'Break_line_of_categories_on_Tablets' );
 	$Price_List_Description                = $lang_obj->convert_lang_function( $language_choice, 'Price_List_Description' );
 	$items_price_currency                  = $lang_obj->convert_lang_function( $language_choice, 'Items_Price_Currency' );
+	$enable_product_seo_schema             = $lang_obj->convert_lang_function( $language_choice, 'Enable_Product_Seo_Schema' );
 	$Title                                 = $lang_obj->convert_lang_function( $language_choice, 'Title' );
 	$Category_Tabs                         = $lang_obj->convert_lang_function( $language_choice, 'Category_Tabs' );
 	$Category_description_Tabs             = $lang_obj->convert_lang_function( $language_choice, 'Category_description_Tabs' );
@@ -238,6 +240,7 @@ if ( isset( $_REQUEST['lang'] ) ) {
 		$Break_line_of_categories_on_Tablets   = $lang_obj->convert_lang_function( $cats_data1['select_lang'], 'Break_line_of_categories_on_Tablets' );
 		$Price_List_Description                = $lang_obj->convert_lang_function( $cats_data1['select_lang'], 'Price_List_Description' );
 		$items_price_currency				   = $lang_obj->convert_lang_function( $cats_data1['select_lang'], 'Items_Price_Currency' );
+		$enable_product_seo_schema             = $lang_obj->convert_lang_function( $cats_data1['select_lang'], 'Enable_Product_Seo_Schema' );
 		$Title                                 = $lang_obj->convert_lang_function( $cats_data1['select_lang'], 'Title' );
 		$Category_Tabs                         = $lang_obj->convert_lang_function( $cats_data1['select_lang'], 'Category_Tabs' );
 		$Service_Name                          = $lang_obj->convert_lang_function( $cats_data1['select_lang'], 'Service_Name' );
@@ -301,6 +304,7 @@ if ( isset( $_REQUEST['lang'] ) ) {
 		$Break_line_of_categories_on_Tablets   = $lang_obj->convert_lang_function( 'EN', 'Break_line_of_categories_on_Tablets' );
 		$Price_List_Description                = $lang_obj->convert_lang_function( 'EN', 'Price_List_Description' );
 		$items_price_currency				   = $lang_obj->convert_lang_function( 'EN', 'Items_Price_Currency' );
+		$enable_product_seo_schema             = $lang_obj->convert_lang_function( 'EN', 'Enable_Product_Seo_Schema' );
 		$Title                                 = $lang_obj->convert_lang_function( 'EN', 'Title' );
 		$Category_Tabs                         = $lang_obj->convert_lang_function( 'EN', 'Category_Tabs' );
 		$Service_Name                          = $lang_obj->convert_lang_function( 'EN', 'Service_Name' );
@@ -623,15 +627,15 @@ if ( ! function_exists( 'category_name_row' ) ) {
 			<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 category-image-wrapper ini" title="Please chose an image with a wider aspect ratio. Save and observe if the image has fit into the category background.">
 				<img src="<?php echo empty( $cat_cover_image ) ? SPL_DEFAULT_THUMBNAIL : $cat_cover_image; ?>" width="45px;" height="45px;" />
 		<?php if (!empty($image_name)) : ?>
-			<div class="spl-container-test">
-				<div class="spl-container-icon" ><?php echo $image_name; ?>
-					<i  class='delete-icon'>
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#dae2e1" d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg>
+			<input style="display:none;" type="file"  id="spl-file-input"  name="category[<?php echo esc_attr($cat_id); ?>][cover-image]" class="file-input  form-control category_image" value="<?php echo esc_attr($cat_cover_image); ?>" title="" id="category_<?php echo esc_attr($cat_id); ?>_cover-image">
+			<input style="display:none;" type="hidden" name="category[<?php echo esc_attr($cat_id); ?>][cover-image]" id="category_<?php echo esc_attr($cat_id); ?>_cover-image" class="form-control category_image" value="<?php echo esc_attr($cat_cover_image); ?>" title="">
+			<div class="spl-container">
+				<div class="spl-container-icon"><?php echo $image_name; ?> 
+					<i class="spl-icon">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#dae2e1" d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"></path></svg>
 					</i>
 				</div>
 			</div>
-			<input style="display:none;" type="file"  id="spl-file-input"  name="category[<?php echo esc_attr($cat_id); ?>][cover-image]" class="file-input  form-control category_image" value="<?php echo esc_attr($cat_cover_image); ?>" title="" id="category_<?php echo esc_attr($cat_id); ?>_cover-image">
-			<input style="display:none;" type="hidden" name="category[<?php echo esc_attr($cat_id); ?>][cover-image]" id="category_<?php echo esc_attr($cat_id); ?>_cover-image" class="form-control category_image" value="<?php echo esc_attr($cat_cover_image); ?>" title="">
 		<?php else : ?>
 			<input type="file"  name="category[<?php echo esc_attr($cat_id); ?>][cover-image]" class="form-control category_image" value="<?php echo esc_attr($cat_cover_image); ?>" title="" id="category_<?php echo esc_attr($cat_id); ?>_cover-image">
 			<input type="hidden" name="category[<?php echo esc_attr($cat_id); ?>][cover-image]" id="category_<?php echo esc_attr($cat_id); ?>_cover-image" class="form-control category_image" value="<?php echo esc_attr($cat_cover_image); ?>" title=""> 
@@ -728,7 +732,9 @@ if ( ! function_exists( 'category_row' ) ) {
 									<label data-tooltip-image-key="compare-at" for="category_<?php echo $cat_id . "_" . $service_id; ?>_settings_compare_at">Compare at</label>
 								</div>
 								<div class="col-xs-6 col-sm-7 col-md-7 col-lg-7">
-									<input type="text" value="<?php echo $settings_compare_at; ?>" class="form-control service-compare-at-price" placeholder="Set here comparison price" name="category[<?php echo $cat_id . "][" . $service_id; ?>][settings_compare_at]" id="category_<?php echo $cat_id . "_" . $service_id; ?>_settings_compare_at">
+									<div class="d-flex align-items-center justify-content-between gap-10">
+										<input type="text" value="<?php echo $settings_compare_at; ?>" class="form-control service-compare-at-price" placeholder="Set here comparison price" name="category[<?php echo $cat_id . "][" . $service_id; ?>][settings_compare_at]" id="category_<?php echo $cat_id . "_" . $service_id; ?>_settings_compare_at">
+									</div>
 								</div>
 							</div>
 							<div class="spl-one-bottom"></div>
@@ -850,11 +856,11 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 				<nav class="navbar navbar-secondary df-spl-edit-nav"> <!-- Start of Price List Title, Style, Save Button-->
 					<div class="container-fluid">
 						<div class="navbar-collapse collapse">
-							<div class="col-sm-3 col-md-3" style="padding: 28px 0;margin-right: 5px;">
+							<div class="col-sm-3 col-md-3">
 								<?php $list_name = df_spl_remove_slash_quotes( $list_name ); ?>
 								<input type="text" name="list_name" id="list_name" class="form-control list_name" placeholder="<?php echo esc_attr($Price_List_Name); ?>" required="" value="<?php echo esc_attr($list_name); ?>" title="">
 							</div>
-							<div class="col-sm-3 col-md-3" style="padding: 28px 0;max-width: 250px;">
+							<div class="col-sm-3 col-md-3">
 								<select class="form-control sel1" name="tab_style" style="max-width:100% !important;height:40px;">
 								  <option class="form-control default_tab" value="">Select Style</option>
 								  <option class="form-control default_tab" value="with_tab" <?php echo isset( $style ) && $style == 'with_tab' ? 'selected' : ''; ?> >Style #1 (Supports Images)</option>
@@ -935,8 +941,8 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 				<label for="select_lang"><?php echo esc_attr($Select_Language); ?></label>
 				<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image"  title="Choose a language for this dashboard"/>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa">
-				<select style="max-width:400px;" class="form-control" id="select_lang" name="select_lang">
+			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa mw-400">
+				<select class="form-control" id="select_lang" name="select_lang">
 					<?php 
 					// phpcs:ignore
 					if ( isset( $_REQUEST['lang'] ) ) { ?>
@@ -997,6 +1003,11 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 					}
 					?>
 			</select>
+			<div class="select-right-icon">
+				<span class="df-spl-eui-FormControlLayoutCustomIcon">
+					<img src="<?php echo SPL_URL . '/assets/images/cicle-icon.svg'; ?>" aria-hidden="true">
+				</span>
+			</div>
 		</div>
 	</div><!--End Select language-->
 </div><!-- End of Dashboard Settings Category-->
@@ -1010,8 +1021,8 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 			<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image" title='Set the number of columns'/>
 			<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/majesticons_eye-line.svg'; ?>" data-image-tooltip="<?php echo esc_url(SPL_URL . 'assets/images/tooltip-images/one-two-columns.png'); ?>"/>
 		</div>
-		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa">
-			<select style="max-width:400px;" class="form-control" id="select_column" name="select_column">
+		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa mw-400">
+			<select class="form-control" id="select_column" name="select_column">
 				<option><?php echo ( isset( $style ) && $style === 'style_3' ) ? "Three" : esc_attr($Select_Column); ?></option>
 				<option  value="One" 
 				<?php
@@ -1026,6 +1037,11 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 				?>
 				 >Two</option>
 			</select>
+			<div class="select-right-icon">
+				<span class="df-spl-eui-FormControlLayoutCustomIcon">
+					<img src="<?php echo SPL_URL . '/assets/images/cicle-icon.svg'; ?>" aria-hidden="true">
+				</span>
+			</div>
 		</div>
 	</div>
 	<!-- End Select Column Count -->
@@ -1035,8 +1051,8 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 			<label for="select_lang"><?php echo esc_attr($Max_Width); ?></label>
 			<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image" title='Set the maximum width of the price-list container'/>
 		</div>
-		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa">
-			<input style="max-width:400px;" type="text" name="spl_container_max_width" placeholder="Example : 1200px" value="<?php echo isset( $cats_data['spl_container_max_width'] ) ? $cats_data['spl_container_max_width'] : ''; ?>" id="spl_container_max_width" class="form-control spl_container_max_width" />
+		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa mw-400">
+			<input type="text" name="spl_container_max_width" placeholder="Example : 1200px" value="<?php echo isset( $cats_data['spl_container_max_width'] ) ? $cats_data['spl_container_max_width'] : ''; ?>" id="spl_container_max_width" class="form-control spl_container_max_width" />
 		</div>
 	</div>
 	<!-- END Max Width Box -->
@@ -1058,8 +1074,8 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 		} else {
 			$all_tab = 'All';}
 		?>
-		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa">
-			<input style="max-width:400px;" type="text" name="all_tab" id="all_tab" class="form-control all_tab" value="<?php echo esc_attr($all_tab); ?>" title="">
+		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa mw-400">
+			<input type="text" name="all_tab" id="all_tab" class="form-control all_tab" value="<?php echo esc_attr($all_tab); ?>" title="">
 		</div>
 	</div>
 	<!--End Change All Tab name-->
@@ -1069,7 +1085,7 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 			<label for="default_tab"><?php echo esc_attr($Default_Tab); ?></label>
 			<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image" title="You can setup the default selected tab of the price-list here" />
 		</div>
-		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa">
+		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa mw-400">
 			<select style="max-width:400px" class="form-control sel1" name="default_tab">
 				<?php
 				if ( isset( $all_tab ) && $all_tab != '' ) {
@@ -1098,6 +1114,11 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 				}
 				?>
 			 </select>
+			 <div class="select-right-icon">
+				<span class="df-spl-eui-FormControlLayoutCustomIcon">
+					<img src="<?php echo SPL_URL . '/assets/images/cicle-icon.svg'; ?>" aria-hidden="true">
+				</span>
+			</div>
 		 </div>
 	 </div>
 	 <!-- END of Change DEFAULT Tab name-->
@@ -1136,7 +1157,7 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 	 	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
 			<label><?php echo esc_attr($Style4_Divider_Style); ?> <span class="all_tab_span" style="color:red"></span></label>
 		</div>
-		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa">
+		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa mw-400">
 		  <?php
 			$style4_divider_style = isset( $cats_data['style4_divider_style'] ) ? $cats_data['style4_divider_style'] : 0;
 			?>
@@ -1144,6 +1165,11 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 				<option style="max-width:400px;" class="form-control default_tab" <?php echo selected( $style4_divider_style, '0' )  ?> value="0">Line Divider</option>
 				<option style="max-width:400px;" class="form-control default_tab" <?php echo selected( $style4_divider_style, '1' )  ?> value="1">Dotted Divider</option>
 			</select>
+			<div class="select-right-icon">
+				<span class="df-spl-eui-FormControlLayoutCustomIcon">
+					<img src="<?php echo SPL_URL . '/assets/images/cicle-icon.svg'; ?>" aria-hidden="true">
+				</span>
+			</div>
 		</div>
   </div>
 
@@ -1182,7 +1208,7 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 	 	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
 			<label><?php echo esc_attr($Category_Image_Overlay_Percent); ?> <span class="all_tab_span" style="color:red"></span></label>
 		</div>
-		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa">
+		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa mw-400">
 		  <?php
 			$category_image_overlay_percent = isset( $cats_data['category_image_overlay_percent'] ) ? $cats_data['category_image_overlay_percent'] : 31;
 			?>
@@ -1347,7 +1373,7 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 		<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image" title="Choose if you want to have the catergories show up in a dropdown choice"/>
 		<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/majesticons_eye-line.svg'; ?>" data-image-tooltip="<?php echo esc_url(SPL_URL . 'assets/images/tooltip-images/dropdown-categories.png'); ?>"/>
 	</div>
-	<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa">
+	<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa mw-400">
 		<input style="max-width:400px;" type="text" name="spl_cats_dropdown_width" placeholder="Example : 100%" value="<?php echo isset( $cats_data['spl_cats_dropdown_width'] ) ? $cats_data['spl_cats_dropdown_width'] : '300px'; ?>" id="spl_cats_dropdown_width" class="form-control spl_cats_dropdown_width" />
 	</div>
 </div>
@@ -1414,10 +1440,12 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 				}
 				?>
 			   <div class="checkbox">
-				  <label><input name="brack_title_desktop" type="checkbox" value="1" <?php echo esc_attr($desktop_check); ?> ><?php echo esc_attr($Break_line_of_categories_on_Desktop); ?> </label>
+				  <input class="df-spl-d-none" name="brack_title_desktop" id="brack_title_desktop" type="checkbox" value="1" <?php echo esc_attr($desktop_check); ?> >
+				  <label for="brack_title_desktop" class="radio-inline"><span></span></label><label for="brack_title_desktop"><?php echo esc_attr($Break_line_of_categories_on_Desktop); ?></label>
 			  </div>
 			  <div class="checkbox">
-				  <label><input name="brack_title_tablets" type="checkbox" value="1" <?php echo esc_attr($tab_check); ?> ><?php echo esc_attr($Break_line_of_categories_on_Tablets); ?> </label>
+				  <input class="df-spl-d-none" name="brack_title_tablets" id="brack_title_tablets" type="checkbox" value="1" <?php echo esc_attr($tab_check); ?> >
+				  <label for="brack_title_tablets" class="radio-inline"><span></span></label><label for="brack_title_tablets"><?php echo esc_attr($Break_line_of_categories_on_Tablets); ?></label>
 			  </div>
 		  </div>
 	  </div>
@@ -1547,7 +1575,7 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
 			<label for="all_tab"><?php echo stripslashes( $items_price_currency ); ?></label>
 		</div>
-		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa">
+		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa mw-400">
 			<select class="form-control jsonld-currency" id="jsonld_currency" name="jsonld_currency">
 				<?php foreach ( DF_SPL_CURRENCIES as $key => $value ) {
 					?>
@@ -1555,6 +1583,40 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 					<?php
 				} ?>
 			</select>
+			<div class="select-right-icon">
+				<span class="df-spl-eui-FormControlLayoutCustomIcon">
+					<img src="<?php echo SPL_URL . '/assets/images/cicle-icon.svg'; ?>" aria-hidden="true">
+				</span>
+			</div>
+		</div>
+	</div>
+	<div class="df-spl-row cats-row more_setting">
+		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
+			<label for="category_tab_button"><?php echo esc_attr($enable_product_seo_schema); ?><span class="category_tab_button" style="color:red"></span></label>
+			<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image" title="Activating this feature will create product-specific SEO code, helping search engines understand your products better and rank them higher in search results."/>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+			<?php
+			$enable_seo_jsonld = isset( $cats_data['enable_seo_jsonld'] ) ? $cats_data['enable_seo_jsonld'] : '';
+			$checked                   = 'checked';
+			$unchecked                 = '';
+			?>
+			<div class="custom_radio_btn"><input type="radio" name="enable_seo_jsonld" class="enable_seo_jsonld" required="" value="0" 
+			<?php
+			if ( empty( $enable_seo_jsonld ) ) {
+				echo esc_attr($checked);
+			} else {
+				echo esc_attr($unchecked); }
+			?>
+			>Off<label class="radio-inline"><span></span></label></div>
+			<div class="custom_radio_btn"><input type="radio" name="enable_seo_jsonld" class="enable_seo_jsonld" required="" value="1" 
+			<?php
+			if ( ! empty( $enable_seo_jsonld ) ) {
+				echo esc_attr($checked);
+			} else {
+				echo esc_attr($unchecked); }
+			?>
+			>On<label class="radio-inline"><span></span></label></div>
 		</div>
 	</div>
 </div><!-- End of Misc Settings Category-->
@@ -2042,7 +2104,12 @@ if ( $service_description_color != '' ) {
 						</ul>
 						</div>
 						<div class="col-md-2 spl-button-backup">
-						 <button  id="splButtom" type="button" name="backup" value="" class="spl_btn_primary button button-primary backup " style="height: 45px;"><i class="fa fa-file" aria-hidden="true" style="font-size:18px;margin-right:15px;color:#6B6B6B"></i><?php echo esc_attr($Backup); ?></button>
+						 <button  id="splButtom" type="button" name="backup" value=""
+						 	data-action="<?php echo esc_url( admin_url( 'admin-post.php' ) . '?action=spl_generate_backup' ); ?>"
+							data-list-id="<?php echo htmlentities( $id ); ?>"
+							data-list-name="<?php echo urlencode( htmlspecialchars( $list_name ) ); ?>"
+							data-nonce="<?php echo wp_create_nonce( 'spl_backup_nonce' ); ?>"
+						 	class="spl_btn_primary button button-primary backup " style="height: 45px;"><i class="fa fa-file" aria-hidden="true" style="font-size:18px;margin-right:15px;color:#6B6B6B"></i><?php echo esc_attr($Backup); ?></button>
 						 <?php if ( $id == '' || $id != '' ) {
 							if ( ! empty( $opt ) && ( isset( $opt['result'] ) && $opt['result'] == 'success' ) ) { ?>
 								<button id="splButtomRest" type="button" name="restore" value="" class="spl_btn_primary button button-primary restore" style="height: 45px;margin-right:15px;">
@@ -2117,7 +2184,6 @@ if ( $id != '' ) {
 			<div class="col-md-12 backup-btn-wrapper">
 				<div class="back-up">
 					<form class="panel_accordian" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) . '?action=spl_generate_backup' ); ?>">
-						<?php wp_nonce_field( 'spl_backup_nonce' ); ?>
 						<input type="hidden" name="list_id" value="<?php echo htmlentities( $id ); ?>">
 						<button type="submit" name="backup" value="<?php echo urlencode( htmlspecialchars( $list_name ) ); ?>" class="spl_btn_primary button button-primary" style="width: 200px;background: orange!important;"><?php echo esc_attr($Backup); ?> Now</button>
 					</form>
@@ -2714,7 +2780,6 @@ if ( array_key_exists( 'lang', $_REQUEST ) ) {
 	}
 	if (jQuery(this).val() == "style_8") {
 		!(isNoModal) && jQuery('#sell8').removeClass('fade').show(300).trigger('show.bs.modal');
-		debugger;
 		jQuery('.spl_service_image_element').show();
 		jQuery('.service_long_description').closest('.service-price-length').hide();
 		jQuery('#style5_category_container').css('display', 'none')
