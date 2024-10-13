@@ -3315,6 +3315,9 @@ if ( $style == 'style_6' ) {
 						targetItem.classList.remove('spl-hidden');
 					});
 				});
+				if ( navTarget.parentElement.classList.contains('default') ) {
+					navTarget.click();
+				}
 			});
 		});
 	</script>

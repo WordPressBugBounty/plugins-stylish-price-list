@@ -191,6 +191,22 @@ jQuery( document ).ready(
 							});
 						},
 						onInitialize() {
+							const targetItemCategoryKey = this.options[this.input.value].targetCatKey;
+							const pricelistRoot = this.wrapper.closest('.style-6');
+							const priceItemNodes = pricelistRoot.querySelectorAll('.service-item');
+							const targetItems = pricelistRoot.querySelectorAll(`.service-item[data-cat-key="${targetItemCategoryKey}"]`);
+							if ( ! targetItemCategoryKey ) {
+								priceItemNodes.forEach((priceItemNode) => {
+									priceItemNode.classList.remove('spl-hidden');
+								});
+								return;
+							}
+							priceItemNodes.forEach((priceItemNode) => {
+								priceItemNode.classList.add('spl-hidden');
+							});
+							targetItems.forEach((targetItem) => {
+								targetItem.classList.remove('spl-hidden');
+							});
 							if ( this.input.getAttribute( 'data-no-keyboard-popup' ) == 1 ) {
 								if ( isBreakPoint( 600 ) || isBreakPoint( 480 ) ) {
 									this.control_input.setAttribute( 'disabled', '' );

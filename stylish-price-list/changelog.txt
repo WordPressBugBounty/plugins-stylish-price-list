@@ -1,3 +1,6 @@
+= 7.1.10 - 2023-10-13
+* Bug Fix: Default tab in Style 6 not filtering out the items belonging to the other categories
+
 = 7.1.9 - 2023-10-1
 * refactor: Improved UX for the price list editor
 * refactor: Centered images for Style 1

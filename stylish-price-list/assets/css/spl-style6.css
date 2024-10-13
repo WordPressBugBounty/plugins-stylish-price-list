@@ -3,6 +3,10 @@ ul.spl-s6-list-wrapper {
     padding: 0;
 }
 
+ul.spl-s6-list-wrapper .service-item > div {
+    flex-grow: 1;
+}
+
 .spl-s6-two-cols {
     display: flex;
     flex-wrap: wrap;
