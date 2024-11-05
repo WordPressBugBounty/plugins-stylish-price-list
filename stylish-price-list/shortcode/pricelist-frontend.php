@@ -137,7 +137,7 @@ if ( ! empty( $id ) ) {
 			) );
 			$services[ $service_id ]['tooltip_config'] = [
 				'data-tooltip-title' => $services[ $service_id ]['settings_tooltip_title'],
-				'data-tooltip-description' => $services[ $service_id ]['settings_tooltip_description'],
+				'data-tooltip-description' => wp_kses_post( $services[ $service_id ]['settings_tooltip_description'] ),
 				'data-tooltip-image' => $services[ $service_id ]['settings_tooltip_image']
 			];
 		}
