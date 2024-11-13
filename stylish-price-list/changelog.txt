@@ -1,3 +1,6 @@
+= 7.1.12 - 2023-11-13
+* Bugfix: Style 1 overflow issue
+
 = 7.1.11 - 2023-11-05
 * Enhanced Security: Implemented measures to prevent Cross-Site Scripting (XSS) vulnerabilities.
 
