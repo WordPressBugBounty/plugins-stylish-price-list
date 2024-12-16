@@ -3,12 +3,12 @@ Plugin Name: Stylish Price List - Price Table Builder & QR Code Restaurant Menu
 Contributors: Designful
 Tags: qr code menu, pricing table, restaurant menu, table builder, price list builder
 Plugin URL: https://stylishpricelist.com
-Version: 7.1.12
+Version: 7.1.13
 Donate link: https://stylishpricelist.com
 Requires at least: 4.0
-Tested up to: 6.6.2
+Tested up to: 6.7.1
 Requires PHP: 5.6
-Stable tag: 7.1.12
+Stable tag: 7.1.13
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 

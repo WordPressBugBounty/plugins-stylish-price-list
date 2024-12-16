@@ -59,7 +59,7 @@ class SPL_Cron {
 
 	private function verify_lic_status() {
 		require SPL_DIR . '/license-settings.php';
-		$opt      = $this->get_license_data();
+		$opt      = $this->get_prev_schedule_data();
 		if ( empty( $opt ) ) {
 			return;
 		}
@@ -91,30 +91,34 @@ class SPL_Cron {
 	}
 
 	public function verify( $response ) {
-		$current_license = $this->get_license_data();
-		$license_data = json_decode( wp_remote_retrieve_body( $response ) );
-		if ( $current_license['license'] !== $license_data->license ) {
-			if ( $license_data->license !== 'valid' ) {
-				if ( $license_data->license == 'expired' ) {
-					$exp   = strtotime( $license_data->expires );
+		$current_license = $this->get_prev_schedule_data();
+		$scheduled_action_data = json_decode( wp_remote_retrieve_body( $response ) );
+		$log_file = wp_upload_dir()['basedir'] . '/spl-logs/spl-shceduled-action.log';
+        // clean up the log file
+        spl_limit_log_entries( $log_file, 50 );
+		error_log( 'INFO: ' . date( 'Y-m-d H:i:s' ) . ' - ' . $scheduled_action_data->item_id . ' - ' . $scheduled_action_data->license . "\n", 3, $log_file );
+		if ( $current_license['license'] !== $scheduled_action_data->license ) {
+			if ( $scheduled_action_data->license !== 'valid' ) {
+				if ( $scheduled_action_data->license == 'expired' ) {
+					$exp   = strtotime( $scheduled_action_data->expires );
 					$grace = $exp + DAY_IN_SECONDS;
 					// $grace = $exp;
 					if ( time() > $grace ) {
-						$this->update_license_data( $license_data );
+						$this->update_scheduled_action_data( $scheduled_action_data );
 						return 'not valid';
 					}
 				} else {
-					$this->update_license_data( $license_data );
+					$this->update_scheduled_action_data( $scheduled_action_data );
 				}
 			}
-			if ( $license_data->license == 'valid' ) {
-				$this->update_license_data( $license_data );
+			if ( $scheduled_action_data->license == 'valid' ) {
+				$this->update_scheduled_action_data( $scheduled_action_data );
 			}
 		}
 		return 'valid';
 	}
 
-	public function get_license_data() {
+	public function get_prev_schedule_data() {
 		return get_option( 'spllk_opt' );
 	}
 
@@ -135,9 +139,9 @@ class SPL_Cron {
 		);
 	}
 
-	public function update_license_data( $license_data ) {
-		$opt        = get_object_vars( $license_data );
-		$extra_meta = $this->extra_meta( $license_data->license == 'valid' ? 'success' : 'failed' );
+	public function update_scheduled_action_data( $data ) {
+		$opt        = get_object_vars( $data );
+		$extra_meta = $this->extra_meta( $data->license == 'valid' ? 'success' : 'failed' );
 		$opt        = array_merge( $extra_meta, $opt );
 		update_option( 'spllk_opt', $opt );
 	}

@@ -908,11 +908,6 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 				   </div>
 			   </div>
 		   </nav><!--End of Nav 2 --- Price List Title, Style, Save Button-->
-		   <div class="price-wrapper d-none" id="edit-page-alert">
-				<div class="alert alert2 bg-danger">
-					<h3>Your License key has been expired. Some features might not work properly. Please renew. <a href="<?php echo esc_attr( admin_url('admin.php?page=stylish_price_list_license') ); ?>">Enter your license key</a></h3>
-				</div>
-			</div>
 		   <div id="style5_category_container" style="display:none">
 			<div class="form-group" style="padding: 10px;border-radius: 5px;">
 				<label for="exampleInputEmail1" style="padding-bottom:10px;">Nav-Bar Style  | Category Tabs</label>
@@ -2026,7 +2021,10 @@ if ( $service_description_color != '' ) {
 			<?php
 			$opt = get_option( 'spllk_opt' );
 			if ( empty( $opt ) || $opt['license'] !== 'valid' ) {
-				echo '<div class="free_version alert alert2 bg-warning">You are using the <span class="highlighted">free (demo)</span> version of the plugin. Click <span class="highlighted"><a href="https://stylishpricelist.com?utm_source=inside-plugin&utm_medium=buy-premium-cta-banner">here</a></span> to buy the premium version.</div>';
+				echo '<div class="free_version alert alert2 bg-warning">
+					<p>You are using the <span class="highlighted">free (demo)</span> version of the plugin. Click <span class="highlighted"><a href="https://stylishpricelist.com?utm_source=inside-plugin&utm_medium=buy-premium-cta-banner">here</a></span> to buy the premium version.</p>
+					<p class="text-danger d-none" id="edit-page-alert">Your License key has been expired. Some features might not work properly. Please renew. <a href="'. esc_attr( admin_url('admin.php?page=stylish_price_list_license') ) . '">Go to license manager</a></p>
+				</div>';
 			}
 			?>
 		<div id="pricelist-editor-root" class="category-rows-master-cls">
@@ -2953,7 +2951,7 @@ window.onclick = function(event) {
 		array(
 			'maxCats'      => $max_cat_count,
 			'maxService'   => $max_service_count,
-			'update_state' => $update_state
+			'update_state' => '$update_state'
 		)
 	);
 	?>

@@ -388,7 +388,14 @@ jQuery( document ).ready(
 			document.querySelectorAll( 'input, textarea' ).forEach( ( x ) => {
 				x.setAttribute( 'disabled', 1 );
 			} );
-			document.querySelector( '#edit-page-alert' ).classList.remove( 'd-none' );
+			const saveButton = document.querySelector( '.main-save .btn-primary' );
+			saveButton.classList.add( 'disabled' );
+			saveButton.setAttribute( 'disabled', 1 );
+			saveButton.setAttribute( 'onclick', 'return false;' );
+			document.querySelector( 'select[name="tab_style"]' ).setAttribute( 'disabled', 1 );
+			if ( splSettings.update_state !== null ) {
+				document.querySelector( '#edit-page-alert' ).classList.remove( 'd-none' );
+			}
 		}
 		if ( ['expired', 'disabled'].includes(splSettings.update_state) ) {
 			applyFormula();			
@@ -404,7 +411,7 @@ jQuery( document ).ready(
 			categories.forEach( ( category ) => {
 				serviceCount += category.querySelectorAll( '.service-price-length-rows-wrapper' ).length;
 			} );
-			if ( serviceCount > 4 ) {
+			if ( serviceCount > 5 ) {
 				applyFormula();
 				return;
 			}

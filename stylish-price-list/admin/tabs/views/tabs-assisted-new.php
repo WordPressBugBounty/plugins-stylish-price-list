@@ -49,12 +49,14 @@ wp_localize_script( 'spl-add-new-page', 'pageSplWizard', [ 'nonce' => wp_create_
                                     </span>
                                     <span class="btn-text ms-2">Start from scratch</span>
                                 </button>
+								<?php if ( ! empty( get_option( 'spllk_opt' ) ) ) : ?>
                                 <button type="button" class="btn-lg bg-white btn-primary-outlined text-capitalize" data-btn-action="showRestorePrompt">
                                     <span class="spl-icn-wrapper">
                                         <?php // echo spl_get_kses_extended_ruleset( $this->spl_icons['baseline-restore'] ); ?>
                                     </span>
                                     <span class="btn-text ms-2">Restore A Backup</span>
                                 </button>
+								<?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -89,12 +91,12 @@ wp_localize_script( 'spl-add-new-page', 'pageSplWizard', [ 'nonce' => wp_create_
 					<div id="backup-restore-loading" class="progress mt-2 d-none" role="progressbar" aria-label="loading" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
 						<div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%"></div>
 					</div>
-					<form class="body" method="post" action="http://wpdevsite.test/wp-admin/admin-post.php?action=spl_restore_backup" enctype="multipart/form-data">
+					<form class="body" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) . '?action=spl_restore_backup' ); ?>" enctype="multipart/form-data">
                         <div class="input-group my-3">
 							<?php wp_nonce_field( 'spl_restore_nonce' ); ?>
-                            <input type="file" accept=".json" class="form-control" name="importtocsv" id="restoration-file" placeholder="Select a file">
+                            <input type="file" accept=".csv" class="form-control" name="importtocsv" id="restoration-file" placeholder="Select a file">
                         </div>
-                        <p>Please upload a backup JSON file.</p>
+                        <p>Please upload a backup CSV file.</p>
                         <p class="text-danger d-none">Please select a file from the input field above</p>
 						<div class="action-btn">
 							<button type="submit" name="restore" value="restore" onclick="document.querySelector('#backup-restore-loading').classList.remove('d-none');" data-relative-field="restoration-file" class="btn btn-primary">Restore</button>

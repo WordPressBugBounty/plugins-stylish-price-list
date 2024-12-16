@@ -63,3 +63,29 @@ if (!function_exists('spl_generate_schema_markup')) {
 	}
 }
 
+if ( ! function_exists( 'spl_limit_log_entries' ) ) {
+    function spl_limit_log_entries( $log_file, $limit ) {
+        // Get the directory name from the log file path
+        $dir = dirname( $log_file );
+
+        // If the directory does not exist, create it
+        if ( !file_exists( $dir ) ) {
+            mkdir( $dir, 0755, true );
+        }
+        // Read the log file into an array
+        $lines = file( $log_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
+
+        // If file() failed, $lines will be false
+        if ( $lines === false ) {
+            return;
+        }
+        // If the number of lines is greater than the limit
+        if ( count( $lines ) > $limit ) {
+            // Remove the oldest entries
+            $lines = array_slice( $lines, -$limit );
+            // Write the remaining lines back to the log file
+            file_put_contents( $log_file, implode( "\n", $lines ) );
+        }
+    }
+}
+

@@ -2065,8 +2065,11 @@ input.spl-mysearch:focus-visible {
 .df-spl-style8_cat_tab-container ul > li:not(:last-child) {
 	margin-right: 15px;
 }
-#edit-page-alert {
-	margin-top: 12px;
+.free_version > p {
+	margin-top: 0;
+}
+.text-danger {
+	color: #830000;
 }
 
 .d-none {

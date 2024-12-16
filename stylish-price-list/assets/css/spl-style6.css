@@ -257,18 +257,18 @@ ul.spl-s6-list-wrapper .service-item > div {
   
   .original-price {
     font-size: 16px;
-    color: #4CAF50;
+    color: var(--spl-s6-price-color);
   }
   
   .discounted-price {
     font-size: 20px;
     font-weight: bold;
-    color: #4CAF50;
+    color: var(--spl-s6-price-color);
     margin-right: 10px;
   }
   
   .buy-now {
-    background-color: #4CAF50;
+    background-color: var(--spl-s6-price-color);
     color: white;
     border: none;
     padding: 5px 10px;

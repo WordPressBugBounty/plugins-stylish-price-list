@@ -1602,7 +1602,7 @@ if ( ! function_exists( 'output_tab_contents_col1' ) ) {
 			}
 		}
 		?>
-		<div class="tab <?php echo ( $default ) ? '' : 'active'; ?>" id="all_<?php echo esc_attr($shortcode_id); ?>" style="<?php echo ( $default ) ? 'display:none' : 'display:flex'; ?>">
+		<div class="tab <?php echo ( $default ) ? '' : 'active'; ?>" id="all_<?php echo esc_attr($shortcode_id); ?>" style="<?php echo ( $default ) ? 'display:none' : ''; ?>">
 			<?php
 			foreach ( $all_services as $key => $service ) {
 				echo output_service_col1( $service, $is_buy_btn_newtab_enabled );
@@ -2015,7 +2015,7 @@ if ( ! function_exists( 'output_tab_contents' ) ) {
 			}
 		}
 		?>
-		<div class="tab <?php echo ( $default ) ? '' : 'active'; ?>" id="all_<?php echo esc_attr($shortcode_id); ?>" style="<?php echo ( $default ) ? 'display:none' : 'display:flex'; ?>">
+		<div class="tab <?php echo ( $default ) ? '' : 'active'; ?>" id="all_<?php echo esc_attr($shortcode_id); ?>" style="<?php echo ( $default ) ? 'display:none' : ''; ?>">
 			<?php
 			foreach ( $all_services as $key => $service ) {
 				echo output_service( $service, $is_buy_btn_newtab_enabled );
@@ -4009,14 +4009,14 @@ if ( $style == 'style_6' ) {
 	if ( $toggle == 1 ) :
 		?>
 		#spl_<?php echo esc_attr($id); ?>.price_wrapper .tabs_spl ul.tab-links_spl li:before {
-		font-family: FontAwesome !important;
-		font-weight: normal !important;
-		font-style: normal !important;
-		display: inline-block !important;
-		text-decoration: inherit !important;
-		content: "\F105" !important;
-		position: absolute !important;
-		left: -5px !important;
+			font-weight: normal !important;
+			font-style: normal !important;
+			display: inline-block !important;
+			text-decoration: inherit !important;
+			content: "";
+			width: 1.25em;
+			background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="%235f6368"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg>');
+			height: 1em;
 	}
 
 		<?php
