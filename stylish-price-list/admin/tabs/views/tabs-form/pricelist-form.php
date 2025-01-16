@@ -35,6 +35,7 @@ if ( isset( $_GET['id'] ) ) {
 <?php
 $list_count               = df_spl_get_tabs_count();
 $opt                      = df_spl_get_options();
+
 // $google_fonts_preview_out = $opt['google_fonts_preview_out'];
 $opt = apply_filters( 'post-spricelist-form', $opt );
 $opt['html_out']          = 'select_html';
@@ -73,10 +74,12 @@ $cats_data['category'][1]  = array(
 	'name' => '',
 	1      => $_init_service,
 );
+
 $spl_screen = get_current_screen();
 $spl_screen = ( isset( $spl_screen->id ) ) ? $spl_screen->id : '';
 $predefined_pricelist_name = ( $spl_screen === 'admin_page_spl-tabs-new' && isset( $_GET['listname'] ) ) ? sanitize_text_field( $_GET['listname'] ) : '';
 $list_name                 = $predefined_pricelist_name;
+$list_type                 = isset( $_GET['list-type'] ) ? sanitize_text_field( $_GET['list-type'] ) : 'price_list';
 $hover_color               = '';
 $title_color               = '';
 $title_color_top           = '';
@@ -101,16 +104,17 @@ $optionArr                 = array(
 	'Extra_Bold'  => 800,
 	'Ultra_Bold'  => 900,
 );
+
 if ( ! empty( $id ) ) {
 	$cats_data = df_spl_get_option( $id );
-	/*echo "<pre>";
-	print_r($cats_data);
-	echo "</pre>";*/
+	
 	$list_name         = isset( $cats_data['list_name'] ) ? $cats_data['list_name'] : ''; //$cats_data['list_name']
+	$list_type         = isset( $cats_data['list_type'] ) ? $cats_data['list_type'] : ''; //$cats_data['list_type']
 	$all_tab           = isset( $cats_data['all_tab'] ) ? $cats_data['all_tab'] : ''; //$cats_data['all_tab']
 	$style_cat_tab_btn = isset( $cats_data['style_cat_tab_btn'] ) ? $cats_data['style_cat_tab_btn'] : ''; //$cats_data['style_cat_tab_btn']
 	$spl_remove_title  = isset( $cats_data['spl_remove_title'] ) ? $cats_data['spl_remove_title'] : '';
 	$style             = isset( $cats_data['tab_style'] ) ? $cats_data['tab_style'] : '';
+	
 	$style5_category   = isset( $cats_data['style5_category'] ) ? $cats_data['style5_category'] : '';
 	 //$cats_data['tab_style']
 	$hover_color               = isset( $cats_data['hover_color'] ) ? $cats_data['hover_color'] : ''; //$cats_data['hover_color']
@@ -189,6 +193,11 @@ if ( isset( $_REQUEST['lang'] ) ) {
 	$Hover_Color                           = $lang_obj->convert_lang_function( $language_choice, 'Hover_Color' );
 	$GLOBALS['Category_Name']              = $lang_obj->convert_lang_function( $language_choice, 'Category_Name' );
 	$GLOBALS['Category_Description']       = $lang_obj->convert_lang_function( $language_choice, 'Category_Description' );
+	$GLOBALS['Category_Background_Color']  = $lang_obj->convert_lang_function( $language_choice, 'Category_Background_Color' );
+	$GLOBALS['Category_Text_Color']        = $lang_obj->convert_lang_function( $language_choice, 'Category_Text_Color' );
+	$GLOBALS['Category_Action_Text']       = $lang_obj->convert_lang_function( $language_choice, 'Category_Action_Text' );
+	$GLOBALS['Category_Action_Link']       = $lang_obj->convert_lang_function( $language_choice, 'Category_Action_Link' );
+	$GLOBALS['Category_Price']             = $lang_obj->convert_lang_function( $language_choice, 'Category_Price' );
 	$GLOBALS['Category_Image']             = $lang_obj->convert_lang_function( $language_choice, 'Category_Image' );
 	$GLOBALS['Service_Name']               = $lang_obj->convert_lang_function( $language_choice, 'Service_Name' );
 	$GLOBALS['Service_Regular_Price']      = $lang_obj->convert_lang_function( $language_choice, 'Service_Regular_Price' );
@@ -254,7 +263,12 @@ if ( isset( $_REQUEST['lang'] ) ) {
 		$Hover_Color                           = $lang_obj->convert_lang_function( $cats_data1['select_lang'], 'Hover_Color' );
 		$GLOBALS['Category_Name']              = $lang_obj->convert_lang_function( $cats_data1['select_lang'], 'Category_Name' );
 		$GLOBALS['Category_Description']       = $lang_obj->convert_lang_function( $cats_data1['select_lang'], 'Category_Description' );
+		$GLOBALS['Category_Background_Color']  = $lang_obj->convert_lang_function( $cats_data1['select_lang'], 'Category_Background_Color' );
+		$GLOBALS['Category_Text_Color']        = $lang_obj->convert_lang_function( $cats_data1['select_lang'], 'Category_Text_Color' );
 		$GLOBALS['Category_Image']             = $lang_obj->convert_lang_function( $cats_data1['select_lang'], 'Category_Image' );
+		$GLOBALS['Category_Action_Text']       = $lang_obj->convert_lang_function( $cats_data1['select_lang'], 'Category_Action_Text' );
+		$GLOBALS['Category_Action_Link']       = $lang_obj->convert_lang_function( $cats_data1['select_lang'], 'Category_Action_Link' );
+		$GLOBALS['Category_Price']             = $lang_obj->convert_lang_function( $cats_data1['select_lang'], 'Category_Price' );
 		$GLOBALS['Service_Name']               = $lang_obj->convert_lang_function( $cats_data1['select_lang'], 'Service_Name' );
 		$GLOBALS['Service_Regular_Price']      = $lang_obj->convert_lang_function( $cats_data1['select_lang'], 'Service_Regular_Price' );
 		$GLOBALS['Service_Long_Description']   = $lang_obj->convert_lang_function( $cats_data1['select_lang'], 'Service_Long_Description' );
@@ -318,6 +332,11 @@ if ( isset( $_REQUEST['lang'] ) ) {
 		$Hover_Color                           = $lang_obj->convert_lang_function( 'EN', 'Hover_Color' );
 		$GLOBALS['Category_Name']              = $lang_obj->convert_lang_function( 'EN', 'Category_Name' );
 		$GLOBALS['Category_Description']       = $lang_obj->convert_lang_function( 'EN', 'Category_Description' );
+		$GLOBALS['Category_Action_Text']       = $lang_obj->convert_lang_function( 'EN', 'Category_Action_Text' );
+		$GLOBALS['Category_Action_Link']       = $lang_obj->convert_lang_function( 'EN', 'Category_Action_Link' );
+		$GLOBALS['Category_Price']             = $lang_obj->convert_lang_function( 'EN', 'Category_Price' );
+		$GLOBALS['Category_Background_Color']  = $lang_obj->convert_lang_function( 'EN', 'Category_Background_Color' );
+		$GLOBALS['Category_Text_Color']        = $lang_obj->convert_lang_function( 'EN', 'Category_Text_Color' );
 		$GLOBALS['Category_Image']             = $lang_obj->convert_lang_function( 'EN', 'Category_Image' );
 		$GLOBALS['Service_Name']               = $lang_obj->convert_lang_function( 'EN', 'Service_Name' );
 		$GLOBALS['Service_Regular_Price']      = $lang_obj->convert_lang_function( 'EN', 'Service_Regular_Price' );
@@ -361,7 +380,9 @@ if ( ! function_exists( 'df_spl_color_out' ) ) {
 		ob_start();
 		?>
 		<div class="field-wrapper">
+			<?php if ( $title ) { ?>
 				<label for="<?php echo esc_attr($id); ?>"><?php echo esc_attr($title); ?></label>
+			<?php } ?>
 				<input hidden type="text" name="<?php echo esc_attr($id); ?>" id="<?php echo esc_attr($id); ?>" class="<?php echo esc_attr($id); ?>" value="<?php echo esc_attr($value); ?>" title="<?php echo esc_attr($title); ?>">
 				<toolcool-color-picker button-width="5rem" button-height="2.5rem" data-target="<?php echo esc_attr($id); ?>" color="<?php echo esc_attr($value); ?>"></toolcool-color-picker>
 		</div> <!-- <?php echo esc_attr($title); ?> -->
@@ -577,7 +598,7 @@ if ( ! function_exists( 'service_item' ) ) {
 	}//end service_item()
 }//end if !function_exists('service_item')
 if ( ! function_exists( 'category_name_row' ) ) {
-	function category_name_row( $cat_id, $cat_name = '', $cat_description = '', $cat_cover_image = '' ) {
+	function category_name_row( $cat_id, $cat_name = '', $cat_description = '', $cat_cover_image = '', $cat_background_color = '', $cat_text_color = '', $cat_action_text = '', $cat_action_link = '', $cat_price = '' ) {
 		// check if $cat_cover_image is a valid URL, if not set it to null
 		?>
 		<?php
@@ -588,36 +609,107 @@ if ( ! function_exists( 'category_name_row' ) ) {
 			$cat_cover_image = null;
 		}
 		$cat_name = df_spl_remove_slash_quotes( $cat_name );
+
 		ob_start();
 		?>
 		<div class="categor-sec-first" style="background: none;">
-		 <div class="heading-catag">
-			<div class="title"><?php echo esc_attr($GLOBALS['CATEGORY']); ?></div>
-			<div class="action-btn">
-			<i class="far fa-trash-alt remove-category spl-custom-color"></i>
-			<i class="fas fa-arrows-alt spl-custom-color"></i>
+			<div class="heading-catag">
+				<div class="title"><?php echo esc_attr($GLOBALS['CATEGORY']); ?></div>
+				<div class="action-btn">
+				<i class="far fa-trash-alt remove-category spl-custom-color"></i>
+				<i class="fas fa-arrows-alt spl-custom-color"></i>
+				</div>
 			</div>
-		 </div>
-		<div class="spl-container-col-2">
-		<div class="df-spl-row category-name-row">
-			<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 lbl">
-				<label for="category_<?php echo esc_attr($cat_id); ?>_name"><?php echo esc_attr($GLOBALS['Category_Name']); ?></label>
+			<div class="spl-container-col-2">
+				<div class="df-spl-row category-name-row">
+					<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 lbl">
+						<label for="category_<?php echo esc_attr($cat_id); ?>_name"><?php echo esc_attr($GLOBALS['Category_Name']); ?></label>
+					</div>
+					<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 ini ">
+						<input type="text" name="category[<?php echo esc_attr($cat_id); ?>][name]" id="category_<?php echo esc_attr($cat_id); ?>_name" class="form-control category_name" value="<?php echo esc_attr($cat_name); ?>">
+					</div>
+				</div> <!-- Category Name -->
+				<!--Category Description-->
+				<div class="df-spl-row category-description-row">
+					<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 lbl">
+						<label for="category_<?php echo esc_attr($cat_id); ?>_description"><?php echo esc_attr($GLOBALS['Category_Description']); ?></label>
+					</div>
+					<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 ini">
+						<textarea name="category[<?php echo esc_attr($cat_id); ?>][description]" id="category_<?php echo esc_attr($cat_id); ?>_description" class="form-control category_description" rows="2" cols="50"><?php echo df_spl_remove_slash_quotes( $cat_description ); ?></textarea>
+					</div>
+				</div>
+				<!--End Category Description-->
+
+				<!--Category Background Color-->
+				<div class="df-spl-row category-background-color-row spl-pricing-table-row df-spl-d-none">
+					<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 lbl">
+						<label for="category_<?php echo esc_attr($cat_id); ?>_background_color"><?php echo esc_attr($GLOBALS['Category_Background_Color']); ?></label>
+					</div>
+					<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 ini">
+						<?php 
+						echo df_spl_color_out(
+							"category[" . esc_attr($cat_id) . "][background_color]", 
+							df_spl_remove_slash_quotes($cat_background_color),
+							''
+						); 
+						?>
+					</div>
+				</div>
+				<!--End Category Color-->
+
+				<!--Category Text Color-->
+				<div class="df-spl-row category-text-color-row spl-pricing-table-row df-spl-d-none">
+					<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 lbl">
+						<label for="category_<?php echo esc_attr($cat_id); ?>_color"><?php echo esc_attr($GLOBALS['Category_Text_Color']); ?></label>
+					</div>
+					<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 ini">
+						<?php 
+						echo df_spl_color_out(
+							"category[" . esc_attr($cat_id) . "][text_color]", 
+							df_spl_remove_slash_quotes($cat_text_color),
+							''
+						); 
+						?>
+					</div>
+				</div>
+				<!--End Category Text Color-->
+
+				<!--Category Action Text-->
+				<div class="df-spl-row category-action-text-row spl-pricing-table-row df-spl-d-none">
+					<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 lbl">
+						<label for="category_<?php echo esc_attr($cat_id); ?>_action_text"><?php echo esc_attr($GLOBALS['Category_Action_Text']); ?></label>
+					</div>
+					<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 ini">
+						<input type="text" name="category[<?php echo esc_attr($cat_id); ?>][action_text]" id="category_<?php echo esc_attr($cat_id); ?>_action_text" class="form-control category_action_text" value="<?php echo esc_attr($cat_action_text); ?>">
+					</div>
+				</div>
+
+				<!--End Category Action Text-->
+				<!--Category Action Link-->
+				<div class="df-spl-row category-action-link-row spl-pricing-table-row df-spl-d-none">
+					<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 lbl">
+						<label for="category_<?php echo esc_attr($cat_id); ?>_action_link"><?php echo esc_attr($GLOBALS['Category_Action_Link']); ?></label>
+					</div>
+					<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 ini">
+						<input type="text" name="category[<?php echo esc_attr($cat_id); ?>][action_link]" id="category_<?php echo esc_attr($cat_id); ?>_action_link" class="form-control category_action_link" value="<?php echo esc_attr($cat_action_link); ?>" >
+					</div>
+				</div>
+				<!--End Category Action Link-->
+				<!--Category Price-->
+				<div class="df-spl-row category-price-row spl-pricing-table-row df-spl-d-none">
+					<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 lbl">
+						<label for="category_<?php echo esc_attr($cat_id); ?>_price"><?php echo esc_attr($GLOBALS['Category_Price']); ?></label>
+					</div>
+					<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 ini">
+						<input type="text" name="category[<?php echo esc_attr($cat_id); ?>][price]" id="category_<?php echo esc_attr($cat_id); ?>_price" class="form-control category_price" value="<?php echo esc_attr($cat_price); ?>" placeholder="E.g: $50">
+					</div>
+				</div>
+				<!--End Category Price-->
 			</div>
-			<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 ini ">
-				<input type="text" name="category[<?php echo esc_attr($cat_id); ?>][name]" id="category_<?php echo esc_attr($cat_id); ?>_name" class="form-control category_name" value="<?php echo esc_attr($cat_name); ?>">
-			</div>
-		</div> <!-- Category Name -->
-		<!--Category Description-->
-		<div class="df-spl-row category-description-row">
-			<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 lbl">
-				<label for="category_<?php echo esc_attr($cat_id); ?>_description"><?php echo esc_attr($GLOBALS['Category_Description']); ?></label>
-			</div>
-			<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 ini">
-				<textarea name="category[<?php echo esc_attr($cat_id); ?>][description]" id="category_<?php echo esc_attr($cat_id); ?>_description" class="form-control category_description" rows="2" cols="50"><?php echo df_spl_remove_slash_quotes( $cat_description ); ?></textarea>
-			</div>
-		</div>
-		</div>
-		<!--End Category Description-->
+			
+			
+
+
 		<!--Category Cover Image-->
 		<div class="df-spl-row category-cover-image-row">
 			<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 lbl">
@@ -643,6 +735,7 @@ if ( ! function_exists( 'category_name_row' ) ) {
 			</div>
 		</div>
 		<!--End Category Cover Image-->
+
 	</div>
 		<?php
 		$html = ob_get_clean();
@@ -660,16 +753,31 @@ if ( ! function_exists( 'category_row' ) ) {
 		}
 		$cat_description = '';
 		$cat_cover_image = '';
+		$cat_background_color = '';
+		$cat_text_color = '';
+		$cat_action_text = '';
+		$cat_action_link = '';
 		if ( ! is_null( $cat ) ) {
 			//$cat_description=$cat['description'];
 			$cat_description = isset( $cat['description'] ) ? $cat['description'] : '';
 			$cat_cover_image = isset( $cat['cover-image'] ) ? $cat['cover-image'] : '';
 			unset( $cat['description'] );//remove the name items, so, we can use foreach to process
 			unset( $cat['cover-image'] );//remove the cover image, so, we can use foreach to process
+
+			$cat_background_color = isset( $cat['background_color'] ) ? $cat['background_color'] : '#ADADAC';
+			$cat_text_color = isset( $cat['text_color'] ) ? $cat['text_color'] : '#ffffff';
+			$cat_action_text = isset( $cat['action_text'] ) ? $cat['action_text'] : '';
+			$cat_action_link = isset( $cat['action_link'] ) ? $cat['action_link'] : '';
+			$cat_price = isset( $cat['price'] ) ? $cat['price'] : '';
+			unset( $cat['background_color'] );//remove the color items, so, we can use foreach to process
+			unset( $cat['text_color'] );//remove the text color items, so, we can use foreach to process
+			unset( $cat['action_text'] );//remove the action text items, so, we can use foreach to process
+			unset( $cat['action_link'] );//remove the action link items, so, we can use foreach to process
+			unset( $cat['price'] );//remove the price items, so, we can use foreach to process
 		}
 		?>
 		<div id="sortable" class="df-spl-row category-row ui-widget-content" style="margin:0;padding:0;margin-top:20px">
-			<?php echo category_name_row( $cat_id, $cat_name, $cat_description, $cat_cover_image ); ?>
+			<?php echo category_name_row( $cat_id, $cat_name, $cat_description, $cat_cover_image, $cat_background_color, $cat_text_color, $cat_action_text, $cat_action_link, $cat_price ); ?>
 				<div class="spl-separator">
 					<div class="spl-separator-background">
 
@@ -860,26 +968,36 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 								<?php $list_name = df_spl_remove_slash_quotes( $list_name ); ?>
 								<input type="text" name="list_name" id="list_name" class="form-control list_name" placeholder="<?php echo esc_attr($Price_List_Name); ?>" required="" value="<?php echo esc_attr($list_name); ?>" title="">
 							</div>
-							<div class="col-sm-3 col-md-3">
+
+							<div class="col-sm-4 col-md-4 spl-list-type-selector-wrapper">
+							<?php $list_type = isset($list_type) && (strpos($list_type, 'table') !== false) ? 'pricing_table' : 'price_list'; ?>
+								<select class="form-control sel1 spl-list-type-selector" name="list_type" style="max-width:140px !important;height:40px;">
+								  <option value="">Select List Type</option>
+								  <option class="form-control default_tab" value="price_list" <?php echo isset( $list_type ) && $list_type == 'price_list' ? 'selected' : ''; ?> >Price List</option>
+								  <option class="form-control default_tab" value="pricing_table" <?php echo isset( $list_type ) && $list_type == 'pricing_table' ? 'selected' : ''; ?>>Pricing Table</option>
+							  	</select>
+								
 								<select class="form-control sel1" name="tab_style" style="max-width:100% !important;height:40px;">
 								  <option class="form-control default_tab" value="">Select Style</option>
-								  <option class="form-control default_tab" value="with_tab" <?php echo isset( $style ) && $style == 'with_tab' ? 'selected' : ''; ?> >Style #1 (Supports Images)</option>
-								  <option class="form-control default_tab" value="without_tab" <?php echo isset( $style ) && $style == 'without_tab' ? 'selected' : ''; ?>>Style #2</option>
-								  <option class="form-control default_tab" value="without_tab_single_column" <?php echo isset( $style ) && $style == 'without_tab_single_column' ? 'selected' : ''; ?>>Style #2 (Single Column)</option>
-								  <option class="form-control default_tab" value="style_3" <?php echo isset( $style ) && $style == 'style_3' ? 'selected' : ''; ?>>Style #3</option>
-								  <option class="form-control default_tab" value="style_4" <?php echo isset( $style ) && $style == 'style_4' ? 'selected' : ''; ?>>Style #4</option>
-								  <option class="form-control default_tab" value="style_5" <?php echo isset( $style ) && $style == 'style_5' ? 'selected' : ''; ?>>Style #5</option>
-								  <option class="form-control default_tab" value="style_6" <?php echo isset( $style ) && $style == 'style_6' ? 'selected' : ''; ?>>Style #6 (Supports Images)</option>
-								  <option class="form-control default_tab" value="style_7" <?php echo isset( $style ) && $style == 'style_7' ? 'selected' : ''; ?>>Style #7</option>
-								  <option class="form-control default_tab" value="style_8" <?php echo isset( $style ) && $style == 'style_8' ? 'selected' : ''; ?>>Style #8 (Supports Images)</option>
-								  <option class="form-control default_tab" value="style_10" <?php echo isset( $style ) && $style == 'style_10' ? 'selected' : ''; ?>>Style #10</option>
+								  <option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="with_tab" <?php echo isset( $style ) && $style == 'with_tab' ? 'selected' : ''; ?> >Style #1 (Supports Images)</option>
+								  <option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="without_tab" <?php echo isset( $style ) && $style == 'without_tab' ? 'selected' : ''; ?>>Style #2</option>
+								  <option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="without_tab_single_column" <?php echo isset( $style ) && $style == 'without_tab_single_column' ? 'selected' : ''; ?>>Style #2 (Single Column)</option>
+								  <option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_3" <?php echo isset( $style ) && $style == 'style_3' ? 'selected' : ''; ?>>Style #3</option>
+								  <option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_4" <?php echo isset( $style ) && $style == 'style_4' ? 'selected' : ''; ?>>Style #4</option>
+								  <option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_5" <?php echo isset( $style ) && $style == 'style_5' ? 'selected' : ''; ?>>Style #5</option>
+								  <option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_6" <?php echo isset( $style ) && $style == 'style_6' ? 'selected' : ''; ?>>Style #6 (Supports Images)</option>
+								  <option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_7" <?php echo isset( $style ) && $style == 'style_7' ? 'selected' : ''; ?>>Style #7</option>
+								  <option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_8" <?php echo isset( $style ) && $style == 'style_8' ? 'selected' : ''; ?>>Style #8 (Supports Images)</option>
+								  <option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_10" <?php echo isset( $style ) && $style == 'style_10' ? 'selected' : ''; ?>>Style #10</option>
+								  <option class="form-control default_tab spl-table-option <?php echo isset($list_type) && ($list_type == 'pricing_table') ? '' : 'df-spl-d-none'; ?>" value="style_table_1" <?php echo ((isset( $style ) && $style == 'style_table_1') || ($list_type == 'pricing_table' && ! isset( $style ))) ? 'selected' : ''; ?>>Table Style #1</option>
+								  <option class="form-control default_tab spl-table-option <?php echo isset($list_type) && ($list_type == 'pricing_table') ? '' : 'df-spl-d-none'; ?>" value="style_table_2" <?php echo isset( $style ) && $style == 'style_table_2' ? 'selected' : ''; ?>>Table Style #2</option>
 							  </select>
 							  <div class="select-right-icon">
-								<span class="df-spl-eui-FormControlLayoutCustomIcon">
-									<img src="<?php echo SPL_URL . '/assets/images/cicle-icon.svg'; ?>" aria-hidden="true">
-							  	</span>
+									<span class="df-spl-eui-FormControlLayoutCustomIcon">
+										<img src="<?php echo SPL_URL . '/assets/images/cicle-icon.svg'; ?>" aria-hidden="true">
+									</span>
+								</div>
 							</div>
-						</div>
 						<ul class="nav navbar-nav edit-page-nav navbar-right">
 						<li style="margin-right:30px;">
 							<a name="add_to_webpage" value="" class="add_to_webpage">
@@ -2792,6 +2910,19 @@ if ( array_key_exists( 'lang', $_REQUEST ) ) {
 		// !(isNoModal) && jQuery('#sell7').modal('show');
 		jQuery('.df-spl-row.category-cover-image-row').hide();
 	}
+
+	if (jQuery(this).val() == "style_table_1") {
+		!(isNoModal) && jQuery('#selt1').removeClass('fade').show(300).trigger('show.bs.modal');
+		jQuery('.df-spl-row.category-cover-image-row').show();
+		jQuery('.service_long_description').closest('.service-price-length').hide();
+		jQuery('#style5_category_container').css('display', 'none');
+	}
+	if (jQuery(this).val() == "style_table_2") {
+		!(isNoModal) && jQuery('#selt2').removeClass('fade').show(300).trigger('show.bs.modal');
+		jQuery('.df-spl-row.category-cover-image-row').show();
+		jQuery('.service_long_description').closest('.service-price-length').hide();
+		jQuery('#style5_category_container').css('display', 'none');
+	}
 });
 	function handleFeedbackButtons(btn, event) {
 	  event.preventDefault();
@@ -2809,7 +2940,7 @@ if ( array_key_exists( 'lang', $_REQUEST ) ) {
 	});
   }
 // Register modals and the buttons inside it functions
-var modalTags = ['#sell1', '#sell2', '#sell3', '#sell4', '#sell5', '#sell6', '#sell7', '#sell8', '#sell10'];
+var modalTags = ['#sell1', '#sell2', '#sell3', '#sell4', '#sell5', '#sell6', '#sell7', '#sell8', '#sell10', '#selt1', '#selt2'];
 ;(function(elements) {
 	elements.forEach(e => {
 		jQuery(e).on('show.bs.modal', function (e) {

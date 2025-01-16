@@ -416,5 +416,6 @@ jQuery( document ).ready(
 				return;
 			}
 		}
+
 	},
 );

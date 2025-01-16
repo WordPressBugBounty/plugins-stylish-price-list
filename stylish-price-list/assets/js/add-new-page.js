@@ -960,24 +960,27 @@ function send_setup_wizard_data_and_build( srcBtn, filteredFeaturesAndSuggestion
 	spl_create_new_calculator_by_quiz_results( filteredFeaturesAndSuggestions, _quizAnswersStore );
 }
 
-function spl_create_new_calculator_by_quiz_results( results, _quizAnswersStore ) {
-	showWizardQuizResultEmailLoadingAlert( results.resultsEmailFormData.optin );
-	delete _quizAnswersStore.elementSuggestions;
-	delete _quizAnswersStore.featureSuggestions;
-	jQuery.ajax( {
-		url: wp.ajax.settings.url + '?nonce=' + pageSplWizard.nonce + '&action=spl_setup_wizard' + '&op=load_by_params',
-		// set payload type to json
-		contentType: 'application/json',
-		method: 'POST',
-		data: JSON.stringify( { ...results, ...{ __quizAnswersStore: _quizAnswersStore } } ),
-		success( response ) {
-			if ( response.success == true ) {
-				window.location.href = window.location.pathname + '?page=spl-tabs-new' + '&listname=' + name;
-			} else {
-				showSweet( false, 'An error occured, please try again' );
-			}
-		},
-	} );
+function spl_create_new_calculator_by_quiz_results(results, _quizAnswersStore) {
+    showWizardQuizResultEmailLoadingAlert(results.resultsEmailFormData.optin);
+    delete _quizAnswersStore.elementSuggestions;
+    delete _quizAnswersStore.featureSuggestions;
+
+    // Get list type parameter if pricing-table is true
+    const listTypeParam = _quizAnswersStore.step2['pricing-table'] ? '&list-type=pricing-table' : '';
+
+    jQuery.ajax({
+        url: wp.ajax.settings.url + '?nonce=' + pageSplWizard.nonce + '&action=spl_setup_wizard' + '&op=load_by_params',
+        contentType: 'application/json',
+        method: 'POST',
+        data: JSON.stringify({ ...results, ...{ __quizAnswersStore: _quizAnswersStore } }),
+        success(response) {
+            if (response.success == true) {
+                window.location.href = window.location.pathname + '?page=spl-tabs-new' + '&listname=' + name + listTypeParam;
+            } else {
+                showSweet(false, 'An error occured, please try again');
+            }
+        },
+    });
 }
 
 function emailResultsFormScrollToView( showBorder = false ) {

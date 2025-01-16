@@ -11,6 +11,7 @@ class Stylish_Price_List_Tabs {
 		add_action( 'wp_ajax_df_spl_feedback_manage', array( $this, 'feedback_manage' ) );
 		add_action( 'wp_ajax_stylish-price-list-submit-uninstall-reason', array( $this, 'uninstall_reason' ) );
 		add_action( 'wp_ajax_spl_setup_wizard', array( $this, 'spl_setup_wizard' ) );
+    add_action('admin_init', array($this, 'handle_delete_action'));
 		// spl_setup_wizard
 	}
 	public function spl_setup_wizard() {
@@ -247,7 +248,7 @@ class Stylish_Price_List_Tabs {
 		/** Top Menu **/
 		add_menu_page( __( 'Stylish Price List', 'spl' ), __( 'Stylish Price List', 'spl' ), 'edit_posts', 'spl-tabs', array( $this, 'plugin_page' ), $icon_url, 99 );
 		add_submenu_page( 'spl-tabs', __( 'All Lists', 'spl' ), __( 'All Lists', 'spl' ), 'edit_posts', 'spl-tabs', array( $this, 'plugin_page' ) );
-		add_submenu_page( null, null, null, 'edit_posts', 'spl-tabs-new', array( $this, 'plugin_page_new' ) );
+		add_submenu_page( 'options.php', __('New Price List', 'spl'), '', 'edit_posts', 'spl-tabs-new', array( $this, 'plugin_page_new' ) );
 		add_submenu_page( 'spl-tabs', __( 'Add New List', 'spl' ), __( 'Add New List', 'spl' ), 'edit_posts', 'spl-assisted-new', array( $this, 'plugin_page_assisted_new' ) );
 		// spl-assisted-new
 		add_submenu_page( 'spl-tabs', __( 'SPL Diagnostic', 'spl' ), __( 'SPL Diagnostic', 'spl' ), 'manage_options', 'spl-tabs-diagnostic', array( $this, 'plugin_page_diagnostic' ) );
@@ -278,62 +279,99 @@ class Stylish_Price_List_Tabs {
 			include $template;
 		}
 	}
-	/**
-	 * Handles the plugin page
-	 *
-	 * @return void
-	 */
-	public function plugin_page() {
-		// phpcs:ignore
-		$action = isset( $_REQUEST['action'] ) ? sanitize_text_field($_REQUEST['action']) : 'list';
-		// phpcs:ignore
-		$id     = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
-		switch ( $action ) {
-			case 'view':
-				$template = dirname( __FILE__ ) . '/views/tabs-single.php';
-				break;
-			case 'edit':
-				$template = dirname( __FILE__ ) . '/views/tabs-edit.php';
-				break;
-			case 'new':
-				$template = dirname( __FILE__ ) . '/views/tabs-new.php';
-				break;
-			case 'readonly':
-				$template = dirname( __FILE__ ) . '/views/tabs-readonly.php';
-				break;
-			case 'delete':
-				if ( isset( $_REQUEST['_wpnonce'] ) ) {
-					$block = false;
-				} elseif ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( sanitize_text_field($_GET['nonce']), 'price_lists_page_nonce' ) ) {
-					$block = true;
-				}
-				if ( $block ) {
-					wp_die('The page you are trying to access is not available.');
-					return;
-				}
-				// phpcs:ignore
-				$ids = isset( $_REQUEST['ids'] ) ? array_map('absint', ( (array) $_REQUEST['ids'] ) ) : null;
-				if ( ! empty( $ids ) ) {
-					foreach ( $ids as $key => $id ) {
-						df_spl_delete_tabs_by_id( $id );
-					}
-				} elseif ( ! empty( $id ) ) {
-					df_spl_delete_tabs_by_id( $id );
-				}
-				// wp redirect to the same page
-				wp_safe_redirect( admin_url( 'admin.php?page=spl-tabs' ) );
-				break;
-			case 'duplicate':
-				$template = dirname( __FILE__ ) . '/views/duplication-process.php';
-				break;
-			default:
-				$template = dirname( __FILE__ ) . '/views/tabs-list.php';
-				break;
-		}
-		if ( file_exists( $template ) ) {
-			include $template;
-		}
-	}
+
+
+  public function handle_delete_action() {
+    if (!isset($_REQUEST['action']) || $_REQUEST['action'] !== 'delete' || !isset($_REQUEST['page']) || $_REQUEST['page'] !== 'spl-tabs') {
+        return;
+    }
+
+    // Verify nonce
+    $block = true;
+    if (isset($_REQUEST['_wpnonce'])) {
+        $block = false;
+    } elseif (isset($_GET['nonce'])) {
+        $nonce = sanitize_text_field($_GET['nonce']);
+        $block = !wp_verify_nonce($nonce, 'price_lists_page_nonce');
+    }
+
+    // Check if access is blocked
+    if ($block) {
+        wp_die(esc_html__('The page you are trying to access is not available.', 'spl'));
+        return;
+    }
+
+    // Handle deletion of multiple IDs
+    if (isset($_REQUEST['ids']) && is_array($_REQUEST['ids'])) {
+        $ids = array_map('absint', $_REQUEST['ids']);
+        foreach ($ids as $item_id) {
+            if ($item_id > 0) {
+                df_spl_delete_tabs_by_id($item_id);
+            }
+        }
+    } 
+    // Handle single ID deletion
+    elseif (isset($_REQUEST['id'])) {
+        $id = absint($_REQUEST['id']);
+        if ($id > 0) {
+            df_spl_delete_tabs_by_id($id);
+        }
+    }
+
+    wp_redirect(admin_url('admin.php?page=spl-tabs'));
+    exit;
+}
+
+public function plugin_page() {
+    // Initialize variables with default values
+    $action = 'list';
+    $id = 0;
+    $template = '';
+
+    // Validate and sanitize action
+    if (isset($_REQUEST['action'])) {
+        $action = sanitize_text_field($_REQUEST['action']);
+    }
+
+    // Validate and sanitize ID
+    if (isset($_REQUEST['id'])) {
+        $id = absint($_REQUEST['id']);
+    }
+
+    // Handle other actions
+    switch ($action) {
+        case 'view':
+            $template = dirname(__FILE__) . '/views/tabs-single.php';
+            break;
+
+        case 'edit':
+            $template = dirname(__FILE__) . '/views/tabs-edit.php';
+            break;
+
+        case 'new':
+            $template = dirname(__FILE__) . '/views/tabs-new.php';
+            break;
+
+        case 'readonly':
+            $template = dirname(__FILE__) . '/views/tabs-readonly.php';
+            break;
+
+        case 'duplicate':
+            $template = dirname(__FILE__) . '/views/duplication-process.php';
+            break;
+
+        default:
+            $template = dirname(__FILE__) . '/views/tabs-list.php';
+            break;
+    }
+
+    // Validate and include template
+    if (!empty($template) && file_exists($template)) {
+        include $template;
+    } else {
+        wp_die(esc_html__('Template file not found.', 'spl'));
+    }
+}
 	/**
 	* Response to ajax calls
 	*

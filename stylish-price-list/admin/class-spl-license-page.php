@@ -6,6 +6,9 @@ class SPL_LicensePage {
 	private $success;
 	private $option_key;
 	private $spl_icons;
+	private $a2;
+	private $option2;
+	private $option3;
 
 	public function __construct() {
 		$a          = join(

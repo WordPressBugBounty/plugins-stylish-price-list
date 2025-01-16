@@ -10,6 +10,7 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 */
 class Stylish_Price_List_Tabs_List extends \WP_List_Table {
 	private $nonce;
+	private $page_status;
 	function __construct( $nonce ) {
 		parent::__construct(
 			array(

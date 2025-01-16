@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		Plugin Name: Stylish Price List
 		Plugin URI:  https://stylishpricelist.com/
 		Description: Build a stylish price list for your business
-		Version:     7.1.13
+		Version:     7.1.14
 		Author:      Designful
 		Author URI:  https://stylishpricelist.com/
 		License:     GPL2
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		Domain Path: /languages
 		Text Domain: spl
 	*/
-		define( 'STYLISH_PRICE_LIST_VERSION', '7.1.13' );
+		define( 'STYLISH_PRICE_LIST_VERSION', '7.1.14' );
 		define( 'STYLISH_PRICE_LIST_BETA', false );
 		define( 'SPL_URL', plugin_dir_url( __FILE__ ) );
 		define( 'SPL_ASSETS_URL', SPL_URL . 'assets/' );
@@ -32,6 +32,9 @@ function df_spl_load_plugin_textdomain() {
 		add_action( 'plugins_loaded', 'df_spl_load_plugin_textdomain' );
 		add_action( 'plugins_loaded', 'df_spl_load_gutenberg_block' );
 function df_spl_remove_slash_quotes( $string ) {
+	if ( empty( $string ) || ! is_string( $string ) ) {
+		return $string;
+	}
 	$string = stripslashes( $string );
 	$string = wp_unslash( $string );
 	$string = html_entity_decode( $string );

@@ -201,8 +201,8 @@ const handlePreviewDockMode = ( element, mode, event, scrollTo = true ) => {
 		dockToBottomBtns.forEach( ( btn ) => {
 			btn.classList.add( 'btn-primary' );
 		} );
-		floatingDockSwitcher.classList.remove( 'df-spl-d-none' );
-		priceListEditorForm.classList.add( 'preview-docked-bottom' );
+		floatingDockSwitcher?.classList.remove( 'df-spl-d-none' );
+		priceListEditorForm?.classList.add( 'preview-docked-bottom' );
 		if ( event ) {
 			if ( scrollTo ) {
 				previewPane.scrollIntoView( { behavior: 'smooth' } );
@@ -491,7 +491,15 @@ window.onload = function() {
 	});
 
 	imagePickerEventHandler();
-	};
+
+	let splListType = jQuery('.spl-list-type-selector').val();
+	if(splListType == 'pricing_table') {
+		jQuery('.spl-pricing-table-row').removeClass('df-spl-d-none');
+		jQuery('.service_price').closest('.service-price-length').addClass('df-spl-d-none');
+	}
+	
+	
+};
 	
 	jQuery(document).on('click', '.delete-icon', function() {
 		var container = jQuery(this).closest('.spl-container-test');
@@ -538,6 +546,24 @@ window.onload = function() {
 		else {
 			
 		}
+	});
+
+	jQuery(document).on('change', '.spl-list-type-selector', function() {
+		const listType = jQuery(this).val();
+		const listTemplate = jQuery(this).next();
+		if(listType == 'price_list') {
+			jQuery('.spl-list-option').removeClass('df-spl-d-none');
+			jQuery('.spl-table-option').addClass('df-spl-d-none');
+			jQuery('.spl-pricing-table-row').addClass('df-spl-d-none');
+			jQuery('.service_price').closest('.service-price-length').removeClass('df-spl-d-none');
+		}
+		else {
+			jQuery('.spl-list-option').addClass('df-spl-d-none');
+			jQuery('.spl-table-option').removeClass('df-spl-d-none');
+			jQuery('.spl-pricing-table-row').removeClass('df-spl-d-none');
+			jQuery('.service_price').closest('.service-price-length').addClass('df-spl-d-none');
+		}
+		listTemplate.val('');
 	});
 
 		

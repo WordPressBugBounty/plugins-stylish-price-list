@@ -488,6 +488,96 @@ jQuery( '.sel1' ).on(
 	},
 );
 
+jQuery( '.sel1' ).on(
+	'load-demo-settings',
+	function() {
+		'style_table_1' == this.value && (
+			// Default column settings
+			jQuery( '[name="select_column"]' ).val( 'Two' ),
+
+			// Title
+			jQuery( 'select[name="title_font_size"]' ).val( '35px' ).attr( 'selected', ! 0 ),
+			jQuery( 'input[name="title_color_top"]' ).val( '#bb9d9e' ).trigger( 'change' ),
+			jQuery( 'select[name="list_name_font"]' ).val( 'Montserrat' ).attr( 'selected', ! 0 ),
+			jQuery( 'select[name="title_font-weight"]' ).val( '600' ).attr( 'selected', ! 0 ),
+
+			// Category Tab
+			jQuery( 'select[name="tab_font_size"]' ).val( '14px' ).attr( 'selected', ! 0 ),
+			jQuery( 'select[name="title_font"]' ).val( 'Montserrat' ).attr( 'selected', ! 0 ),
+			jQuery( 'select[name="tab_font-weight"]' ).val( '400' ).attr( 'selected', ! 0 ),
+			jQuery( 'input[name="title_color"]' ).val( '#ffffff' ).trigger( 'change' ),
+
+			// Description
+			jQuery( 'select[name="service_description_font_size"]' ).val( '15px' ).attr( 'selected', ! 0 ),
+			jQuery( 'select[name="service_description_font"]' ).val( 'Montserrat' ).attr( 'selected', ! 0 ),
+			jQuery( 'input[name="service_description_color"]' ).val( '#7c7c7c' ).trigger( 'change' ),
+			jQuery( 'select[name="description_font-weight"]' ).val( '300' ).attr( 'selected', ! 0 ),
+
+			// Item Name
+			jQuery( 'select[name="service_font_size"]' ).val( '14px' ).attr( 'selected', ! 0 ),
+			jQuery( 'input[name="service_color"]' ).val( '#545454' ).trigger( 'change' ),
+			jQuery( 'select[name="desc_font"]' ).val( 'Montserrat' ).attr( 'selected', ! 0 ),
+			jQuery( 'input[name="hover_color"]' ).val( '#4d243d' ).trigger( 'change' ),
+			jQuery( 'select[name="service_font-weight"]' ).val( '600' ).attr( 'selected', ! 0 ),
+
+			// Price
+			jQuery( 'select[name="price_font"]' ).val( 'Montserrat' ).attr( 'selected', ! 0 ),
+			jQuery( 'input[name="price_color"]' ).val( '#4d243d' ).trigger( 'change' ),
+			jQuery( 'select[name="service_price_font_size"]' ).val( '20px' ).attr( 'selected', ! 0 ),
+			jQuery( 'select[name="service_price_font-weight"]' ).val( '600' ).attr( 'selected', ! 0 ),
+
+			// Category Description
+			jQuery( 'select[name="tab_description_font_size"]' ).val( '14px' ).attr( 'selected', ! 0 ),
+			jQuery( 'select[name="tab_description_font"]' ).val( 'Montserrat' ).attr( 'selected', ! 0 ),
+			jQuery( 'input[name="tab_description_color"]' ).val( '#000000' ).trigger( 'change' ),
+			jQuery( 'select[name="tab_description_font-weight"]' ).val( '400' ).attr( 'selected', ! 0 )
+		);
+		'style_table_2' == this.value && (
+		// Default column settings
+			jQuery( '[name="select_column"]' ).val( 'One' ),
+
+			// Title
+			jQuery( 'select[name="title_font_size"]' ).val( '35px' ).attr( 'selected', ! 0 ),
+			jQuery( 'input[name="title_color_top"]' ).val( '#545454' ).trigger( 'change' ),
+			jQuery( 'select[name="list_name_font"]' ).val( 'Montserrat' ).attr( 'selected', ! 0 ),
+			jQuery( 'select[name="title_font-weight"]' ).val( '600' ).attr( 'selected', ! 0 ),
+
+			// Category Tab
+			jQuery( 'select[name="tab_font_size"]' ).val( '14px' ).attr( 'selected', ! 0 ),
+			jQuery( 'select[name="title_font"]' ).val( 'Montserrat' ).attr( 'selected', ! 0 ),
+			jQuery( 'select[name="tab_font-weight"]' ).val( '400' ).attr( 'selected', ! 0 ),
+			jQuery( 'input[name="title_color"]' ).val( '#ffffff' ).trigger( 'change' ),
+
+			// Description
+			jQuery( 'select[name="service_description_font_size"]' ).val( '14px' ).attr( 'selected', ! 0 ),
+			jQuery( 'select[name="service_description_font"]' ).val( 'Montserrat' ).attr( 'selected', ! 0 ),
+			jQuery( 'input[name="service_description_color"]' ).val( '#7c7c7c' ).trigger( 'change' ),
+			jQuery( 'select[name="description_font-weight"]' ).val( '300' ).attr( 'selected', ! 0 ),
+
+			// Item Name
+			jQuery( 'select[name="service_font_size"]' ).val( '20px' ).attr( 'selected', ! 0 ),
+			jQuery( 'input[name="service_color"]' ).val( '#545454' ).trigger( 'change' ),
+			jQuery( 'select[name="desc_font"]' ).val( 'Montserrat' ).attr( 'selected', ! 0 ),
+			jQuery( 'input[name="hover_color"]' ).val( '#e5989b' ).trigger( 'change' ),
+			jQuery( 'select[name="service_font-weight"]' ).val( '600' ).attr( 'selected', ! 0 ),
+
+			// Price
+			jQuery( 'select[name="price_font"]' ).val( 'Montserrat' ).attr( 'selected', ! 0 ),
+			jQuery( 'input[name="price_color"]' ).val( '#e5989b' ).trigger( 'change' ),
+			jQuery( 'select[name="service_price_font_size"]' ).val( '20px' ).attr( 'selected', ! 0 ),
+			jQuery( 'select[name="service_price_font-weight"]' ).val( '400' ).attr( 'selected', ! 0 ),
+
+			// Category Description
+			jQuery( 'select[name="tab_description_font_size"]' ).val( '' ).attr( 'selected', ! 0 ),
+			jQuery( 'select[name="tab_description_font"]' ).val( 'Montserrat' ).attr( 'selected', ! 0 ),
+			jQuery( 'input[name="tab_description_color"]' ).val( '#000000' ).trigger( 'change' ),
+			jQuery( 'select[name="tab_description_font-weight"]' ).val( '400' ).attr( 'selected', ! 0 )
+		);
+	},
+);
+
+
+
 // TODO: add default settings for style 8
 
 const change_lang = jQuery( '.change_lang' ).val();
@@ -666,6 +756,22 @@ function update_category_row_html( cat_wrapper, cat_id, service_id ) {
 	const _textarea = cat_des_row.find( 'textarea.category_description' );
 	_textarea.attr( 'name', 'category[' + cat_id + '][description]' );
 	_textarea.attr( 'id', 'category_' + cat_id + '_description' );
+	const _color = cat_wrapper.find( '.category-background-color-row' );
+	_color.attr( 'name', 'category[' + cat_id + '][background_color]' );
+	_color.attr( 'id', 'category_' + cat_id + '_color' );
+
+	const _price = cat_wrapper.find( '.category-price-row' );
+	_price.attr( 'name', 'category[' + cat_id + '][price]' );
+	_price.attr( 'id', 'category_' + cat_id + '_price' );
+
+	const _cat_action_text = cat_wrapper.find( '.category_action_text' );
+	_cat_action_text.attr( 'name', 'category[' + cat_id + '][action_text]' );
+	_cat_action_text.attr( 'id', 'category_' + cat_id + '_action_text' );
+
+	const _cat_action_link = cat_wrapper.find( '.category_action_link' );
+	_cat_action_link.attr( 'name', 'category[' + cat_id + '][action_link]' );
+	_cat_action_link.attr( 'id', 'category_' + cat_id + '_action_link' );
+
 	update_service_rows_html( cat_wrapper.find( '.service:last' ), cat_id, service_id );
 	return cat_wrapper.find( '.category-row' ).html();
 }

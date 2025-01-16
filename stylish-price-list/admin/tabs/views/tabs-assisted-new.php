@@ -321,3 +321,4 @@ wp_localize_script( 'spl-add-new-page', 'pageSplWizard', [ 'nonce' => wp_create_
 </div>
   <# } #>
 </script>
+

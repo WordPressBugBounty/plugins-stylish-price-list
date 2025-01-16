@@ -255,27 +255,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 						</div>
 						</div>
 						<div class="modal df-spl-modal fade" id="sell10" data-target="style_10">
-						<div class="modal-dialog">
-							<div class="scc-modal">
-								<div class="modal-header orange df-spl-p-0">
-									<div class="df-spl-row">
-									<div class="spl-content unique-spl-content">
-											<div class="spl-container-style"></div>
-											<div class="spl-container-position">
-												<div class="spl-icon-text">
-												  <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#5bb3a7"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 224c0 17.7 14.3 32 32 32s32-14.3 32-32c0-53 43-96 96-96H320v32c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l64-64c12.5-12.5 12.5-32.8 0-45.3l-64-64c-9.2-9.2-22.9-11.9-34.9-6.9S320 19.1 320 32V64H160C71.6 64 0 135.6 0 224zm512 64c0-17.7-14.3-32-32-32s-32 14.3-32 32c0 53-43 96-96 96H192V352c0-12.9-7.8-24.6-19.8-29.6s-25.7-2.2-34.9 6.9l-64 64c-12.5 12.5-12.5 32.8 0 45.3l64 64c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6V448H352c88.4 0 160-71.6 160-160z"/></svg>
+							<div class="modal-dialog">
+								<div class="scc-modal">
+									<div class="modal-header orange df-spl-p-0">
+										<div class="df-spl-row">
+										<div class="spl-content unique-spl-content">
+												<div class="spl-container-style"></div>
+												<div class="spl-container-position">
+													<div class="spl-icon-text">
+													<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#5bb3a7"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 224c0 17.7 14.3 32 32 32s32-14.3 32-32c0-53 43-96 96-96H320v32c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l64-64c12.5-12.5 12.5-32.8 0-45.3l-64-64c-9.2-9.2-22.9-11.9-34.9-6.9S320 19.1 320 32V64H160C71.6 64 0 135.6 0 224zm512 64c0-17.7-14.3-32-32-32s-32 14.3-32 32c0 53-43 96-96 96H192V352c0-12.9-7.8-24.6-19.8-29.6s-25.7-2.2-34.9 6.9l-64 64c-12.5 12.5-12.5 32.8 0 45.3l64 64c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6V448H352c88.4 0 160-71.6 160-160z"/></svg>
+													</div>
+													<h1>You are switching to <span>Style 10</span></h1>
 												</div>
-												<h1>You are switching to <span>Style 10</span></h1>
+												<button type="button" class="spl-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 											</div>
-											<button type="button" class="spl-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-										</div>
-										<div class="df-spl-show-style-mockups">
-											<img class="w-690" src="<?php echo SPL_URL . '/assets/images/Style10.png'; ?>" alt="some image" />
-											<div class="spl-container-buttom">
-												<div class="spl-button-container">
-												<button class="spl-button" data-btnType='keep-current'>Switch & Keep My Font Setting</button>
-												<button class="spl-button-bacground" data-btnType='use-demo'>Switch & Use Demo Fonts</button>
-												<button class="spl-button-sub cancel-btn">Cancel</button>
+											<div class="df-spl-show-style-mockups">
+												<img class="w-690" src="<?php echo SPL_URL . '/assets/images/Style10.png'; ?>" alt="some image" />
+												<div class="spl-container-buttom">
+													<div class="spl-button-container">
+													<button class="spl-button" data-btnType='keep-current'>Switch & Keep My Font Setting</button>
+													<button class="spl-button-bacground" data-btnType='use-demo'>Switch & Use Demo Fonts</button>
+													<button class="spl-button-sub cancel-btn">Cancel</button>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -283,7 +284,66 @@ if ( ! defined( 'ABSPATH' ) ) {
 								</div>
 							</div>
 						</div>
+						<div class="modal df-spl-modal fade" id="selt1" data-target="style_table_1">
+							<div class="modal-dialog">
+								<div class="scc-modal">
+									<div class="modal-header orange df-spl-p-0">
+										<div class="df-spl-row">
+										<div class="spl-content unique-spl-content">
+												<div class="spl-container-style"></div>
+												<div class="spl-container-position">
+													<div class="spl-icon-text">
+													<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#5bb3a7"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 224c0 17.7 14.3 32 32 32s32-14.3 32-32c0-53 43-96 96-96H320v32c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l64-64c12.5-12.5 12.5-32.8 0-45.3l-64-64c-9.2-9.2-22.9-11.9-34.9-6.9S320 19.1 320 32V64H160C71.6 64 0 135.6 0 224zm512 64c0-17.7-14.3-32-32-32s-32 14.3-32 32c0 53-43 96-96 96H192V352c0-12.9-7.8-24.6-19.8-29.6s-25.7-2.2-34.9 6.9l-64 64c-12.5 12.5-12.5 32.8 0 45.3l64 64c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6V448H352c88.4 0 160-71.6 160-160z"/></svg>
+													</div>
+													<h1>You are switching to <span>Table Style 1</span></h1>
+												</div>
+												<button type="button" class="spl-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+											</div>
+											<div class="df-spl-show-style-mockups">
+												<img class="w-690" src="<?php echo SPL_URL . '/assets/images/style-table-1.png'; ?>" alt="Style Table 1" />
+												<div class="spl-container-buttom">
+													<div class="spl-button-container">
+													<button class="spl-button" data-btnType='keep-current'>Switch & Keep My Font Setting</button>
+													<button class="spl-button-bacground" data-btnType='use-demo'>Switch & Use Demo Fonts</button>
+													<button class="spl-button-sub cancel-btn">Cancel</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
+							</div>
+						</div>
+						<div class="modal df-spl-modal fade" id="selt2" data-target="style_table_2">
+							<div class="modal-dialog">
+								<div class="scc-modal">
+									<div class="modal-header orange df-spl-p-0">
+										<div class="df-spl-row">
+										<div class="spl-content unique-spl-content">
+												<div class="spl-container-style"></div>
+												<div class="spl-container-position">
+													<div class="spl-icon-text">
+													<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#5bb3a7"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M0 224c0 17.7 14.3 32 32 32s32-14.3 32-32c0-53 43-96 96-96H320v32c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l64-64c12.5-12.5 12.5-32.8 0-45.3l-64-64c-9.2-9.2-22.9-11.9-34.9-6.9S320 19.1 320 32V64H160C71.6 64 0 135.6 0 224zm512 64c0-17.7-14.3-32-32-32s-32 14.3-32 32c0 53-43 96-96 96H192V352c0-12.9-7.8-24.6-19.8-29.6s-25.7-2.2-34.9 6.9l-64 64c-12.5 12.5-12.5 32.8 0 45.3l64 64c9.2 9.2 22.9 11.9 34.9 6.9s19.8-16.6 19.8-29.6V448H352c88.4 0 160-71.6 160-160z"/></svg>
+													</div>
+													<h1>You are switching to <span>Table Style 2</span></h1>
+												</div>
+												<button type="button" class="spl-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+											</div>
+											<div class="df-spl-show-style-mockups">
+												<img class="w-690" src="<?php echo SPL_URL . '/assets/images/style-table-2.png'; ?>" alt="Style Table 2" />
+												<div class="spl-container-buttom">
+													<div class="spl-button-container">
+													<button class="spl-button" data-btnType='keep-current'>Switch & Keep My Font Setting</button>
+													<button class="spl-button-bacground" data-btnType='use-demo'>Switch & Use Demo Fonts</button>
+													<button class="spl-button-sub cancel-btn">Cancel</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 								<!--- END MODAL POPUP ---->
 								<!-- Start of settings preview modal -->
 								<div class="modal df-spl-modal fade" id="settings-preview" style="overflow: initial;">
@@ -381,6 +441,71 @@ if ( ! defined( 'ABSPATH' ) ) {
 </p>
 </div>
 </div>
+
+<div class="spl-footer-container">
+    <div class="spl-footer">
+        <div class="spl-footer-left">
+            <div class="spl-footer-logo">
+                <a href="https://www.stylishpricelist.com" class="spl-footer-logo-link" target="_blank">
+                    <img src="<?php echo esc_url(SPL_URL . 'assets/images/spl-logo.webp'); ?>" alt="Stylish Price List" title="Stylish Price List">
+                </a>
+            </div>
+        </div>
+        
+        <div class="spl-footer-center">
+            <div>
+                <span class="spl-footer-links-title">Helpful Links</span>
+            </div>
+            <ul class="spl-footer-links">
+                <li>
+                    <a href="https://stylishpricelist.com/support/">
+                        <i class="far fa-life-ring"></i>
+                        <span>Submit A Ticket</span>
+                    </a>
+                </li>
+				<li>
+                    <a href="https://stylishpricelist.com/blog/">
+					<i class="fas fa-newspaper"></i>
+                        <span>Blog</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://stylishpricelist.com/pricing-plans/">
+                        <i class="fas fa-gem"></i>
+                        <span>Pricing</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="spl-footer-right">
+            <div class="spl-footer-right">
+                <div class="spl-plugin-info">
+                    <div class="spl-plugin-info-text">
+                        <p class="spl-footer-links-title">Do you like this plugin? <span class="spl-emoji">😊</span> We have many more:</p>
+                    </div>
+                    <div class="spl-footer-plugin-logos-container">    
+                        <a href="https://stylishcostcalculator.com" target="_blank" class="spl-footer-plugin-logos">
+                            <img src="<?php echo esc_url(SPL_URL . 'assets/images/scc-logo.png'); ?>" alt="Stylish Cost Calculator" title="Stylish Cost Calculator">
+                        </a>
+                        <a href="https://seo-ai-audit-tool.designful.ca/" target="_blank" class="spl-footer-plugin-logos">
+                            <img src="<?php echo esc_url(SPL_URL . 'assets/images/saat-logo.png'); ?>" alt="SEO AI Audit Tool" title="SEO AI Audit Tool">
+                        </a>
+                        <a href="https://wordpress.org/plugins/smart-table-builder/" target="_blank" class="spl-footer-plugin-logos">
+                            <img src="<?php echo esc_url(SPL_URL . 'assets/images/stb-logo.png'); ?>" alt="Smart Table Builder" title="Smart Table Builder">
+                        </a>
+                        <a href="#" target="_blank" class="spl-footer-plugin-logos">
+                            <img src="<?php echo esc_url(SPL_URL . 'assets/images/hdh-logo.png'); ?>" alt="Help Desk Hero" title="Help Desk Hero">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <!-- End of Modal Video Tutorials -->
 <style type="text/css">
 	.foot-url span a {

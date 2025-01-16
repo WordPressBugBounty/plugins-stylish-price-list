@@ -22,6 +22,7 @@ if ( ! empty( $id ) ) {
 	$default                                     = isset( $cats_data['default_tab'] ) ? $cats_data['default_tab'] : '';
 	$select_column                               = isset( $cats_data['select_column'] ) ? $cats_data['select_column'] : '';
 	$list_name                                   = df_spl_remove_slash_quotes( $cats_data['list_name'] );
+	$list_type                                   = isset( $cats_data['list_type'] ) ? $cats_data['list_type'] : '';
 	$spl_remove_title                            = isset( $cats_data['spl_remove_title'] ) ? $cats_data['spl_remove_title'] : '';
 	$hover_color                                 = isset( $cats_data['hover_color'] ) ? $cats_data['hover_color'] : '';
 	$title_color                                 = isset( $cats_data['title_color'] ) ? $cats_data['title_color'] : '';
@@ -96,9 +97,18 @@ if ( ! empty( $id ) ) {
 		$cat_name = df_spl_remove_slash_quotes( $cat['name'] );
 		unset( $cat['name'] ); //remove the name items, so, we can use foreach to process
 		$cat_description = df_spl_remove_slash_quotes( isset( $cat['description'] ) ? $cat['description'] : '' );
+		$cat_background_color = df_spl_remove_slash_quotes( isset( $cat['background_color'] ) ? $cat['background_color'] : '#ADADAC' );
+		$cat_text_color = df_spl_remove_slash_quotes( isset( $cat['text_color'] ) ? $cat['text_color'] : '#ffffff' );
+		$cat_action_text = df_spl_remove_slash_quotes( isset( $cat['action_text'] ) ? $cat['action_text'] : '' );
+		$cat_action_link = df_spl_remove_slash_quotes( isset( $cat['action_link'] ) ? $cat['action_link'] : '' );
 		$cat_cover_image = df_spl_remove_slash_quotes( isset( $cat['cover-image'] ) ? $cat['cover-image'] : '' );
+		$cat_price = df_spl_remove_slash_quotes( isset( $cat['price'] ) ? $cat['price'] : '' );
 		unset( $cat['description'] ); //remove the name items, so, we can use foreach to process
 		unset( $cat['cover-image'] ); //remove the cover image value, so, we can use foreach to process
+		unset( $cat['color'] ); //remove the color value, so, we can use foreach to process
+		unset( $cat['action_text'] ); //remove the action text value, so, we can use foreach to process
+		unset( $cat['action_link'] ); //remove the action link value, so, we can use foreach to process
+		unset( $cat['price'] ); //remove the price value, so, we can use foreach to process
 		$services = array();
 		foreach ( $cat as $service_id => $service ) {
 			$service = wp_parse_args( $service, array (
@@ -144,6 +154,11 @@ if ( ! empty( $id ) ) {
 		$cats[ $cat_id ]['name']        = df_spl_remove_slash_quotes( $cat_name );
 		$cats[ $cat_id ]['description'] = df_spl_remove_slash_quotes( $cat_description );
 		$cats[ $cat_id ]['cover-image'] = $cat_cover_image;
+		$cats[ $cat_id ]['price'] = $cat_price;
+		$cats[ $cat_id ]['action_text'] = $cat_action_text;
+		$cats[ $cat_id ]['action_link'] = $cat_action_link;
+		$cats[ $cat_id ]['background_color'] = $cat_background_color;
+		$cats[ $cat_id ]['text_color'] = $cat_text_color;
 		$cats[ $cat_id ]['services']    = $services;
 	}
 	
@@ -3277,6 +3292,250 @@ if ( $style == 'style_8' ) :
 		}
 	</style>
 <?php endif; ?>
+<!-- Pricing table 1 -->
+<?php if ( $style == 'style_table_1' ) :
+	wp_enqueue_style( 'spl-style-table-1' );
+	$number_of_cols = ( $cats_data['select_column'] === 'Two' ) ? 'two' : 'one';
+	if ( $df_number_of_cats ) {
+		$cats = array_slice( $cats, 0, $df_number_of_cats, true );
+	}
+	?>
+	<div class="style-table-1 spl_main_content_box" data-list-columns=<?php echo esc_attr( $number_of_cols ); ?> id="spl_<?php echo esc_attr($id); ?>">
+		<?php if ( intval( $cats_data['spl_remove_title'] ) !== 0 ) { ?>
+		<div class="spl-st1-title-wrapper">
+			<div class="spl-st1-title"><?php echo esc_attr($list_name); ?></div>
+		</div>
+		<?php } ?>
+		<div class="spl-st1-cat-wrapper-container">
+		<?php 
+		$cat_count = 0;
+		foreach ($cats as $cat_key => $current_cat) {
+			$current_cats_items = $current_cat['services'];
+			if ( ! $category_desc_embed_to_cover_image_s10 ) {
+			 ?>
+			<div class="spl-st1-title-wrapper">
+				<div class="spl-st1-top-cat-title"><?php echo sanitize_text_field($current_cat['name']); ?></div>
+				<div class="spl-st1-top-cat-desc"><?php echo sanitize_text_field($current_cat['description']); ?></div>
+			</div>
+			<?php } ?>
+			<div class="spl-st1-cat-wrapper" id="<?php echo esc_attr( $cat_key.'_'.$id ); ?>" style="background-color: <?php echo esc_attr( ( isset( $current_cat['background_color'] ) && ! empty( $current_cat['background_color'] ) ) ? $current_cat['background_color'] : '#fff' ); ?>; color: <?php echo esc_attr( ( isset( $current_cat['text_color'] ) && ! empty( $current_cat['text_color'] ) ) ? $current_cat['text_color'] : '#000' ); ?>;">
+				<div class="spl-st1-cat-cover-image" style="background-image: <?php echo empty( $current_cat['cover-image'] ) ? 'none' : 'url(\'' . esc_url( $current_cat['cover-image'] ) . '\')'; ?>">
+					<?php if ( $category_desc_embed_to_cover_image_s10 ) { ?>
+					<div class="spl-st1-cat-manifest">
+						<h5 class="spl-st1-cat-name" style="color: <?php echo esc_attr( $current_cat['text_color'] ); ?>;"><?php echo sanitize_text_field($current_cat['name']); ?></h5>
+						<div class="spl-st1-cat-price">
+							<p class="spl-st1-cat-price-text">
+								<?php echo spl_esc_output( $current_cat['price'] ); ?>
+							</p>
+						</div>
+						<p class="spl-st1-cat-desc"><?php echo sanitize_text_field($current_cat['description']); ?></p>
+						<hr>
+					</div>
+					<?php } ?>
+				</div>
+				<ul class="spl-st1-list-wrapper <?php echo $number_of_cols === 'two' ? 'spl-st1-two-cols' : ''; ?>">
+					<?php foreach ($current_cats_items as $cat_item_key => $item_data) {
+							$item_data['price'] = empty($item_data['settings_compare_at']) ? $item_data['price'] : '<s>'.$item_data['settings_compare_at'].'</s>'. ' ' . $item_data['price'];
+						?>	
+						<?php if( !empty($item_data['name']) || !empty($item_data['desc'])){ ?>
+						<li class="spl-st1-list-item spl-item-root" <?php foreach ($item_data['tooltip_config'] as $key => $value) {
+							if ( empty( $value ) ) continue;
+							echo esc_attr($key) . '="' . esc_attr($value) . '" ';
+						} ?>>
+							<div class="item-title-desc-wrapper">
+								<span data-price-list-fragment="item_name" class="spl-st1-bold"><?php echo sanitize_text_field($item_data['name']); ?></span>
+								<span class="spl-st1-muted"><?php echo sanitize_text_field($item_data['desc']); ?></span>
+							</div>
+							
+						</li>
+						<?php } ?>
+					<?php } ?>
+				</ul>
+				<?php if ( ! empty( $current_cat['action_text'] ) && ! empty( $current_cat['action_link'] ) ) : ?>
+				<div class="spl-st1-cat-footer">
+					<a href="<?php echo esc_url( $current_cat['action_link'] ); ?>" class="spl-st1-cat-button"><?php echo esc_attr( $current_cat['action_text'] ); ?></a>
+				</div>
+				<?php endif; ?>
+			</div>
+		<?php 
+		$cat_count++;
+	} ?>
+	</div>
+	</div>
+
+<?php endif; ?>
+<?php if ($style == 'style_table_1'): 
+
+	if(isset($category_background_color)){
+		$category_background_color = '#fff';
+	}
+	?>
+	<style type="text/css">
+		#spl_<?php echo esc_attr($id) ?>,
+		#spl11_<?php echo esc_attr($id) ?> {
+			--spl-st1-title-color: <?php echo esc_attr($title_color_top); ?>;
+			--spl-st1-title-font-size: <?php echo esc_attr($title_size); ?>;
+			--spl-st1-title-font-style: <?php echo esc_attr($list_name_font); ?>;
+			--spl-st1-title-font-weight: <?php echo esc_attr($title_font_weight); ?>;
+			
+			--spl-st1-category-font-size: <?php echo esc_attr($tab_size); ?>;
+			--spl-st1-category-color: <?php echo esc_attr($title_color); ?>;
+			--spl-st1-category-font-style: <?php echo esc_attr($title_font); ?>;
+			--spl-st1-category-font-weight: <?php echo esc_attr($tab_font_weight); ?>;
+			--spl-st1-category-cover-image-overlay-color: <?php echo esc_attr($category_image_overlay_value); ?>;
+			--spl-st1-category-background-color: <?php echo esc_attr($category_background_color); ?>;
+
+			--spl-st1-price-font-size: <?php echo esc_attr($select_price); ?>;
+			--spl-st1-price-color: <?php echo esc_attr($price_color); ?>;
+			--spl-st1-price-font-style: <?php echo esc_attr($price_font); ?>;
+			--spl-st1-price-font-weight: <?php echo esc_attr($service_price_font_weight); ?>;
+
+			--spl-st1-item-name-font-size: <?php echo esc_attr($service_size); ?>;
+			--spl-st1-item-name-color: <?php echo esc_attr($service_color); ?>;
+			--spl-st1-item-name-font-style: <?php echo esc_attr($desc_font); ?>;
+			--spl-st1-item-name-hover-color: <?php echo esc_attr($hover_color); ?>;
+			--spl-st1-item-name-font-weight: <?php echo esc_attr($service_font_weight); ?>;
+
+			--spl-st1-desc-font-size: <?php echo esc_attr($service_description_font_size); ?>;
+			--spl-st1-desc-color: <?php echo esc_attr($service_description_color); ?>;
+			--spl-st1-desc-font-style: <?php echo esc_attr($service_description_font); ?>;
+			--spl-st1-desc-font-weight: <?php echo esc_attr($description_font_weight); ?>;
+
+			--spl-st1-cat-desc-font-size: <?php echo ! empty( $tab_description_font_size ) ? esc_attr($tab_description_font_size) : 'inherit'; ?>;
+			--spl-st1-cat-desc-color: <?php echo isset( $tab_description_color ) ? esc_attr($tab_description_color) : '#999'; ?>;
+			--spl-st1-cat-desc-font-style: <?php echo esc_attr($tab_description_font); ?>;
+			--spl-st1-cat-desc-font-weight: <?php echo esc_attr($tab_description_font_weight); ?>;
+
+		}
+
+	</style>
+<?php endif; ?>
+
+<!-- Pricing table 2 -->
+<?php if ( $style == 'style_table_2' ) :
+	wp_enqueue_style( 'spl-style-table-2' );
+	$number_of_cols = ( $cats_data['select_column'] === 'Two' ) ? 'two' : 'one';
+	if ( $df_number_of_cats ) {
+		$cats = array_slice( $cats, 0, $df_number_of_cats, true );
+	}
+	?>
+	<div class="style-table-2 spl_main_content_box" data-list-columns=<?php echo esc_attr( $number_of_cols ); ?> id="spl_<?php echo esc_attr($id); ?>">
+		<?php if ( intval( $cats_data['spl_remove_title'] ) !== 0 ) { ?>
+		<div class="spl-st2-title-wrapper">
+			<div class="spl-st2-title"><?php echo esc_attr($list_name); ?></div>
+		</div>
+		<?php } ?>
+		<div class="spl-st2-cat-wrapper-container">
+		<?php 
+		$cat_count = 0;
+		foreach ($cats as $cat_key => $current_cat) {
+			$current_cats_items = $current_cat['services'];
+			if ( ! $category_desc_embed_to_cover_image_s10 ) {
+			 ?>
+			<div class="spl-st1-title-wrapper">
+				<div class="spl-st1-top-cat-title"><?php echo sanitize_text_field($current_cat['name']); ?></div>
+				<div class="spl-st1-top-cat-desc"><?php echo sanitize_text_field($current_cat['description']); ?></div>
+			</div>
+			<?php } ?>
+			<div class="spl-st2-cat-wrapper" id="<?php echo esc_attr( $cat_key.'_'.$id ); ?>">
+				<?php if ( $category_desc_embed_to_cover_image_s10 ) { ?>
+					<div class="spl-st2-cat-manifest">
+						<div class="spl-st2-cat-manifest-header" style="background-color: <?php echo esc_attr( $current_cat['background_color'] ); ?>;">
+							<h5 class="spl-st2-cat-name" style="color: <?php echo esc_attr( $current_cat['text_color'] ); ?>;"><?php echo sanitize_text_field($current_cat['name']); ?></h5>
+							<p class="spl-st2-cat-desc" style="color: <?php echo esc_attr( $current_cat['text_color'] ); ?>;"><?php echo sanitize_text_field($current_cat['description']); ?></p>
+						</div>
+						
+
+						<div class="spl-st2-cat-price">
+							<p class="spl-st2-cat-price-text">
+								<?php echo spl_esc_output( $current_cat['price'] ); ?>
+							</p>
+						</div>
+						
+
+					</div>
+					<?php } ?>
+				<ul class="spl-st2-list-wrapper <?php echo $number_of_cols === 'two' ? 'spl-st2-two-cols' : ''; ?>">
+					<?php foreach ($current_cats_items as $cat_item_key => $item_data) {
+							$item_data['price'] = empty($item_data['settings_compare_at']) ? $item_data['price'] : '<s>'.$item_data['settings_compare_at'].'</s>'. ' ' . $item_data['price'];
+						?>	
+						<?php if( !empty($item_data['name']) || !empty($item_data['desc'])){ ?>
+						<li class="spl-st2-list-item spl-item-root" <?php foreach ($item_data['tooltip_config'] as $key => $value) {
+							if ( empty( $value ) ) continue;
+							echo esc_attr($key) . '="' . esc_attr($value) . '" ';
+						} ?>>
+							<div class="item-title-desc-wrapper">
+								<span data-price-list-fragment="item_name" class="spl-st2-bold"><?php echo sanitize_text_field($item_data['name']); ?></span>
+								<span class="spl-st2-muted"><?php echo sanitize_text_field($item_data['desc']); ?></span>
+							</div>
+							
+						</li>
+						<?php } ?>
+					<?php } ?>
+				</ul>
+				<?php if ( ! empty( $current_cat['action_text'] ) && ! empty( $current_cat['action_link'] ) ) : ?>
+				<div class="spl-st2-cat-footer">
+					<a href="<?php echo esc_url( $current_cat['action_link'] ); ?>" class="spl-st2-cat-button"
+					style="background-color: <?php echo esc_attr( $current_cat['background_color'] ); ?>; color: <?php echo esc_attr( $current_cat['text_color'] ); ?>;"
+					><?php echo esc_attr( $current_cat['action_text'] ); ?></a>
+				</div>
+				<?php endif; ?>
+			</div>
+		<?php 
+		$cat_count++;
+	} ?>
+	</div>
+	</div>
+
+<?php endif; ?>
+<?php if ($style == 'style_table_2'): 
+
+	if(isset($category_background_color)){
+		$category_background_color = '#fff';
+	}
+	?>
+	<style type="text/css">
+		#spl_<?php echo esc_attr($id) ?>,
+		#spl11_<?php echo esc_attr($id) ?> {
+			--spl-st2-title-color: <?php echo esc_attr($title_color_top); ?>;
+			--spl-st2-title-font-size: <?php echo esc_attr($title_size); ?>;
+			--spl-st2-title-font-style: <?php echo esc_attr($list_name_font); ?>;
+			--spl-st2-title-font-weight: <?php echo esc_attr($title_font_weight); ?>;
+			
+			--spl-st2-category-font-size: <?php echo esc_attr($tab_size); ?>;
+			--spl-st2-category-color: <?php echo esc_attr($title_color); ?>;
+			--spl-st2-category-font-style: <?php echo esc_attr($title_font); ?>;
+			--spl-st2-category-font-weight: <?php echo esc_attr($tab_font_weight); ?>;
+			--spl-st2-category-cover-image-overlay-color: <?php echo esc_attr($category_image_overlay_value); ?>;
+			--spl-st2-category-background-color: <?php echo esc_attr($category_background_color); ?>;
+
+			--spl-st2-price-font-size: <?php echo esc_attr($select_price); ?>;
+			--spl-st2-price-color: <?php echo esc_attr($price_color); ?>;
+			--spl-st2-price-font-style: <?php echo esc_attr($price_font); ?>;
+			--spl-st2-price-font-weight: <?php echo esc_attr($service_price_font_weight); ?>;
+
+			--spl-st2-item-name-font-size: <?php echo esc_attr($service_size); ?>;
+			--spl-st2-item-name-color: <?php echo esc_attr($service_color); ?>;
+			--spl-st2-item-name-font-style: <?php echo esc_attr($desc_font); ?>;
+			--spl-st2-item-name-hover-color: <?php echo esc_attr($hover_color); ?>;
+			--spl-st2-item-name-font-weight: <?php echo esc_attr($service_font_weight); ?>;
+
+			--spl-st2-desc-font-size: <?php echo esc_attr($service_description_font_size); ?>;
+			--spl-st2-desc-color: <?php echo esc_attr($service_description_color); ?>;
+			--spl-st2-desc-font-style: <?php echo esc_attr($service_description_font); ?>;
+			--spl-st2-desc-font-weight: <?php echo esc_attr($description_font_weight); ?>;
+
+			--spl-st2-cat-desc-font-size: <?php echo ! empty( $tab_description_font_size ) ? esc_attr($tab_description_font_size) : 'inherit'; ?>;
+			--spl-st2-cat-desc-color: <?php echo isset( $tab_description_color ) ? esc_attr($tab_description_color) : '#999'; ?>;
+			--spl-st2-cat-desc-font-style: <?php echo esc_attr($tab_description_font); ?>;
+			--spl-st2-cat-desc-font-weight: <?php echo esc_attr($tab_description_font_weight); ?>;
+
+		}
+
+	</style>
+<?php endif; ?>
+
+
 
 <?php
 if ( $style == 'style_6' ) {
