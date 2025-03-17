@@ -1,3 +1,7 @@
+= 7.1.17 - 2025-03-17
+* Bugfix: Fix style2 category title font-size not being applied
+* Bugfix: Fix style6 empty price item in the list
+
 = 7.1.15 - 2025-01-23
 * Improved: UX improvements for the price list editor
 

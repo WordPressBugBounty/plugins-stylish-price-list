@@ -2149,7 +2149,7 @@ if ( $service_description_color != '' ) {
 			<div id="category-rows-wrapper">
 				<div class="header">
 					<div class="title">List Builder</div>
-					<div class="des">See how will look your calculator</div>
+					<div class="des">See how will look your list</div>
 				</div>
 				
 				<div class="categories">
@@ -2229,7 +2229,7 @@ if ( $service_description_color != '' ) {
 						 <?php if ( $id == '' || $id != '' ) {
 							if ( ! empty( $opt ) && ( isset( $opt['result'] ) && $opt['result'] == 'success' ) ) { ?>
 								<button id="splButtomRest" type="button" name="restore" value="" class="spl_btn_primary button button-primary restore" style="height: 45px;margin-right:15px;">
-									<img 	 src="<?php echo SPL_URL . '/assets/images/ICON22.svg'; ?>" aria-hidden="true" style="font-size:20px;vertical-align:middle;"> <!-- Aquí se agrega la imagen -->
+									<img 	 src="<?php echo SPL_URL . '/assets/images/ICON22.svg'; ?>" aria-hidden="true" style="font-size:20px;vertical-align:middle;">
 									<?php echo esc_attr($Restore); ?>
 								</button>
 								<?php

@@ -272,7 +272,7 @@ class SPL_LicensePage {
 							<div class="scc-license-intro-hero w-50 mx-auto">
 								<?php if ( $action == 'active' ) { ?>
 									<div class="lead fw-bold">Do you have a License Key</div>
-									<p>Activate Stylish Cost Calculator Premium and start selling faster today!</p>
+									<p>Activate Stylish Price List and start selling faster today!</p>
 								<?php } ?>
 								<?php if ( $action == 'deactivate' ) { ?>
 									<div class="lead fw-bold mb-3">Your License key has been activated</div>
@@ -966,7 +966,7 @@ class SPL_LicensePage {
 				break;
 
 			case 'item_name_mismatch':
-				$message = 'This appears to be an invalid license key for Stylish Cost Calculator Premium.';
+				$message = 'This appears to be an invalid license key for Stylish Price List.';
 				break;
 
 			case 'no_activations_left':

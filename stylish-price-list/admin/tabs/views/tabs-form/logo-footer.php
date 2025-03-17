@@ -494,8 +494,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <a href="https://wordpress.org/plugins/smart-table-builder/" target="_blank" class="spl-footer-plugin-logos">
                             <img src="<?php echo esc_url(SPL_URL . 'assets/images/stb-logo.png'); ?>" alt="Smart Table Builder" title="Smart Table Builder">
                         </a>
-                        <a href="#" target="_blank" class="spl-footer-plugin-logos">
-                            <img src="<?php echo esc_url(SPL_URL . 'assets/images/hdh-logo.png'); ?>" alt="Help Desk Hero" title="Help Desk Hero">
+                        <a href="https://stylishpricelist.com/support/" target="_blank" class="spl-footer-plugin-logos">
+                            <img src="<?php echo esc_url(SPL_URL . 'assets/images/spl-logo.webp'); ?>" alt="Stylish Price List" title="Stylish Price List">
                         </a>
                     </div>
                 </div>
@@ -503,8 +503,6 @@ if ( ! defined( 'ABSPATH' ) ) {
         </div>
     </div>
 </div>
-
-
 
 <!-- End of Modal Video Tutorials -->
 <style type="text/css">

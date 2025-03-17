@@ -3632,9 +3632,12 @@ if ( $style == 'style_6' ) {
 		foreach ( $cats as $cat_key => $cat ) {
 			$services = $cat['services'];
 			foreach ( $services as $key => $service ) {
-				$name               = $service['name'];
-				$service['cat_key'] = $cat_key;
-				$all_services[]     = $service;
+				// check if $key is non numeric, cause somehow it's 'background_color' and 'text_color' are being added to the array
+				if ( is_numeric( $key ) ) {
+					$name               = $service['name'];
+					$service['cat_key'] = $cat_key;
+					$all_services[]     = $service;
+				}
 			}
 		}
 		?>
@@ -4006,6 +4009,7 @@ if ( $style == 'style_6' ) {
 		?>
 		#spl_<?php echo esc_attr($id); ?>.price_wrapper span.tab-links_spl.spl_cat_title_style_2 {
 		font-weight: <?php echo esc_attr($tab_font_weight); ?> !important;
+		font-size: <?php echo esc_attr($tab_size); ?> !important;
 	}
 
 	<?php endif; ?>
