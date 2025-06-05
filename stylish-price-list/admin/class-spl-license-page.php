@@ -240,7 +240,6 @@ class SPL_LicensePage {
 		$stylishpl_license_key = get_option( 'stylishpl_license_key' );
 		$opt                   = get_option( 'spllk_opt' );
 		$license = ['status' => 'activate', 'expiry_days' => 301];
-		$action  = empty( $opt ) || $opt['license'] !== 'valid' ? 'active' : 'deactivate';
 		echo '<div class="price_wrapper">';
 		include_once SPL_DIR . '/admin/tabs/views/tabs-form/logo-header.php';
 		echo '</div>';
@@ -269,6 +268,9 @@ class SPL_LicensePage {
 				<div class="col-md-8">
 					<div class="p-5 bg-white rounded">
 						<div class="text-center">
+							<?php 
+							$action = empty( $opt ) || $opt['license'] !== 'valid' ? 'active' : 'deactivate';
+							?>
 							<div class="scc-license-intro-hero w-50 mx-auto">
 								<?php if ( $action == 'active' ) { ?>
 									<div class="lead fw-bold">Do you have a License Key</div>
@@ -293,7 +295,9 @@ class SPL_LicensePage {
 										<i class="d-none gg-spinner-alt"></i>
 										Refresh License </button>
 							</div>
-							<?php if ( $action == 'active' ): ?>
+							<?php
+
+							if ( $action == 'active' ): ?>
 								<button class="btn btn-primary mb-3 d-flex m-auto" data-action="active" onclick="handleLicenseBtn( this, event )" type="button"><i class="d-none gg-spinner-alt"></i><span>Activate License</span></button>
 							<?php endif; ?>
 							<?php if ( $action == 'deactivate' ): ?>
@@ -878,7 +882,7 @@ class SPL_LicensePage {
 		$extra_meta = $this->extra_meta( $data_response['license'] == 'valid' ? 'success' : 'failed' );
 		$opt        = array_merge( $extra_meta, $opt );
 		update_option( 'spllk_opt', $opt );
-		$this->success = ( 'License refreshed successfully.' );
+		$this->success = ( 'License refreshed successfully.');
 		return 0;
 	}
 	public function extra_meta( $validation ) {
@@ -1030,7 +1034,7 @@ class SPL_LicensePage {
 			return;
 		}
 		if ( $response === true ) {
-			$this->success = ( 'License activated successfully.' );
+			$this->success = ( 'License activated successfully.');
 		} else {
 			$this->error = ( 'Error activating the license key.' );
 		}

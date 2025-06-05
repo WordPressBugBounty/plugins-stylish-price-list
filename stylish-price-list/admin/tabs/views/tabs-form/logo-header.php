@@ -2,7 +2,10 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
+$current_screen = get_current_screen();
+$action = isset($_GET['action']) ? sanitize_text_field($_GET['action']) : '';
 ?>
+<?php if ( $action !== 'edit' ) { ?>
 <div class="spl-header-wrapper">
 	<div class="spl-header-logo">
 		<p></p>
@@ -23,14 +26,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php } ?>
 		</div>
 	</div>
-	<a class="spl-back-to-dashboard-btn" href="<?php echo admin_url(); ?>">
+	<!-- <a class="spl-back-to-dashboard-btn" href="<?php echo admin_url(); ?>">
 		<svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none" style="vertical-align: sub;">
 			<path d="M5.14583 3.1665L2.375 5.5415L5.14583 8.31234" stroke="white" stroke-width="1.58333" stroke-linecap="round" stroke-linejoin="round"/>
 			<path d="M2.375 5.5415H11.4768C14.2013 5.5415 16.515 7.76609 16.621 10.4894C16.7335 13.3671 14.3557 15.8332 11.4768 15.8332H4.74921" stroke="white" stroke-width="1.58333" stroke-linecap="round" stroke-linejoin="round"/>
 		</svg>
 		WP Dashboard
-	</a>
+	</a> -->
 </div>
+<?php } ?>
 <style type="text/css">
 	.spl_plug_ver{
 		position: relative;

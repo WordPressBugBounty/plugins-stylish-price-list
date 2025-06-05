@@ -918,7 +918,7 @@ define( 'DF_SPL_QUIZ_CHOICES', [
         ],
         [
             'choiceTitle' => 'Tech',
-            'choiceDescription' => '(selling iPhone)',
+            'choiceDescription' => '(e.g. selling iPhone)',
             'icon'        => 'Tech',
             'key'         => 'tech',
         ],

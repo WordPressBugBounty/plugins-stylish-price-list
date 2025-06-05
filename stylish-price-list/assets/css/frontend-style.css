@@ -442,7 +442,7 @@ span.style-4-productName a {
 .style-4-border {
 	display: inline-flex;
 	height: 1px;
-	width: 100%;
+	flex-grow: 1;
 	margin: 0;
 }
 .custom-style-4 dl,
@@ -1051,7 +1051,7 @@ h4.title-font {
 	}
 	#preview_content .left-side-style5 .style-five .spl-style-5 .spl-price p,
 	#preview_content .right-side-style5 .style-five .spl-style-5 .spl-price p {
-		padding: 0 !important
+		padding: 0 8px !important
 	}
 	#preview_content .left-side-style5 .style-five .spl-price p,
 	#preview_content .right-side-style5 .style-five .spl-price p {
@@ -1424,8 +1424,11 @@ h4.title-font {
 	.style_4_col_1 ul#tiles li {
 		width: 100% !important
 	}
-	.col-xs-12.col-sm-6.col-md-6.col-lg-6.name-price-desc {
-		border-bottom: 1px solid #c1c1c1;
+	.df-spl-style7_cat_tab .col-sm-12 .col-xs-9.col-sm-9.col-md-9.col-lg-9 {
+		padding: 0;
+	}
+	.df-spl-style7_cat_tab .col-sm-12 .col-xs-3.col-sm-3.col-md-3.col-lg-3 {
+		padding: 0;
 	}
 	.with_tab .col-xs-12.col-sm-6.col-md-6.col-lg-6.name-price-desc {
 		align-items: center;
@@ -1546,6 +1549,7 @@ h4.title-font {
 		width: 100%;
 		padding: 3px 0;
 		font-size: 12px;
+		min-width: 90px;
 		text-decoration: none;
 	}
 	/* Style 7 */
@@ -1918,6 +1922,26 @@ h4.style-6-2-price {
 .df-spl-style-seven-head {
 	background: #fff;
 }
+
+.tab-content1 .spl-item-root {
+	padding-right: 0;
+}
+
+.spl-item-popular {
+	font-size: 60%;
+    padding: 4px 7px;
+    font-weight: 400;
+    border-radius: 10px;
+    clear: both;
+    white-space: nowrap;
+	color: #fff;
+	vertical-align: middle;
+}
+
+.spl-style-5 .spl-item-popular {
+	border-radius: 10px 0px;
+}
+
 .price_wrapper .df-spl-style7_cat_tab-container ul li{
 	/* background-color: #fff ; */
 	flex-grow: 1;
@@ -1936,6 +1960,13 @@ h4.style-6-2-price {
 }
 .style-7 > .col-xs-12.col-sm-12.col-md-12.col-lg-12.spl_cstm_style_2_book-full {
 	padding: 0;
+}
+.spl-d-flex {
+	display: flex;
+}
+.spl-s7-content {
+	justify-content: space-between;
+	align-items: center;
 }
 .name-price-desc.spl-style-5 {
 	padding: 0;
@@ -2011,7 +2042,6 @@ input.spl-mysearch:focus-visible {
 	background-color: var(--df-spl-style8-pricetag-bg);
 	padding: 10px 20px;
 	border-radius: 0 5px;
-	
 }
 .pricetag span {
 	white-space: nowrap;
@@ -2034,6 +2064,12 @@ input.spl-mysearch:focus-visible {
 .style-8-cards.is-two-column .style-8-card img {
 	width: 8em;
 	height: 8em;
+}
+.custom-description-section {
+	padding-bottom: 30px;
+}
+[data-style="7"] .custom-description-section {
+	padding: 15px 0;
 }
 .style-8-cards .custom-description-section {
 	width: 100%;

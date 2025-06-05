@@ -17,15 +17,14 @@ body {
 }
 
 .spl-tect{
-	width: 95px;
+	width: 100px;
 	float: inline-end;
 	display: flex;
 }
 .action-button {
-
 	display: flex;
 	border-radius: 25px;
-	background-color: #fff;
+	background-color: #deefec;
     color: #000;
 }
 #category-rows-wrapper .action-button {
@@ -149,10 +148,6 @@ to { transform: rotate(359deg) }
 	z-index: -1;
 }
 
-.price_wrapper .spl-editing-page-header {
-	margin-top: 20px;
-	padding-left: 0;
-}
 .spl-header-logo{
 	background-color: #F6F5EB;
     height: 78px;
@@ -163,6 +158,113 @@ to { transform: rotate(359deg) }
     border-radius: 10px 39px 39px 10px;
 	position: relative;
 }
+
+.d-flex {
+	display: flex;
+}
+
+.justify-content-between {
+	justify-content: space-between;
+}
+
+.align-items-center {
+	align-items: center;
+}
+
+.settings-actions-wrapper a {
+	cursor: pointer;
+	padding: 8px 10px;
+}
+
+.show_hide_shortcode.clearfix {
+	margin-top: 10px;
+}
+
+.font_setting_container {
+	margin-top: 10px;
+	background-color: rgb(248, 250, 249);
+	border-radius: 5px;
+	padding: 10px 35px;
+}
+
+.btn-close {
+	color: rgba(91, 179, 167, 1);
+    background-color: #fff;
+    border-color: rgba(91, 179, 167, 0.4);
+    border: 1px solid;
+    padding: 8px 10px;
+    font-size: unset;
+	cursor: pointer;
+	border-radius: 5px;
+	height: 37px;
+	width: 37px;
+}
+.btn-close:hover {
+	background-color: rgba(91, 179, 167, 0.4);
+}
+
+.pl-0 {
+	padding-left: 0 !important;
+}
+
+.price-list-name-and-style-wrapper .col-md-8.mode-select .select-right-icon {
+	margin-right: 21px;
+}
+
+.show_hide_shortcode.clearfix > div {
+	background-color: rgb(248, 250, 249);
+}
+
+.settings-actions-wrapper a:hover,
+.settings-actions-wrapper a.active {
+	background-color: rgba(91, 179, 167, 1);
+	border-radius: 5px;
+	color: #fff;
+	transition: all 0.3s ease;
+}
+
+.settings-actions-wrapper a.active {
+	background-color: #5bb3a7;
+}
+
+.settings-actions-wrapper a:hover img,
+.settings-actions-wrapper a.active img {
+	filter: brightness(0) invert(1);
+}
+
+.settings-actions-wrapper li {
+	margin-bottom: 0;
+}
+
+.spl-header-logo-editing-page {
+	background-color: unset;
+	display: flex;
+	align-items: center;
+}
+
+.spl-header-wrapper-v2 {
+	padding: 20px 0 20px 30px;
+}
+
+.vertical-line {
+	border-left: 1px solid #f0f0f1;
+    height: 35px;
+    padding: 0 5px;
+}
+
+.price_wrapper ol, .price_wrapper ul.settings-actions-wrapper {
+	margin-bottom: 0;
+}
+
+.price_wrapper .settings-actions-wrapper img.w-690 {
+	margin-top: 0;
+}
+
+.settings-actions-wrapper .main-save.spl_btn_primary .btn{
+	padding: 8px 10px;
+	font-size: unset;
+}
+
 .spl-container-header{
 	z-index: 2;
     position: relative;
@@ -193,9 +295,8 @@ to { transform: rotate(359deg) }
 	border:  2px solid  #fff;
 }
 
-.df-spl-edit-nav .col-sm-3.col-md-3 {
-	padding-top: 28px;
-	padding-bottom: 28px;
+.p-0 {
+	padding: 0 !important;
 }
 
 .category-rows-master-cls {
@@ -220,12 +321,15 @@ to { transform: rotate(359deg) }
 
 .action-button .btn {
 	display: inline-block;
-    color: white;
+    color: #000;
     font-weight: 700;
 }
 .action-button .btn.btn-primary {
-	background: #5bb3a7;
+	background: #fff;
 	border-radius: 25px;
+}
+.action-button.spl-tect {
+	border: 1px solid #5bb3a7;
 }
 .action-button .btn:not(.btn-primary) {
 	color: inherit;
@@ -558,7 +662,6 @@ input[type=radio] {
 }
 input[type=radio]:checked+label.radio-inline span {
 	background-color: #5bb3a7;
-	transform: scale(1.25)
 }
 input[type=radio]:checked+label.radio-inline span:before {
 	width: 6px;
@@ -581,7 +684,6 @@ input[type=checkbox] {
 }
 input[type=checkbox]:checked+label.radio-inline span {
 	background-color: #5bb3a7;
-	transform: scale(1.25)
 }
 input[type=checkbox]:checked+label.radio-inline span:before {
 	width: 6px;
@@ -602,10 +704,6 @@ input[type=checkbox]:checked+label.radio-inline span:after {
 	min-width: 78px;
 	vertical-align: middle;
 	text-align: center
-}
-
-.custom_radio_btn:hover label span {
-	background-color: #5bb3a7 !important
 }
 
 #preview,
@@ -646,9 +744,8 @@ div#flip {
 	margin: 15px 0
 }
 .header {
-	background-color: rgba(91, 179, 167, 0.4);
 	border-radius: 4px;
-	padding: 20px 35px;
+	padding: 20px 0;
 }
 .header .title{
 	font-size: 24px;
@@ -660,7 +757,7 @@ div#flip {
 }
 .heading-catag {
 	border-top: 2px solid #5BB3A7;
-	background: #edecd8;
+	background: #fafaf5;
 	padding: 12px 8px 12px 15px;
 	display: flex;
 	align-items: center;

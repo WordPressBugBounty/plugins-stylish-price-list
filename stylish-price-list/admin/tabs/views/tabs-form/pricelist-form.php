@@ -29,6 +29,7 @@ if ( isset( $_GET['id'] ) ) {
 	// phpcs:ignore
 	$id = intval($_GET['id']);
 }
+$jsonld_currency = 'USD'; // Initialize with default value
 ?>
 <!--Include library sortable-->
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script> -->
@@ -794,6 +795,8 @@ if ( ! function_exists( 'category_row' ) ) {
 					$settings_tooltip_title = isset($service['settings_tooltip_title']) ? $service['settings_tooltip_title'] : '';
 					$settings_tooltip_description = isset($service['settings_tooltip_description']) ? $service['settings_tooltip_description'] : '';
 					$settings_tooltip_image = isset($service['settings_tooltip_image']) ? $service['settings_tooltip_image'] : '';
+					$is_popular = isset($service['is_popular']) ? $service['is_popular'] : '';
+					$popular_text = isset($service['popular_text']) ? $service['popular_text'] : '';
 
 				?>
 					<!-- echo category_row($cat_id,$service_id,$cat_name); -->
@@ -862,6 +865,26 @@ if ( ! function_exists( 'category_row' ) ) {
 								</div>
 								<div class="col-xs-6 col-sm-7 col-md-7 col-lg-7">
 									<input type="text" class="form-control service_button_url" value="<?php echo $service_button_url; ?>" name="category[<?php echo $cat_id . "][" . $service_id; ?>][service_button_url]" id="category_<?php echo $cat_id . "_" . $service_id; ?>_service_button_url">
+								</div>
+							</div>
+							<div class="spl-one-bottom"></div>
+							<div class="df-spl-row service-price-length field-container-set-as-popular">
+								<div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 lbl">
+									<label for="category_<?php echo $cat_id . "_" . $service_id; ?>_is_popular">Set As Popular Item</label>
+								</div>
+								<div class="col-xs-6 col-sm-7 col-md-7 col-lg-7">
+									<div class="custom_radio_btn">
+										<input type="checkbox" class="form-control is_popular" name="category[<?php echo $cat_id . "][" . $service_id; ?>][is_popular]" id="category_<?php echo $cat_id . "_" . $service_id; ?>_is_popular" <?php echo isset($is_popular) && $is_popular ? 'checked' : ''; ?>>
+										<label class="radio-inline"><span></span></label>
+									</div>
+								</div>
+							</div>
+							<div class="df-spl-row service-price-length field-container-set-as-popular">
+								<div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 lbl">
+									<label for="category_<?php echo $cat_id . "_" . $service_id; ?>_popular_text">Popular Item Text</label>
+								</div>
+								<div class="col-xs-6 col-sm-7 col-md-7 col-lg-7">
+									<input type="text" class="form-control popular_text" name="category[<?php echo $cat_id . "][" . $service_id; ?>][popular_text]" id="category_<?php echo $cat_id . "_" . $service_id; ?>_popular_text" value="<?php echo isset($popular_text) ? $popular_text : 'Popular'; ?>">
 								</div>
 							</div>
 							<div class="spl-one-bottom"></div>
@@ -963,66 +986,97 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 			<div style="">
 				<nav class="navbar navbar-secondary df-spl-edit-nav"> <!-- Start of Price List Title, Style, Save Button-->
 					<div class="container-fluid">
-						<div class="navbar-collapse collapse">
-							<div class="col-sm-3 col-md-3">
-								<?php $list_name = df_spl_remove_slash_quotes( $list_name ); ?>
-								<input type="text" name="list_name" id="list_name" class="form-control list_name" placeholder="<?php echo esc_attr($Price_List_Name); ?>" required="" value="<?php echo esc_attr($list_name); ?>" title="">
-							</div>
+						<div class="d-flex justify-content-between spl-header-wrapper-v2">
+							<div class="spl-header-logo-editing-page">
+		<div class="spl-container-header">
+		<a href="https://stylishpricelist.com/" class="spl-header">
+			<img src="<?php echo SPL_URL . '/assets/images/Stylish-Price-List-Logo-418x134.png'; ?>" class="img-responsive1" alt="Image" style="max-height: 40px;">
+		</a>
+		<?php
+		$opt = get_option( 'spllk_opt' );
+		if ( empty( $opt ) ) {
+			?>
+			<span class="spl_plug_ver">Demo</span>
+			<?php
+		}
+		if ( ! empty( $opt ) ) {
+			?>
+			<span class="spl_plug_ver">Premium</span>
+		<?php } ?>
+		</div>
+	</div>
 
-							<div class="col-sm-4 col-md-4 spl-list-type-selector-wrapper">
+							<div class="price-list-name-and-style-wrapper d-flex align-items-center">								
+							<?php $list_name = df_spl_remove_slash_quotes( $list_name ); ?>
+							<input type="text" name="list_name" id="list_name" class="form-control list_name" placeholder="<?php echo esc_attr($Price_List_Name); ?>" required="" value="<?php echo esc_attr($list_name); ?>" title="">
 							<?php $list_type = isset($list_type) && (strpos($list_type, 'table') !== false) ? 'pricing_table' : 'price_list'; ?>
-								<select class="form-control sel1 spl-list-type-selector" name="list_type" style="max-width:140px !important;height:40px;">
-								  <option value="">Select List Type</option>
-								  <option class="form-control default_tab" value="price_list" <?php echo isset( $list_type ) && $list_type == 'price_list' ? 'selected' : ''; ?> >Price List</option>
-								  <option class="form-control default_tab" value="pricing_table" <?php echo isset( $list_type ) && $list_type == 'pricing_table' ? 'selected' : ''; ?>>Pricing Table</option>
-							  	</select>
-								
-								<select class="form-control sel1" name="tab_style" style="max-width:100% !important;height:40px;">
-								  <option class="form-control default_tab" value="">Select Style</option>
-								  <option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="with_tab" <?php echo isset( $style ) && $style == 'with_tab' ? 'selected' : ''; ?> >Style #1 (Supports Images)</option>
-								  <option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="without_tab" <?php echo isset( $style ) && $style == 'without_tab' ? 'selected' : ''; ?>>Style #2</option>
-								  <option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="without_tab_single_column" <?php echo isset( $style ) && $style == 'without_tab_single_column' ? 'selected' : ''; ?>>Style #2 (Single Column)</option>
-								  <option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_3" <?php echo isset( $style ) && $style == 'style_3' ? 'selected' : ''; ?>>Style #3</option>
-								  <option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_4" <?php echo isset( $style ) && $style == 'style_4' ? 'selected' : ''; ?>>Style #4</option>
-								  <option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_5" <?php echo isset( $style ) && $style == 'style_5' ? 'selected' : ''; ?>>Style #5</option>
-								  <option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_6" <?php echo isset( $style ) && $style == 'style_6' ? 'selected' : ''; ?>>Style #6 (Supports Images)</option>
-								  <option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_7" <?php echo isset( $style ) && $style == 'style_7' ? 'selected' : ''; ?>>Style #7</option>
-								  <option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_8" <?php echo isset( $style ) && $style == 'style_8' ? 'selected' : ''; ?>>Style #8 (Supports Images)</option>
-								  <option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_10" <?php echo isset( $style ) && $style == 'style_10' ? 'selected' : ''; ?>>Style #10</option>
-								  <option class="form-control default_tab spl-table-option <?php echo isset($list_type) && ($list_type == 'pricing_table') ? '' : 'df-spl-d-none'; ?>" value="style_table_1" <?php echo ((isset( $style ) && $style == 'style_table_1') || ($list_type == 'pricing_table' && ! isset( $style ))) ? 'selected' : ''; ?>>Table Style #1</option>
-								  <option class="form-control default_tab spl-table-option <?php echo isset($list_type) && ($list_type == 'pricing_table') ? '' : 'df-spl-d-none'; ?>" value="style_table_2" <?php echo isset( $style ) && $style == 'style_table_2' ? 'selected' : ''; ?>>Table Style #2</option>
-							  </select>
-							  <div class="select-right-icon">
-									<span class="df-spl-eui-FormControlLayoutCustomIcon">
-										<img src="<?php echo SPL_URL . '/assets/images/cicle-icon.svg'; ?>" aria-hidden="true">
-									</span>
+								<div class="col-md-8 mode-select">
+									<select class="form-control sel1 spl-list-type-selector" name="list_type" style="max-width:140px !important;height:40px;">
+										<option value="">Select List Type</option>
+										<option class="form-control default_tab" value="price_list" <?php echo isset( $list_type ) && $list_type == 'price_list' ? 'selected' : ''; ?> >Price List</option>
+										<option class="form-control default_tab" value="pricing_table" <?php echo isset( $list_type ) && $list_type == 'pricing_table' ? 'selected' : ''; ?>>Pricing Table</option>
+									</select>
+									<div class="select-right-icon">
+										<span class="df-spl-eui-FormControlLayoutCustomIcon">
+											<img src="<?php echo SPL_URL . '/assets/images/cicle-icon.svg'; ?>" aria-hidden="true">
+										</span>
+									</div>
 								</div>
+								<div class="col-md-8 pl-0">
+									<select class="form-control sel1" name="tab_style" style="max-width:100% !important;height:40px;">
+										<option class="form-control default_tab" value="">Select Style</option>
+										<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="with_tab" <?php echo isset( $style ) && $style == 'with_tab' ? 'selected' : ''; ?> >Style #1 (Supports Images)</option>
+										<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="without_tab" <?php echo isset( $style ) && $style == 'without_tab' ? 'selected' : ''; ?>>Style #2</option>
+										<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="without_tab_single_column" <?php echo isset( $style ) && $style == 'without_tab_single_column' ? 'selected' : ''; ?>>Style #2 (Single Column)</option>
+										<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_3" <?php echo isset( $style ) && $style == 'style_3' ? 'selected' : ''; ?>>Style #3</option>
+										<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_4" <?php echo isset( $style ) && $style == 'style_4' ? 'selected' : ''; ?>>Style #4</option>
+										<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_5" <?php echo isset( $style ) && $style == 'style_5' ? 'selected' : ''; ?>>Style #5</option>
+										<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_6" <?php echo isset( $style ) && $style == 'style_6' ? 'selected' : ''; ?>>Style #6 (Supports Images)</option>
+										<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_7" <?php echo isset( $style ) && $style == 'style_7' ? 'selected' : ''; ?>>Style #7</option>
+										<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_8" <?php echo isset( $style ) && $style == 'style_8' ? 'selected' : ''; ?>>Style #8 (Supports Images)</option>
+										<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_10" <?php echo isset( $style ) && $style == 'style_10' ? 'selected' : ''; ?>>Style #10</option>
+										<option class="form-control default_tab spl-table-option <?php echo isset($list_type) && ($list_type == 'pricing_table') ? '' : 'df-spl-d-none'; ?>" value="style_table_1" <?php echo ((isset( $style ) && $style == 'style_table_1') || ($list_type == 'pricing_table' && ! isset( $style ))) ? 'selected' : ''; ?>>Table Style #1</option>
+										<option class="form-control default_tab spl-table-option <?php echo isset($list_type) && ($list_type == 'pricing_table') ? '' : 'df-spl-d-none'; ?>" value="style_table_2" <?php echo isset( $style ) && $style == 'style_table_2' ? 'selected' : ''; ?>>Table Style #2</option>
+									</select>
+									<div class="select-right-icon">
+										<span class="df-spl-eui-FormControlLayoutCustomIcon">
+											<img src="<?php echo SPL_URL . '/assets/images/cicle-icon.svg'; ?>" aria-hidden="true">
+										</span>
+									</div>
+							  </div>
 							</div>
-						<ul class="nav navbar-nav edit-page-nav navbar-right">
-						<li style="margin-right:30px;">
-							<a name="add_to_webpage" value="" class="add_to_webpage">
+						<ul class="settings-actions-wrapper d-flex align-items-center">
+						<li style="margin-right:10px;">
+							<a name="add_to_webpage" value="" class="add_to_webpage" data-tooltip="<?php echo esc_attr($ADD_TO_WEBPAGE); ?>">
 								<img class="w-690" src="<?php echo SPL_URL . '/assets/images/Group.svg'; ?>" aria-hidden="true">
-								<?php echo esc_attr($ADD_TO_WEBPAGE); ?>
 							</a>
 						</li>
-					<li style="margin-right:30px;">
-						<a name="load_template" value="" class="advance_setting">
+					<li style="margin-right:10px;">
+						<a name="load_template" value="" class="advance_setting" data-tooltip="<?php echo esc_attr($More_Settings); ?>">
 						<img class="w-690" src="<?php echo SPL_URL . '/assets/images/icon.svg'; ?>" aria-hidden="true" >
-						<?php echo esc_attr($More_Settings); ?>
 					</a>
 					</li>
-					<li style="margin-right:30px;">
-						<a name="font_settitng" value="" class="font_settitng">
+					<li style="margin-right:10px;">
+						<a name="font_settitng" value="" class="font_settitng" data-tooltip="<?php echo esc_attr($FONT_SETTINGS); ?>">
 						<img class="w-690" src="<?php echo SPL_URL . '/assets/images/ri_font-size-2.svg'; ?>" aria-hidden="true">
-							<?php echo esc_attr($FONT_SETTINGS); ?>
 						</a>
 				  </li>
-							<li style="margin-right:30px;"><span class="main-save spl_btn_primary" >
+							<li style="margin-right:10px;"><span class="main-save spl_btn_primary" >
 								<p class="submit">
 									<span class="btn btn-primary" onclick="javascript:splHandleFormSubmit(this)">Save</span>
 								</p>
 						   </span></li>
+						   <li>
+							<!-- A vertical line -->
+							<div class="vertical-line"></div>
+						   </li>
+						   <li style="margin-right:10px;">
+						   		<button class="btn-close" onclick="javascript:historyGoBack(this)">
+									<i class="fas fa-chevron-left"></i>
+								</button>
+						   </li>
 					   </ul>
+					   </button>
 				   </div>
 			   </div>
 		   </nav><!--End of Nav 2 --- Price List Title, Style, Save Button-->
@@ -1038,7 +1092,7 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 		<!--Section for Change Style -->
 		<!-- End Section for Change Style-->
 		<div class="show_hide_shortcode clearfix" style="display:none;">
-		  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" style="background: #fff;padding: 30px;border-radius: 10px;">
+		  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" style="padding: 30px;border-radius: 10px;">
 			  <div style="font-size:30px;font-weight:400">Shortcode</div>
 			  <div style="font-size:20px;padding-top:15px;"><b>[pricelist id="<?php  esc_html_e( $id, 'text_domain' ); ?>"]</b></div><br><br>
 			  <span style=""><a href="https://designful.freshdesk.com/en/support/solutions/articles/48001081305-important-adding-the-price-list-to-your-web-page-shortcode-" target="_blank">Important tutorial for adding the shortcode</a></span>
@@ -2748,7 +2802,6 @@ if ( array_key_exists( 'lang', $_REQUEST ) ) {
 }
 .add_to_webpage img {
 	height: 21px;
-
 }
 .add_to_webpage{
 	text-align:center;

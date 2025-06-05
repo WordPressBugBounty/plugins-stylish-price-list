@@ -1,3 +1,12 @@
+= 7.1.18 - 2025-06-05
+* Updated: Plugin footer
+* Bugfix: Style 7 - Adjust styles and fix font size for service description
+* Bugfix: Setup wizard first step options hide/reveal glitches
+* Added: Minimum width to title font style for better layout consistency
+* Added: Hover effect on header action buttons
+* Fixed: Condition for popular items display in pricelist and GUI improvements
+* Fixed: License activation issues on some servers
+
 = 7.1.17 - 2025-03-17
 * Bugfix: Fix style2 category title font-size not being applied
 * Bugfix: Fix style6 empty price item in the list

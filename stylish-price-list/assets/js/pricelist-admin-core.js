@@ -1,13 +1,31 @@
-jQuery( '.add_to_webpage' ).click( function() {
-	event.preventDefault(); jQuery( '.show_hide_shortcode' ).toggle(), jQuery( '.font_setting_container' ).hide(), jQuery( '.more_setting' ).hide();
+jQuery( '.add_to_webpage' ).click( function({currentTarget}) {
+	event.preventDefault(); 
+	jQuery('.add_to_webpage, .font_settitng, .advance_setting').not(currentTarget).removeClass('active');
+	jQuery( '.show_hide_shortcode' ).toggle(function() {
+		jQuery(currentTarget).toggleClass('active');
+	}); 
+	jQuery( '.font_setting_container' ).hide();
+	jQuery( '.more_setting' ).hide();
 } );
 
-jQuery( '.font_settitng' ).click( function() {
-	event.preventDefault(); jQuery( '.font_setting_container' ).toggle(), jQuery( '.show_hide_shortcode' ).hide(), jQuery( '.more_setting' ).hide();
+jQuery( '.font_settitng' ).click( function({currentTarget}) {
+	event.preventDefault(); 
+	jQuery('.add_to_webpage, .font_settitng, .advance_setting').not(currentTarget).removeClass('active');
+	jQuery( '.font_setting_container' ).toggle(function() {
+		jQuery(currentTarget).toggleClass('active');
+	});
+	jQuery( '.show_hide_shortcode' ).hide();
+	jQuery( '.more_setting' ).hide();
 } );
 
-jQuery( '.advance_setting' ).click( function() {
-	event.preventDefault(); jQuery( '.more_setting' ).toggle(), jQuery( '.font_setting_container' ).hide(), jQuery( '.show_hide_shortcode' ).hide();
+jQuery( '.advance_setting' ).click( function({currentTarget}) {
+	event.preventDefault(); 
+	jQuery('.add_to_webpage, .font_settitng, .advance_setting').not(currentTarget).removeClass('active');
+	jQuery( '.more_setting' ).toggle(function() {
+		jQuery(currentTarget).toggleClass('active');
+	});
+	jQuery( '.font_setting_container' ).hide();
+	jQuery( '.show_hide_shortcode' ).hide();
 } );
 
 jQuery( '.preview_list' ).click( function() {
@@ -419,7 +437,7 @@ jQuery( '.sel1' ).on(
 			jQuery( 'input[name="title_color"]' ).val( '#4d243d' ).trigger( 'change' ),
 
 			// Description
-			jQuery( 'select[name="service_description_font_size"]' ).val( '15px' ).attr( 'selected', ! 0 ),
+			jQuery( 'select[name="service_description_font_size"]' ).val( '14px' ).attr( 'selected', ! 0 ),
 			jQuery( 'select[name="service_description_font"]' ).val( 'Montserrat' ).attr( 'selected', ! 0 ),
 			jQuery( 'input[name="service_description_color"]' ).val( '#7c7c7c' ).trigger( 'change' ),
 			jQuery( 'select[name="description_font-weight"]' ).val( '300' ).attr( 'selected', ! 0 ),
@@ -686,6 +704,16 @@ if ( change_lang !== '' ) {
 		var service_des = 'Servicebeschrijving ';
 		var service_image = 'Service afbeelding';
 		var service_long_description = 'Long Description';
+	}
+}
+
+function historyGoBack(btn) {
+	event.preventDefault();
+	if (window.history.length <= 1 || document.referrer === window.location.href || document.referrer === '') {
+		window.location.href = window.location.origin + '/wp-admin/';
+		return;
+	} else {
+		window.history.back();
 	}
 }
 

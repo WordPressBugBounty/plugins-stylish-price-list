@@ -125,6 +125,8 @@ if ( ! empty( $id ) ) {
 				'settings_tooltip_title' => '',
 				'settings_tooltip_description' => '',
 				'settings_tooltip_image' => '',
+				'is_popular' => '',
+				'popular_text' => '',
 			) );
 			// run all values in $service through df_spl_remove_slash_quotes
 			$service = array_map( 'df_spl_remove_slash_quotes', $service );
@@ -144,6 +146,8 @@ if ( ! empty( $id ) ) {
 				'settings_tooltip_title' => $service['settings_tooltip_title'],
 				'settings_tooltip_description' => $service['settings_tooltip_description'],
 				'settings_tooltip_image' => $service['settings_tooltip_image'],
+				'is_popular' => $service['is_popular'],
+				'popular_text' => $service['popular_text'],
 			) );
 			$services[ $service_id ]['tooltip_config'] = [
 				'data-tooltip-title' => $services[ $service_id ]['settings_tooltip_title'],
@@ -222,9 +226,9 @@ if ( ! function_exists( 'output_service_style2' ) ) {
 						<div class="df-spl-row">
 							<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 spl_cstm_style_2_book" style="padding-left:0px;padding-top: 5px">
 								<?php if ( ! empty( $service['service_url'] ) ) { ?>
-									<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+									<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 								<?php } else { ?>
-									<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?>
+									<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 								<?php } ?>
 								<?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag' ); ?>
 							</div>
@@ -242,9 +246,9 @@ if ( ! function_exists( 'output_service_style2' ) ) {
 				<div class="df-spl-row name-price">
 					<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9" style="padding:5px 10px 0 0">
 						<?php if ( ! empty( $service['service_url'] ) ) { ?>
-							<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+							<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 						<?php } else { ?>
-							<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?>
+							<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 						<?php } ?>
 					</div>
 					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
@@ -290,9 +294,9 @@ if ( ! function_exists( 'output_service_style2_beta' ) ) {
 						<div class="df-spl-row">
 							<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 spl_cstm_style_2_book">
 								<?php if ( ! empty( $service['service_url'] ) ) { ?>
-									<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+									<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 								<?php } else { ?>
-									<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?>
+									<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 								<?php } ?>
 								<?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag' ); ?>
 							</div>
@@ -310,9 +314,9 @@ if ( ! function_exists( 'output_service_style2_beta' ) ) {
 				<div class="df-spl-row name-price">
 					<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 pl-0">
 						<?php if ( ! empty( $service['service_url'] ) ) { ?>
-							<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+							<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 						<?php } else { ?>
-							<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?>
+							<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 						<?php } ?>
 					</div>
 					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
@@ -359,9 +363,9 @@ if ( ! function_exists( 'output_service_style2_single_column' ) ) {
 						<div class="df-spl-row">
 							<div class="col-xs-6 col-sm-6 col-md-8 col-lg-8 spl_cstm_style_2_book padding-left-no">
 								<?php if ( ! empty( $service['service_url'] ) ) { ?>
-									<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+									<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 								<?php } else { ?>
-									<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?>
+									<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 								<?php } ?>
 								<?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag' ); ?>
 							</div>
@@ -378,9 +382,9 @@ if ( ! function_exists( 'output_service_style2_single_column' ) ) {
 				<div class="df-spl-row name-price">
 					<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
 						<?php if ( ! empty( $service['service_url'] ) ) { ?>
-							<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+							<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 						<?php } else { ?>
-							<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?>
+							<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 						<?php } ?>
 					</div>
 					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 padding-right-no">
@@ -440,16 +444,16 @@ if ( ! function_exists( 'output_service_col1' ) ) {
 					echo 'spl-w-80';}
 				?>
 				">
-					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 spl_cstm_style_1_book-full" style="padding:0 10px 0 0">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 spl_cstm_style_1_book-full" style="padding:0 0 0 0">
 						<?php if ( ! empty( $service['service_image'] ) ) : ?>
 						<div class="df-spl-row">
 						<?php endif; ?>
 							<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 padding-left-no spl_cstm_style_1_book ">
 								<div class="spl-title-desc">
 									<?php if ( ! empty( $service['service_url'] ) ) { ?>
-										<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+										<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 									<?php } else { ?>
-										<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?>
+										<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 									<?php } ?>
 									<?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag' ); ?>
 								</div>
@@ -479,9 +483,9 @@ if ( ! function_exists( 'output_service_col1' ) ) {
 						<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 style1" style="padding:0 10px 0 0">
 							<div class="spl-title-desc">
 								<?php if ( ! empty( $service['service_url'] ) ) { ?>
-									<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+									<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 								<?php } else { ?>
-									<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?>
+									<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 								<?php } ?>
 							</div>
 						</div>
@@ -686,16 +690,16 @@ if ( ! function_exists( 'output_service' ) ) {
 					echo 'spl-w-80';}
 				?>
 				">
-					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 spl_cstm_style_1_book-full" style="padding:0 10px 0 0">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 spl_cstm_style_1_book-full" style="padding:0 0 0 0">
 						<?php if ( ! empty( $service['service_image'] ) ) : ?>
 						<div class="df-spl-row">
 						<?php endif; ?>
 							<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 padding-left-no spl_cstm_style_1_book ">
 								<div class="spl-title-desc">
 									<?php if ( ! empty( $service['service_url'] ) ) { ?>
-										<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+										<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 									<?php } else { ?>
-										<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?>
+										<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text'] ); ?>
 									<?php } ?>
 									<?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag' ); ?>
 								</div>
@@ -725,9 +729,9 @@ if ( ! function_exists( 'output_service' ) ) {
 						<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 style1" style="padding:0 10px 0 0">
 							<div class="spl-title-desc">
 								<?php if ( ! empty( $service['service_url'] ) ) { ?>
-									<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+									<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 								<?php } else { ?>
-									<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?>
+									<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 								<?php } ?>
 							</div>
 						</div>
@@ -773,9 +777,9 @@ if ( ! function_exists( 'output_service_break_col1' ) ) {
 			<div class="df-spl-row name-price">
 				<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 custom_line">
 					<?php if ( ! empty( $service['service_url'] ) ) { ?>
-						<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+						<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 					<?php } else { ?>
-						<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?>
+						<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 					<?php } ?>
 					<span class="style-4-border style-4-width break_service"></span>
 				</div>
@@ -827,9 +831,9 @@ if ( ! function_exists( 'output_service_break' ) ) {
 			<div class="df-spl-row name-price">
 				<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 custom_line">
 					<?php if ( ! empty( $service['service_url'] ) ) { ?>
-						<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+						<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 					<?php } else { ?>
-						<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?>
+						<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 					<?php } ?>
 					<span class="style-4-border style-4-width break_service"></span>
 				</div>
@@ -882,9 +886,9 @@ if ( ! function_exists( 'output_service_style3' ) ) {
 				<?php if ( ! empty( $service['service_button'] ) ) { ?>
 					<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9" style="padding:0;">
 						<?php if ( ! empty( $service['service_url'] ) ) { ?>
-							<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+							<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 						<?php } else { ?>
-							<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?>
+							<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 							<?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag df-spl-d-ib' ); ?>
 						<?php } ?>
 					</div>
@@ -899,9 +903,9 @@ if ( ! function_exists( 'output_service_style3' ) ) {
 				<?php } else { ?>
 					<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9" style="padding:0;">
 						<?php if ( ! empty( $service['service_url'] ) ) { ?>
-							<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+							<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 						<?php } else { ?>
-							<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?>
+							<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 							<?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag df-spl-d-ib' ); ?>
 						<?php } ?>
 					</div>
@@ -941,21 +945,21 @@ if ( ! function_exists( 'output_service_style4_col1' ) ) {
 				<?php
 				if ( ! empty( $service['service_url'] ) ) {
 					?>
-					<a href="<?php echo esc_attr($service['service_url']); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+					<a href="<?php echo esc_attr($service['service_url']); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 					<?php
 				} else {
 					?>
-					<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?><?php } ?></span> <span class="style-4-border"></span><span class="style-4-productPrice style-4-width"> <?php echo df_spl_output_a_tag( $price, '', 'spl-price a-tag' ); ?></span></div><span class="df-spl-row desc spl_cstm_btn_style4"><?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag' ); ?><a href="<?php echo esc_attr($service['service_button_url']); ?>" <?php echo isset( $newTabOpen ) ? esc_attr($newTabOpen) : ''; ?> class="btn btn-book-now spl_book_now_btn_style_4"><?php echo esc_attr($service['service_button']); ?></a></span>
+					<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?><?php } ?></span> <span class="style-4-border"></span><span class="style-4-productPrice style-4-width"> <?php echo df_spl_output_a_tag( $price, '', 'spl-price a-tag' ); ?></span></div><span class="df-spl-row desc spl_cstm_btn_style4"><?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag' ); ?><a href="<?php echo esc_attr($service['service_button_url']); ?>" <?php echo isset( $newTabOpen ) ? esc_attr($newTabOpen) : ''; ?> class="btn btn-book-now spl_book_now_btn_style_4"><?php echo esc_attr($service['service_button']); ?></a></span>
 			<?php } else { ?>
 				<div class="content-section name-price clearfix"><span class="style-4-productName style-4-width">
 				<?php
 				if ( ! empty( $service['service_url'] ) ) {
 					?>
-					<a href="<?php echo esc_attr($service['service_url']); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+					<a href="<?php echo esc_attr($service['service_url']); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 					<?php
 				} else {
 					?>
-					<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?><?php } ?></span> <span class="style-4-border"></span><span class="style-4-productPrice style-4-width"> <?php echo df_spl_output_a_tag( $price, '', 'spl-price a-tag' ); ?></span></div><span class="df-spl-row desc"><?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag' ); ?></span>
+					<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?><?php } ?></span> <span class="style-4-border"></span><span class="style-4-productPrice style-4-width"> <?php echo df_spl_output_a_tag( $price, '', 'spl-price a-tag' ); ?></span></div><span class="df-spl-row desc"><?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag' ); ?></span>
 			<?php } ?>
 		</div>
 		<?php
@@ -987,21 +991,21 @@ if ( ! function_exists( 'output_service_style4' ) ) {
 				<?php
 				if ( ! empty( $service['service_url'] ) ) {
 					?>
-					<a href="<?php echo esc_attr($service['service_url']); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+					<a href="<?php echo esc_attr($service['service_url']); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 					<?php
 				} else {
 					?>
-					<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?><?php } ?></span> <span class="style-4-border"></span><span class="style-4-productPrice style-4-width"> <?php echo df_spl_output_a_tag( $price, '', 'spl-price a-tag' ); ?></span></div><span class="df-spl-row desc spl_cstm_btn_style4"><?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag' ); ?><a href="<?php echo esc_attr($service['service_button_url']); ?>" <?php echo isset( $newTabOpen ) ? esc_attr($newTabOpen) : ''; ?> class="btn btn-book-now spl_book_now_btn_style_4"><?php echo esc_attr($service['service_button']); ?></a></span>
+					<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?><?php } ?></span> <span class="style-4-border"></span><span class="style-4-productPrice style-4-width"> <?php echo df_spl_output_a_tag( $price, '', 'spl-price a-tag' ); ?></span></div><span class="df-spl-row desc spl_cstm_btn_style4"><?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag' ); ?><a href="<?php echo esc_attr($service['service_button_url']); ?>" <?php echo isset( $newTabOpen ) ? esc_attr($newTabOpen) : ''; ?> class="btn btn-book-now spl_book_now_btn_style_4"><?php echo esc_attr($service['service_button']); ?></a></span>
 			<?php } else { ?>
 				<div class="content-section name-price clearfix"><span class="style-4-productName style-4-width">
 				<?php
 				if ( ! empty( $service['service_url'] ) ) {
 					?>
-					<a href="<?php echo esc_attr($service['service_url']); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+					<a href="<?php echo esc_attr($service['service_url']); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 					<?php
 				} else {
 					?>
-					<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?><?php } ?></span> <span class="style-4-border"></span><span class="style-4-productPrice style-4-width"> <?php echo df_spl_output_a_tag( $price, '', 'spl-price a-tag' ); ?></span></div><span class="df-spl-row desc"><?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag' ); ?></span>
+					<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?><?php } ?></span> <span class="style-4-border"></span><span class="style-4-productPrice style-4-width"> <?php echo df_spl_output_a_tag( $price, '', 'spl-price a-tag' ); ?></span></div><span class="df-spl-row desc"><?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag' ); ?></span>
 			<?php } ?>
 		</div>
 		<?php
@@ -1036,9 +1040,9 @@ if ( ! function_exists( 'output_service_style5' ) ) {
 					<div class="">
 						<div class="col-md-9 col-sm-9 col-xs-9 padding-left-no spl-mr-0">
 							<?php if ( ! empty( $service['service_url'] ) ) { ?>
-								<a href="<?php echo esc_attr($service['service_url']); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+								<a href="<?php echo esc_attr($service['service_url']); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 							<?php } else { ?>
-								<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?>
+								<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 								<?php
 							}
 							echo df_spl_output_a_tag( $desc, '', 'desc a-tag' );
@@ -1054,9 +1058,9 @@ if ( ! function_exists( 'output_service_style5' ) ) {
 					<div class="">
 						<div class="col-md-9 col-sm-9 col-xs-9 padding-left-no">
 							<?php if ( ! empty( $service['service_url'] ) ) { ?>
-								<a href="<?php echo esc_attr($service['service_url']); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+								<a href="<?php echo esc_attr($service['service_url']); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 							<?php } else { ?>
-								<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?>
+								<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 								<?php
 							}
 							echo df_spl_output_a_tag( $desc, '', 'desc a-tag' );
@@ -1581,10 +1585,17 @@ if ( ! function_exists( 'output_tabs_style7' ) ) {
 	} //end output_tabs()
 } //end if !function_exists('output_tabs')
 if ( ! function_exists( 'df_spl_output_a_tag' ) ) {
-	function df_spl_output_a_tag( $text, $id = '', $class = '' ) {
+	function df_spl_output_a_tag( $text, $id = '', $class = '', $is_popular = false, $popular_text = 'Popular' ) {
 		ob_start();
 		?>
-		<div data-price-list-fragment="item_name" class="<?php echo esc_attr($class); ?>"><?php echo spl_esc_output($text); ?></div>
+		<div data-price-list-fragment="item_name" class="<?php echo esc_attr($class); ?>">
+			<span><?php echo spl_esc_output($text); ?></span>
+			<?php if ( $class === 'name a-tag' && $is_popular ) { ?>
+				<span class="spl-item-popular">
+					⭐ <?php echo esc_attr($popular_text); ?>
+				</span>
+			<?php } ?>
+		</div>
 		<?php
 		$html = ob_get_clean();
 		return $html;
@@ -1781,9 +1792,9 @@ if ( ! function_exists( 'output_service_style7' ) ) {
 					<div class="spl-seven-bottom">
 						<div class="col-md-6 col-sm-6 col-xs-6">
 							<?php if ( ! empty( $service['service_url'] ) ) { ?>
-								<a href="<?php echo esc_attr($service['service_url']); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+								<a href="<?php echo esc_attr($service['service_url']); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 							<?php } else { ?>
-								<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?>
+								<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text'] ); ?>
 								<?php
 							}
 							echo df_spl_output_a_tag( $desc, '', 'desc a-tag' );
@@ -1797,9 +1808,9 @@ if ( ! function_exists( 'output_service_style7' ) ) {
 					<div class="spl-seven-bottom">
 						<div class="col-md-9 col-sm-9 col-xs-9">
 							<?php if ( ! empty( $service['service_url'] ) ) { ?>
-								<a href="<?php echo esc_attr($service['service_url']); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+								<a href="<?php echo esc_attr($service['service_url']); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 							<?php } else { ?>
-								<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?>
+								<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text'] ); ?>
 								<?php
 							}
 							echo df_spl_output_a_tag( $desc, '', 'desc a-tag' );
@@ -1841,16 +1852,16 @@ if ( ! function_exists( 'output_service_style7b' ) ) {
 			<?php if ( ! empty( $service['service_button'] ) ) { ?>
 				<div class="df-spl-row name-price style-7 spl_cstm_style2">
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 spl_cstm_style_2_book-full">
-						<div class="df-spl-row">
-							<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 spl_cstm_style_2_book">
+						<div class="spl-d-flex spl-s7-content">
+							<div class="s7-left-content">
 								<?php if ( ! empty( $service['service_url'] ) ) { ?>
-									<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank" class="btn btn-book-now spl_book_now_btn_style_7"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+									<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank" class="btn btn-book-now spl_book_now_btn_style_7"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 								<?php } else { ?>
-									<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?>
+									<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text'] ); ?>
 								<?php } ?>
 								<?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag' ); ?>
 							</div>
-							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 right-style-2" style="padding: 5px 10px 0 0;">
+							<div class="s7-right-content">
 								<?php echo df_spl_output_a_tag( $price, '', 'spl-price a-tag spl-style-7-price' ); ?>
 								<a href="<?php echo esc_attr($service['service_button_url']); ?>" <?php echo isset( $newTabOpen ) ? esc_attr($newTabOpen) : ''; ?> class="btn btn-book-now spl_book_now_btn_style_7"><?php echo esc_attr($service['service_button']); ?></a>
 							</div>
@@ -1860,15 +1871,15 @@ if ( ! function_exists( 'output_service_style7b' ) ) {
 				<div class="spl-seven-bottom">
 				</div>
 			<?php } else { ?>
-				<div class="df-spl-row name-price">
-					<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 spl-p-0">
+				<div class="spl-d-flex spl-s7-content">
+					<div class="s7-left-content">
 						<?php if ( ! empty( $service['service_url'] ) ) { ?>
-							<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank" class="btn btn-book-now spl_book_now_btn_style_1"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+							<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank" class="btn btn-book-now spl_book_now_btn_style_1"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 						<?php } else { ?>
-							<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?>
+							<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 						<?php } ?>
 					</div>
-					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="padding:0px">
+					<div class="s7-left-content" style="padding:0px">
 						<?php echo df_spl_output_a_tag( $price, '', 'spl-price a-tag' ); ?>
 					</div>
 				</div>
@@ -1913,7 +1924,14 @@ if ( ! function_exists( 'output_service_style8' ) ) {
 					<div class="style-8-card-content">
 						<div class="style-8-title-with-pricetag">
 							<div class="style-8-title-container">
-								<h3 data-price-list-fragment="item_name"><?php echo esc_attr($name); ?></h3>
+								<h3 data-price-list-fragment="item_name">
+									<span><?php echo esc_attr($name); ?></span>
+									<?php if ( $service['is_popular'] === true ) { ?>
+										<span class="spl-item-popular">
+											⭐ <?php echo esc_attr($service['popular_text']); ?>
+										</span>
+									<?php } ?>
+								</h3>
 								<small><?php echo esc_attr($desc); ?></small>
 							</div>
 						</div>
@@ -1929,7 +1947,14 @@ if ( ! function_exists( 'output_service_style8' ) ) {
 			<div class="style-8-card-content">
 				<div class="style-8-title-with-pricetag">
 					<div class="style-8-title-container">
-						<h3 data-price-list-fragment="item_name"><?php echo esc_attr($name); ?></h3>
+						<h3 data-price-list-fragment="item_name">
+							<span><?php echo esc_attr($name); ?></span>
+							<?php if ( $service['is_popular'] === 'on' ) { ?>
+								<span class="spl-item-popular">
+									⭐ <?php echo esc_attr($service['popular_text']); ?>
+								</span>
+							<?php } ?>
+						</h3>
 						<small><?php echo esc_attr($desc); ?></small>
 					</div>
 					<div class="style-8-pricetag-container">
@@ -1972,13 +1997,13 @@ if ( ! function_exists( 'output_service_style7_single_col' ) ) {
 						<div class="df-spl-row">
 							<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 spl_cstm_style_2_book">
 								<?php if ( ! empty( $service['service_url'] ) ) { ?>
-									<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank" class="btn btn-book-now spl_book_now_btn_style_7"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+									<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank" class="btn btn-book-now spl_book_now_btn_style_7"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 								<?php } else { ?>
-									<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?>
+									<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 								<?php } ?>
 								<?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag' ); ?>
 							</div>
-							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 right-style-2" style="padding: 5px 10px 0 0;">
+							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 right-style-2">
 								<?php echo df_spl_output_a_tag( $price, '', 'spl-price a-tag spl-style-7-price' ); ?>
 								<a href="<?php echo esc_attr($service['service_button_url']); ?>" <?php echo isset( $newTabOpen ) ? esc_attr($newTabOpen) : ''; ?> class="btn btn-book-now spl_book_now_btn_style_7"><?php echo esc_attr($service['service_button']); ?></a>
 							</div>
@@ -1991,9 +2016,9 @@ if ( ! function_exists( 'output_service_style7_single_col' ) ) {
 				<div class="df-spl-row name-price">
 					<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
 						<?php if ( ! empty( $service['service_url'] ) ) { ?>
-							<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank" class="btn btn-book-now spl_book_now_btn_style_1"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?></a>
+							<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank" class="btn btn-book-now spl_book_now_btn_style_1"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 						<?php } else { ?>
-							<?php echo df_spl_output_a_tag( $name, '', 'name a-tag' ); ?>
+							<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 						<?php } ?>
 					</div>
 					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
@@ -3165,6 +3190,10 @@ if ( $style == 'style_8' ) :
 				</div>
 				<ul class="spl-s10-list-wrapper <?php echo $number_of_cols === 'two' ? 'spl-s10-two-cols' : ''; ?>">
 					<?php foreach ($current_cats_items as $cat_item_key => $item_data) {
+							// check if $key is non numeric, cause somehow it's 'background_color' and 'text_color' are being added to the array
+							if ( ! is_numeric( $cat_item_key ) ) {
+								continue;
+							}
 							$item_data['price'] = empty($item_data['settings_compare_at']) ? $item_data['price'] : '<s>'.$item_data['settings_compare_at'].'</s>'. ' ' . $item_data['price'];
 						?>	
 						<li class="spl-s10-list-item spl-item-root" <?php foreach ($item_data['tooltip_config'] as $key => $value) {
@@ -3172,7 +3201,14 @@ if ( $style == 'style_8' ) :
 							echo esc_attr($key) . '="' . esc_attr($value) . '" ';
 						} ?>>
 							<div class="item-title-desc-wrapper">
-								<p data-price-list-fragment="item_name" class="spl-s10-bold"><?php echo sanitize_text_field($item_data['name']); ?></p>
+								<p data-price-list-fragment="item_name" class="spl-s10-bold">
+									<span><?php echo sanitize_text_field($item_data['name']); ?></span>
+									<?php if ( $item_data['is_popular'] === 'on' ) { ?>
+										<span class="spl-item-popular">
+											⭐ <?php echo esc_attr($item_data['popular_text']); ?>
+										</span>
+									<?php } ?>
+								</p>
 								<p class="spl-s10-muted"><?php echo sanitize_text_field($item_data['desc']); ?></p>
 							</div>
 							<?php if (! ( empty( $item_data['price'] ) && empty( $item_data['service_button_url'] ) && empty( $item_data['service_button'] ) ) ) : ?>
@@ -3652,7 +3688,14 @@ if ( $style == 'style_6' ) {
 							<img src="<?php echo esc_url($item_data['service_image']); ?>">
 						<?php } ?>
 						<div>
-							<h3><?php echo sanitize_text_field($item_data['name']); ?></h3>
+							<h3>
+								<span><?php echo sanitize_text_field($item_data['name']); ?></span>
+								<?php if ( $item_data['is_popular'] === 'on' ) { ?>
+									<span class="spl-item-popular">
+										⭐ <?php echo esc_attr($item_data['popular_text']); ?>
+									</span>
+								<?php } ?>
+							</h3>
 							<p class="spl-s6-muted"><?php echo sanitize_text_field($long_description); ?></p>	
 							<?php if (! ( empty( $item_data['price'] ) && empty( $item_data['service_button_url'] ) && empty( $item_data['service_button'] ) ) ) : ?>
 								<div class="price">
@@ -3786,6 +3829,11 @@ if ( $style == 'style_6' ) {
 						--df-spl-style8-tab-font-size: <?php echo esc_attr($tab_size); ?>;
 					}
 	<?php } ?>
+	
+					#spl_<?php echo esc_attr($id); ?>.price_wrapper .spl-item-popular,
+					#spl_<?php echo esc_attr($id); ?>.style-10 .spl-item-popular {
+						background-color: <?php echo esc_attr($price_color); ?>;
+					}
 			<?php
 			if ( ! empty( $title_font ) ) :
 				?>
@@ -4313,7 +4361,6 @@ if ( $style == 'style_6' ) {
 
 	#spl_<?php echo esc_attr($id); ?> .custom-description-section {
 		text-align: center;
-		padding-bottom: 30px;
 		color: <?php echo isset( $tab_description_color ) ? esc_attr($tab_description_color) : '#999'; ?>;
 		font-family: <?php echo esc_attr($tab_description_font); ?>;
 		font-size: <?php echo ! empty( $tab_description_font_size ) ? esc_attr($tab_description_font_size) : 'inherit'; ?>;

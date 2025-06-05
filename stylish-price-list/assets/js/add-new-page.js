@@ -630,6 +630,9 @@ function showModal( modalElementSelector, modalContentData, isFirstModal = false
 			}
 			if ( evt.target.checked ) {
 				businessNameWrapper.classList.remove( 'd-none' );
+				if ( businessNameWrapper.querySelector('input')?.value?.length > 0 ) {
+					industryTypeWrapper.classList.remove( 'd-none' );
+				}
 			} else {
 				businessNameWrapper.classList.add( 'd-none' );
 				industryTypeWrapper.classList.add( 'd-none' );
@@ -888,8 +891,9 @@ function updateQuizAnswersStore( evt, inputOriginStep ) {
 		if ( inputField.name === 'business-name' && inputField.value.length === 0 ) {
 			document.querySelector( '#industryTypeWrapper' ).classList.add( 'd-none' );
 		}
+		const hasOneOfTheChoicesPicked = Object.values(quizAnswersStore['step1']).filter(q => q === false).length < 5;
 		const bothFieldsFulfilled = quizAnswersStore[ inputOriginStep ][ 'business-name' ]?.length && quizAnswersStore[ inputOriginStep ][ 'industry-type' ]?.length;
-		if ( bothFieldsFulfilled ) {
+		if ( bothFieldsFulfilled && hasOneOfTheChoicesPicked ) {
 			document.querySelector( '#firstStepNextBtn' ).classList.remove( 'd-none' );
 		} else {
 			document.querySelector( '#firstStepNextBtn' ).classList.add( 'd-none' );

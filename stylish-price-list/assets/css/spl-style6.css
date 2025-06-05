@@ -240,6 +240,7 @@ ul.spl-s6-list-wrapper .service-item > div {
   
   .service-item h3 {
     margin-top: 10px;
+    margin-bottom: 0;
   }
   
   .service-item p {

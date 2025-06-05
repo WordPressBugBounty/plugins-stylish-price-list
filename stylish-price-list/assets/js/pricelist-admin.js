@@ -39,6 +39,8 @@ function copy_service( copy_icon ) {
 			product_img: '.spl_service_image_element img[src]',
 			product_img_url: '.spl_service_image_element input[type="hidden"]',
 			compare_at_price: 'input.service-compare-at-price',
+			is_popular: 'input.is_popular',
+			popular_text: 'input.popular_text',
 			tooltip_title: 'input.service-tooltip-title',
 			tooltip_description: 'input.service-tooltip-description',
 			tooltip_img: 'img.service-tooltip-image',
@@ -55,6 +57,10 @@ function copy_service( copy_icon ) {
 					current_service_row_data[ e ] = service_rows_wrapper.find( service_row_data_nodes[ e ] ).attr( 'value' );
 					return;
 				}
+				if ( e == 'is_popular' ) {
+					current_service_row_data[ e ] = service_rows_wrapper.find( service_row_data_nodes[ e ] ).prop( 'checked' );
+					return;
+				}
 				current_service_row_data[ e ] = service_rows_wrapper.find( service_row_data_nodes[ e ] ).val();
 			},
 		);
@@ -67,6 +73,10 @@ function copy_service( copy_icon ) {
 				}
 				if ( e == 'product_img_url' ) {
 					service_rows_clone.find( service_row_data_nodes[ e ] ).attr( 'value', current_service_row_data[ e ] );
+					return;
+				}
+				if ( e == 'is_popular' ) {
+					service_rows_clone.find( service_row_data_nodes[ e ] ).prop( 'checked', current_service_row_data[ e ] );
 					return;
 				}
 				service_rows_clone.find( service_row_data_nodes[ e ] ).val( current_service_row_data[ e ] );
