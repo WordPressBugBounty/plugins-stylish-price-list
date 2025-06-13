@@ -1,3 +1,6 @@
+= 7.1.19 - 2025-06-13
+* Bugfix: fix minor issues in style picker in the plugin header
+
 = 7.1.18 - 2025-06-05
 * Updated: Plugin footer
 * Bugfix: Style 7 - Adjust styles and fix font size for service description

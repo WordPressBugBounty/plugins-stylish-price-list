@@ -560,7 +560,7 @@ window.onload = function() {
 
 	jQuery(document).on('change', '.spl-list-type-selector', function() {
 		const listType = jQuery(this).val();
-		const listTemplate = jQuery(this).next();
+		const listTemplate = jQuery('.sel1[name="tab_style"]');
 		if(listType == 'price_list') {
 			jQuery('.spl-list-option').removeClass('df-spl-d-none');
 			jQuery('.spl-table-option').addClass('df-spl-d-none');
@@ -571,9 +571,167 @@ window.onload = function() {
 			jQuery('.spl-list-option').addClass('df-spl-d-none');
 			jQuery('.spl-table-option').removeClass('df-spl-d-none');
 			jQuery('.spl-pricing-table-row').removeClass('df-spl-d-none');
+			jQuery('.sel1[name="tab_style"]').val('style_5');
 			jQuery('.service_price').closest('.service-price-length').addClass('df-spl-d-none');
 		}
 		listTemplate.val('');
 	});
+
+
+	var isStyleChangeAccepted = true;
+	jQuery(".sel1").change(function (e) {
+	// check for isNoModal variable sent from trigger events
+	var isNoModal = e.noModal ? e.noModal : false
+	if (jQuery(this).val() == "with_tab") {
+		false == isNoModal && jQuery('#sell1').removeClass('fade').show(300).trigger('show.bs.modal');
+		// jQuery('.spl_service_image_element').hide();
+		jQuery('.service_long_description').closest('.service-price-length').hide();
+		jQuery('#style5_category_container').css('display', 'none')
+	}
+	if (jQuery(this).val() == "without_tab") {
+		!(isNoModal) && jQuery('#sell2').removeClass('fade').show(300).trigger('show.bs.modal');
+		jQuery('.spl_service_image_element').hide();
+		jQuery('.service_long_description').closest('.service-price-length').hide();
+		jQuery('#style5_category_container').css('display', 'none')
+	}
+	if (jQuery(this).val() == "without_tab_single_column") {
+		!(isNoModal) && jQuery('#sell2').removeClass('fade').show(300).trigger('show.bs.modal');
+		jQuery('.spl_service_image_element').hide();
+		jQuery('.service_long_description').closest('.service-price-length').hide();
+		jQuery('#style5_category_container').css('display', 'none')
+	}
+	if (jQuery(this).val() == "style_3") {
+		!(isNoModal) && jQuery('#sell3').removeClass('fade').show(300).trigger('show.bs.modal');
+		jQuery('.spl_service_image_element').hide();
+		jQuery('.service_long_description').closest('.service-price-length').hide();
+		jQuery('#style5_category_container').css('display', 'none')
+	}
+	if (jQuery(this).val() == "style_4") {
+		!(isNoModal) && jQuery('#sell4').removeClass('fade').show(300).trigger('show.bs.modal');
+		jQuery('.spl_service_image_element').hide();
+		jQuery('.service_long_description').closest('.service-price-length').hide();
+		jQuery('#style5_category_container').css('display', 'none')
+	}
+	if (jQuery(this).val() == "style_5") {
+		!(isNoModal) && jQuery('#sell5').removeClass('fade').show(300).trigger('show.bs.modal');
+		jQuery('.spl_service_image_element').hide();
+		jQuery('.service_long_description').closest('.service-price-length').hide();
+		jQuery('#style5_category_container').css('display', 'block')
+	}
+	if (jQuery(this).val() == "style_6") {
+		!(isNoModal) && jQuery('#sell6').removeClass('fade').show(300).trigger('show.bs.modal');
+		jQuery('.spl_service_image_element').show();
+		jQuery('.service_long_description').closest('.service-price-length').hide();
+		jQuery('#style5_category_container').css('display', 'none')
+	}
+	if (jQuery(this).val() == "style_7") {
+		!(isNoModal) && jQuery('#sell7').removeClass('fade').show(300).trigger('show.bs.modal');
+		jQuery('.spl_service_image_element').hide();
+		jQuery('.service_long_description').closest('.service-price-length').hide();
+		jQuery('#style5_category_container').css('display', 'none')
+	}
+	if (jQuery(this).val() == "style_8") {
+		!(isNoModal) && jQuery('#sell8').removeClass('fade').show(300).trigger('show.bs.modal');
+		jQuery('.spl_service_image_element').show();
+		jQuery('.service_long_description').closest('.service-price-length').hide();
+		jQuery('#style5_category_container').css('display', 'none')
+	}
+	if (jQuery(this).val() == "style_10") {
+		!(isNoModal) && jQuery('#sell10').removeClass('fade').show(300).trigger('show.bs.modal');
+		jQuery('.df-spl-row.category-cover-image-row').show();
+		jQuery('.service_long_description').closest('.service-price-length').hide();
+		jQuery('#style5_category_container').css('display', 'none');
+	}
+	if (jQuery(this).val() !== "style_10") {
+		// !(isNoModal) && jQuery('#sell7').modal('show');
+		jQuery('.df-spl-row.category-cover-image-row').hide();
+	}
+
+	if (jQuery(this).val() == "style_table_1") {
+		!(isNoModal) && jQuery('#selt1').removeClass('fade').show(300).trigger('show.bs.modal');
+		jQuery('.df-spl-row.category-cover-image-row').show();
+		jQuery('.service_long_description').closest('.service-price-length').hide();
+		jQuery('#style5_category_container').css('display', 'none');
+	}
+	if (jQuery(this).val() == "style_table_2") {
+		!(isNoModal) && jQuery('#selt2').removeClass('fade').show(300).trigger('show.bs.modal');
+		jQuery('.df-spl-row.category-cover-image-row').show();
+		jQuery('.service_long_description').closest('.service-price-length').hide();
+		jQuery('#style5_category_container').css('display', 'none');
+	}
+});
+	function handleFeedbackButtons(btn, event) {
+	  event.preventDefault();
+	  console.log();
+	  jQuery.post(ajaxurl, {
+		'action': 'df_spl_feedback_manage',
+		'btn-type': jQuery(btn).data('btnType'),
+		'_ajax_nonce' : jQuery(btn).parent().data('nonce')
+	}, function(response) {
+		jQuery('#userSurvey').addClass('fade').hide(300).trigger('hide.bs.modal');
+		var link = jQuery(btn).attr('href');
+		if (link) {
+			window.open(link, '_blank');
+		}
+	});
+  }
+// Register modals and the buttons inside it functions
+var modalTags = ['#sell1', '#sell2', '#sell3', '#sell4', '#sell5', '#sell6', '#sell7', '#sell8', '#sell10', '#selt1', '#selt2'];
+;(function(elements) {
+	elements.forEach(e => {
+		jQuery(e).on('show.bs.modal', function (e) {
+			var previousStyleValue = styleDropdown.data('prev');
+			jQuery(this).find('.cancel-btn').add('button[data-dismiss="modal"]', this).on('click', ee => {
+				isStyleChangeAccepted = false;
+				debugger;
+				jQuery(this).addClass('fade').hide(300).trigger('hide.bs.modal');
+				jQuery(ee.target).unbind();
+				// set previous selected style and stop popup from invoking
+				styleDropdown.val(previousStyleValue)
+				.trigger({
+					type: 'change',
+					noModal: true
+				});
+			});
+			jQuery(this).find('[data-btnType="keep-current"]').on('click', ee => {
+				ee.target.innerHTML = '<i class="gg-spinner"></i>';
+				if (styleDropdown.val() == 'style_3') {
+					jQuery( 'select[name="select_column"] option:eq(0)' ).text( 'Two' );
+					jQuery( 'select[name="select_column"]' ).val( 'Two' );
+				} else {
+					jQuery( 'select[name="select_column"] option:eq(0)' ).text( 'Columns' );
+				}
+				jQuery(ee.target).unbind();
+				jQuery('#submit_tabs').click();
+			});
+			jQuery(this).find('[data-btnType="use-demo"]').on('click', ee => {
+				ee.target.innerHTML = '<i class="gg-spinner"></i>';
+				// sending events so the events function will execute
+				styleDropdown.trigger('load-demo-settings');
+
+				if (styleDropdown.val() == 'style_3') {
+					jQuery( 'select[name="select_column"] option:eq(0)' ).text( 'Two' );
+					jQuery( 'select[name="select_column"]' ).val( 'Two' );
+				} else {
+					jQuery( 'select[name="select_column"] option:eq(0)' ).text( 'Columns' );
+				}
+				jQuery(ee.target).unbind();
+				jQuery('#submit_tabs').click();
+			});
+		});
+		jQuery(e).on('hide.bs.modal', function (e) {
+			debugger;
+			isStyleChangeAccepted && styleDropdown.data('prev', styleDropdown.val());
+			// reset style change value
+			isStyleChangeAccepted = true;
+		});
+	})
+})(modalTags);
+jQuery('#dropdown_tips').add('#not_an_image_warning').add('#image_bad_aspect_ratio_warning').on('show.bs.modal', function (e) {
+	jQuery(this).find('span[data-dismiss="modal"]', this).on('click', ee => {
+		jQuery(this).addClass('fade').hide(300).trigger('hide.bs.modal');
+		jQuery(ee.target).unbind();
+	});
+});
 
 		
