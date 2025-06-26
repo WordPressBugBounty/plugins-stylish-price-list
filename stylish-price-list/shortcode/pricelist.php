@@ -109,8 +109,6 @@ function spl_js_css_enqueue_scripts_admin( $hook ) {
 	wp_register_style( 'spl-add-new-page', SPL_URL . 'assets/css/add-new-page.css', array(), df_spl_get_file_version( SPL_DIR . 'assets/css/add-new-page.css' ) );
 	wp_register_script( 'spl-no-ui-slider', SPL_URL . 'assets/js/nouislider.min.js', array(), df_spl_get_file_version( SPL_DIR . '/assets/js/nouislider.min.js' ), true );
 	wp_register_style( 'spl-no-ui-slider', SPL_URL . 'assets/css/nouislider.css', array(), df_spl_get_file_version( SPL_DIR . 'assets/css/nouislider.css' ) );
-	wp_enqueue_style( 'spl-tomselect' );
-	wp_enqueue_script( 'spl-tomselect' );
 	wp_localize_script(
 		'spl-pricelist-admin',
 		'SPL_admin_url',

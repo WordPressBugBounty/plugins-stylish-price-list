@@ -12,6 +12,8 @@ wp_enqueue_style( 'spl-bootstrap-min' );
 wp_enqueue_style( 'spl-list-style' );
 wp_enqueue_style( 'spl-admin-style' );
 wp_enqueue_style( 'spl-admin-fonts' );
+wp_enqueue_style( 'spl-tomselect' );
+wp_enqueue_script( 'spl-tomselect' );
 wp_enqueue_style( 'spl-jquery-ui', SPL_URL . 'assets/css/jquery-ui.css', array(), '1.1' );
 wp_localize_script(
 	'spl-pricelist-admin',
@@ -46,7 +48,7 @@ $get_fonts_options        = $opt['get_fonts_options'];
 $max_cat_count            = $opt['max_cat_count'];
 $max_service_count        = $opt['max_service_count'];
 $max_list_count           = $opt['max_list_count'];
-$update_state             = $opt[hex2bin('6c6963656e7365')];
+$update_state             = isset( $opt[hex2bin('6c6963656e7365')] ) ? $opt[hex2bin('6c6963656e7365')] : null;
 $current_max_input_var    = ini_get( 'max_input_vars' );
 if ( $list_count >= $max_list_count && empty( $id ) ) {
 	echo df_spl_want_more_lists();
@@ -107,7 +109,7 @@ $optionArr                 = array(
 );
 
 if ( ! empty( $id ) ) {
-	$cats_data = df_spl_get_option( $id );
+	$cats_data = df_spl_get_option( $id, 'editor' );
 	
 	$list_name         = isset( $cats_data['list_name'] ) ? $cats_data['list_name'] : ''; //$cats_data['list_name']
 	$list_type         = isset( $cats_data['list_type'] ) ? $cats_data['list_type'] : ''; //$cats_data['list_type']
@@ -369,7 +371,7 @@ function df_spl_want_more_lists() {
 	?>
 	<div class="body-inner container-fluid" style="max-width:900px;margin-left:0px;">
 		<div class="df-spl-row cats-row">
-			You're using the free version of this plugin, you can only use a maximum of 2 lists, 3 categories and 4 services. You can purchase a license to add unlimited lists and services. and categories. <a href="https://stylishpricelist.com/"> Purchase Here</a>
+			You're using the free version of this plugin, you can only use a maximum of 1 lists, 5 categories and 30 services. You can purchase a license to add unlimited lists and services. and categories. <a href="https://stylishpricelist.com/"> Purchase Here</a>
 		</div>
 	</div>
 	<?php
@@ -852,6 +854,7 @@ if ( ! function_exists( 'category_row' ) ) {
 							<div class="df-spl-row service-price-length">
 								<div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 lbl">
 									<label data-tooltip-image-key="button" for="category_<?php echo $cat_id . "_" . $service_id; ?>_service_button">Button Text</label>
+									<img class="spl-icon-info d-none premium-cta" src="<?php echo SPL_URL . '/assets/images/info-red.svg'; ?>" alt="some image"  title="This feature is available in the PRO version. Click the info icon to upgrade."/>
 								</div>
 								<div class="col-xs-6 col-sm-7 col-md-7 col-lg-7">
 									<div class="d-flex align-items-center justify-content-between gap-10">
@@ -862,6 +865,7 @@ if ( ! function_exists( 'category_row' ) ) {
 							<div class="df-spl-row service-price-length">
 								<div class="col-xs-6 col-sm-5 col-md-5 col-lg-5 lbl">
 									<label data-tooltip-image-key="button" for="category_<?php echo $cat_id . "_" . $service_id; ?>_service_button_url">Button URL</label>
+									<img class="spl-icon-info d-none premium-cta" src="<?php echo SPL_URL . '/assets/images/info-red.svg'; ?>" alt="some image"  title="This feature is available in the PRO version. Click the info icon to upgrade."/>
 								</div>
 								<div class="col-xs-6 col-sm-7 col-md-7 col-lg-7">
 									<input type="text" class="form-control service_button_url" value="<?php echo $service_button_url; ?>" name="category[<?php echo $cat_id . "][" . $service_id; ?>][service_button_url]" id="category_<?php echo $cat_id . "_" . $service_id; ?>_service_button_url">
@@ -2979,6 +2983,7 @@ window.onclick = function(event) {
 		array(
 			'maxCats'      => $max_cat_count,
 			'maxService'   => $max_service_count,
+			'maxList'      => $max_list_count,
 			'update_state' => '$update_state'
 		)
 	);

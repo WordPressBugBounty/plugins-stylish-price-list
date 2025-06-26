@@ -111,7 +111,7 @@ jQuery( '.sel1' ).on(
 			jQuery( 'input[name="title_color"]' ).val( '#65b5a8' ).trigger( 'change' ),
 
 			// Description
-			jQuery( 'select[name="service_description_font_size"]' ).val( '16px' ).attr( 'selected', ! 0 ),
+			jQuery( 'select[name="service_description_font_size"]' ).val( '14px' ).attr( 'selected', ! 0 ),
 			jQuery( 'select[name="service_description_font"]' ).val( 'Gothic-A1' ).attr( 'selected', ! 0 ),
 			jQuery( 'input[name="service_description_color"]' ).val( '#aaaaaa' ).trigger( 'change' ),
 			jQuery( 'select[name="description_font-weight"]' ).val( '400' ).attr( 'selected', ! 0 ),
@@ -378,16 +378,16 @@ jQuery( '.sel1' ).on(
 			jQuery( '[name="select_column"]' ).val( 'Two' ),
 
 			// Title
-			jQuery( 'select[name="title_font_size"]' ).val( '50px' ).attr( 'selected', ! 0 ),
+			jQuery( 'select[name="title_font_size"]' ).val( '44px' ).attr( 'selected', ! 0 ),
 			jQuery( 'input[name="title_color_top"]' ).val( '#353535' ).trigger( 'change' ),
 			jQuery( 'select[name="list_name_font"]' ).val( 'Poppins' ).attr( 'selected', ! 0 ),
-			jQuery( 'select[name="title_font-weight"]' ).val( '400' ).attr( 'selected', ! 0 ),
+			jQuery( 'select[name="title_font-weight"]' ).val( '600' ).attr( 'selected', ! 0 ),
 
 			// Category Tab
-			jQuery( 'select[name="tab_font_size"]' ).val( '16px' ).attr( 'selected', ! 0 ),
+			jQuery( 'select[name="tab_font_size"]' ).val( '18px' ).attr( 'selected', ! 0 ),
 			jQuery( 'select[name="title_font"]' ).val( 'Open-Sans' ).attr( 'selected', ! 0 ),
 			jQuery( 'select[name="tab_font-weight"]' ).val( '400' ).attr( 'selected', ! 0 ),
-			jQuery( 'input[name="title_color"]' ).val( '#353535' ).trigger( 'change' ),
+			jQuery( 'input[name="title_color"]' ).val( '#1B1A19' ).trigger( 'change' ),
 
 			// Description
 			jQuery( 'select[name="service_description_font_size"]' ).val( '14px' ).attr( 'selected', ! 0 ),
@@ -396,23 +396,23 @@ jQuery( '.sel1' ).on(
 			jQuery( 'select[name="description_font-weight"]' ).val( '400' ).attr( 'selected', ! 0 ),
 
 			// Item Name
-			jQuery( 'select[name="service_font_size"]' ).val( '17px' ).attr( 'selected', ! 0 ),
+			jQuery( 'select[name="service_font_size"]' ).val( '18px' ).attr( 'selected', ! 0 ),
 			jQuery( 'input[name="service_color"]' ).val( '#545454' ).trigger( 'change' ),
 			jQuery( 'select[name="desc_font"]' ).val( 'Roboto' ).attr( 'selected', ! 0 ),
-			jQuery( 'input[name="hover_color"]' ).val( '#457a01' ),
-			jQuery( 'select[name="service_font-weight"]' ).val( '400' ).attr( 'selected', ! 0 ),
+			jQuery( 'input[name="hover_color"]' ).val( '#00FD3F' ),
+			jQuery( 'select[name="service_font-weight"]' ).val( '700' ).attr( 'selected', ! 0 ),
 
 			// Price
-			jQuery( 'select[name="price_font"]' ).val( 'Asap' ).attr( 'selected', ! 0 ),
-			jQuery( 'input[name="price_color"]' ).val( '#457a01' ).trigger( 'change' ),
-			jQuery( 'select[name="service_price_font_size"]' ).val( '17px' ).attr( 'selected', ! 0 ),
-			jQuery( 'select[name="service_price_font-weight"]' ).val( '400' ).attr( 'selected', ! 0 ),
+			jQuery( 'select[name="price_font"]' ).val( 'Roboto' ).attr( 'selected', ! 0 ),
+			jQuery( 'input[name="price_color"]' ).val( '#53A768' ).trigger( 'change' ),
+			jQuery( 'select[name="service_price_font_size"]' ).val( '16px' ).attr( 'selected', ! 0 ),
+			jQuery( 'select[name="service_price_font-weight"]' ).val( '600' ).attr( 'selected', ! 0 ),
 			//   jQuery('select[name="title_font-weight"]').val("Raleway").attr("selected",!0),
 
 			// Category Description
 			jQuery( 'select[name="tab_description_font_size"]' ).val( '' ).attr( 'selected', ! 0 ),
 			jQuery( 'select[name="tab_description_font"]' ).val( 'Open-Sans' ).attr( 'selected', ! 0 ),
-			jQuery( 'input[name="tab_description_color"]' ).val( '#000' ).trigger( 'change' ),
+			jQuery( 'input[name="tab_description_color"]' ).val( '#54BEAB' ).trigger( 'change' ),
 			jQuery( 'select[name="tab_description_font-weight"]' ).val( '400' ).attr( 'selected', ! 0 )
 		);
 	},

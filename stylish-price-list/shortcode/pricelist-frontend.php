@@ -22,6 +22,7 @@ if ( ! empty( $id ) ) {
 	$default                                     = isset( $cats_data['default_tab'] ) ? $cats_data['default_tab'] : '';
 	$select_column                               = isset( $cats_data['select_column'] ) ? $cats_data['select_column'] : '';
 	$list_name                                   = df_spl_remove_slash_quotes( $cats_data['list_name'] );
+	$list_description                            = df_spl_remove_slash_quotes( trim( $cats_data['price_list_desc'] ) );
 	$list_type                                   = isset( $cats_data['list_type'] ) ? $cats_data['list_type'] : '';
 	$spl_remove_title                            = isset( $cats_data['spl_remove_title'] ) ? $cats_data['spl_remove_title'] : '';
 	$hover_color                                 = isset( $cats_data['hover_color'] ) ? $cats_data['hover_color'] : '';
@@ -3594,11 +3595,16 @@ if ( $style == 'style_6' ) {
 					});
 					navTargetParent.classList.add('active');
 					const targetItemCategoryKey = navTarget.getAttribute('data-target-cat-key');
+					const targetItemCategoryDescKey = targetItemCategoryKey;
+					const excludedItemsDesc = pricelistRoot.querySelectorAll(`.style-6-custom-description-section:not([data-target-cat-desc-key="${targetItemCategoryDescKey}"])`);
 					const priceItemNodes = pricelistRoot.querySelectorAll('.service-item');
 					const targetItems = pricelistRoot.querySelectorAll(`.service-item[data-cat-key="${targetItemCategoryKey}"]`);
 					if ( ! targetItemCategoryKey ) {
 						priceItemNodes.forEach((priceItemNode) => {
 							priceItemNode.classList.remove('spl-hidden');
+						});
+						excludedItemsDesc.forEach((excludedItemDesc) => {
+							excludedItemDesc.classList.add('spl-hidden');
 						});
 						return;
 					}
@@ -3608,6 +3614,13 @@ if ( $style == 'style_6' ) {
 					});
 					targetItems.forEach((targetItem) => {
 						targetItem.classList.remove('spl-hidden');
+					});
+					const targetItemsDesc = pricelistRoot.querySelectorAll(`.style-6-custom-description-section[data-target-cat-desc-key="${targetItemCategoryDescKey}"]`);
+					excludedItemsDesc.forEach((excludedItemDesc) => {
+						excludedItemDesc.classList.add('spl-hidden');
+					});
+					targetItemsDesc.forEach((targetItemDesc) => {
+						targetItemDesc.classList.remove('spl-hidden');
 					});
 				});
 				if ( navTarget.parentElement.classList.contains('default') ) {
@@ -3620,9 +3633,10 @@ if ( $style == 'style_6' ) {
 		<?php if ( intval( $cats_data['spl_remove_title'] ) === 0 ) { ?>
 		<div class="spl-s6-title-wrapper">
 			<div class="spl-s6-title"><?php echo esc_attr($list_name); ?></div>
+			<div class="spl-s6-title-desc"><?php echo esc_attr($list_description); ?></div>
 		</div>
 		<?php } ?>
-		<div>
+		<div class="spl-s6-nav-wrapper">
 		<?php if ( $show_dropdown ) : ?>
 				<select class="cats-dd-style6" autocomplete="off" <?php if ($dropdown_mobile_no_keyboard == '1') echo 'data-no-keyboard-popup=1' ?>>
 					<?php echo output_dropdown_choices( $cats, $id, $toggle_all_tab == 1, $default, $all_tab ); ?>
@@ -3661,6 +3675,16 @@ if ( $style == 'style_6' ) {
 				</div>
 			</nav>
 		<?php endif; ?>
+		</div>
+		<div class="spl-s6-title-desc-wrapper">
+		<?php foreach ($cats as $cat_key => $cat) {
+			if ( ! empty( $cat['description'] ) ) {
+				?>
+				<div class="style-6-custom-description-section spl-hidden" data-target-cat-desc-key="<?php echo esc_attr($cat_key); ?>">
+					<?php echo spl_esc_output( nl2br( trim( $cat['description'] ) ) ); ?>
+				</div>
+			<?php } ?>
+		<?php } ?>
 		</div>
 		<?php
 		$all_services = array();
@@ -3780,7 +3804,7 @@ if ( $style == 'style_6' ) {
 	<?php
 	if ( ! empty( $tab_size ) ) :
 		?>
-		#spl_<?php echo esc_attr($id); ?>.price_wrapper ul.tab-links_spl li a,
+		#spl_<?php echo esc_attr($id); ?>.price_wrapper ul.tab-links_spl:not(.style-6) li a,
 	#spl_<?php echo esc_attr($id); ?>.price_wrapper h3.tab-links_spl {
 		font-size: <?php echo esc_attr($tab_size); ?> !important;
 		padding-right: 5px !important;
@@ -3789,7 +3813,7 @@ if ( $style == 'style_6' ) {
 		letter-spacing: .15em;
 	}
 
-	#spl_<?php echo esc_attr($id); ?>.price_wrapper .tabs_spl ul.tab-links_spl li:before {
+	#spl_<?php echo esc_attr($id); ?>.price_wrapper .tabs_spl ul.tab-links_spl:not(.style-6) li:before {
 		font-size: <?php echo esc_attr($tab_size); ?> !important;
 	}
 
@@ -4426,10 +4450,11 @@ if ( $style == 'style_6' ) {
 		<?php } ?>
 	}
 	#spl_<?php echo esc_attr($id); ?>.price_wrapper .txt-button-style3:hover {
-		background-color: <?php echo esc_attr($title_color_top); ?> !important;
-		color: #fff;
+		background-color: #fff !important;
+		color: <?php echo esc_attr($title_color_top); ?>;
 		font-family: <?php echo splPrintFontName( $title_font ); ?>;
 		border: 1px solid  <?php echo esc_attr($title_color_top); ?>;
+		transition: all 0.3s ease;
 	}
 	#spl_<?php echo esc_attr($id); ?>.price_wrapper .txt-button-style3 {
 		font-family: <?php echo splPrintFontName( $title_font ); ?>;
@@ -4534,15 +4559,15 @@ Style
 		color:#E6A900;
 	}
 	.txt-button-style3{
-		background:white;
-		border: 1px solid #E6A900;
+		background: <?php echo esc_attr($title_color_top); ?>;
+		color: #fff;
+		border: 1px solid <?php echo esc_attr($title_color_top); ?>;
 		float: right;
 		font-size:12px;
 		line-height: 15px;
 		border-radius:20px;
 		padding: 6px 14px;
 		text-decoration:none;
-
 	}
 	
 	@media screen and (max-width: 600px) {

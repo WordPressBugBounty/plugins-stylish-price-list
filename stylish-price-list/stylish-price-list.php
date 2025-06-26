@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		Plugin Name: Stylish Price List
 		Plugin URI:  https://stylishpricelist.com/
 		Description: Build a stylish price list for your business
-		Version:     7.1.19
+		Version:     7.1.20
 		Author:      Designful
 		Author URI:  https://stylishpricelist.com/
 		License:     GPL2
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		Domain Path: /languages
 		Text Domain: spl
 	*/
-		define( 'STYLISH_PRICE_LIST_VERSION', '7.1.19' );
+		define( 'STYLISH_PRICE_LIST_VERSION', '7.1.20' );
 		define( 'STYLISH_PRICE_LIST_BETA', false );
 		define( 'SPL_URL', plugin_dir_url( __FILE__ ) );
 		define( 'SPL_ASSETS_URL', SPL_URL . 'assets/' );
@@ -98,13 +98,43 @@ class Stylish_Price_List {
 			),
 			function ( $d ) {
 				if ( empty( $this->prepare_hooks()[1] ) ) {
-					$data = 'eyJnb29nbGVfZm9udHNfcHJldmlld19vdXQiOiJob3dfdG9fZ2V0X2dvb2dsZV9mb250cyIsImh0bWxfb3V0IjoiaGlkZGVuX2h0bWwiLCJnZXRfZm9udHNfb3B0aW9ucyI6ImdldF9mb250c19mYW1pbHlfb3B0aW9ucyIsIm1heF9saXN0X2NvdW50IjoyLCJtYXhfY2F0X2NvdW50Ijo0LCJtYXhfc2VydmljZV9jb3VudCI6NH0=';
+					$data = 'eyJnb29nbGVfZm9udHNfcHJldmlld19vdXQiOiJob3dfdG9fZ2V0X2dvb2dsZV9mb250cyIsImh0bWxfb3V0IjoiaGlkZGVuX2h0bWwiLCJnZXRfZm9udHNfb3B0aW9ucyI6ImdldF9mb250c19mYW1pbHlfb3B0aW9ucyIsIm1heF9saXN0X2NvdW50IjoxLCJtYXhfY2F0X2NvdW50Ijo0LCJtYXhfc2VydmljZV9jb3VudCI6MzB9';
 					return json_decode( base64_decode( $data ), true );
 				}
 				return $d;
 			},
 			10
 		);
+		add_filter( 'pricelist-form-data', function( $cats_data, $opt ) {
+			$is_alt_mode = isset( $opt ['max_list_count'] ) && intval( $opt ['max_list_count'] ) === 1;
+			// write var_export to file
+			// $file_path = SPL_DIR . '/cats_data.txt';
+			// file_put_contents( $file_path, var_export( $cats_data, true ) );
+			if ( $is_alt_mode ) {
+				// Iterate through all categories
+				if ( isset( $cats_data['category'] ) && is_array( $cats_data['category'] ) ) {
+					foreach ( $cats_data['category'] as $cat_key => $category ) {
+						// Iterate through all services in each category
+						if ( is_array( $category ) ) {
+							foreach ( $category as $service_key => $service ) {
+								// Check if this is a service (has numeric key) and has service_image property
+								if ( is_numeric( $service_key ) && isset( $service['service_image'] ) ) {
+									$cats_data['category'][$cat_key][$service_key]['service_image'] = '';
+								}
+								// service_button
+								if ( is_numeric( $service_key ) && isset( $service['service_button'] ) ) {
+									$cats_data['category'][$cat_key][$service_key]['service_button'] = '';
+									$cats_data['category'][$cat_key][$service_key]['service_button_url'] = '';
+								}
+							}
+						}
+					}
+				}
+				$cats_data['enable_searchbar'] = 0;
+				$cats_data['enable_seo_jsonld'] = 0;
+			}
+			return $cats_data;
+		}, 10, 2 );
 	}
 	function activation() {
 	}

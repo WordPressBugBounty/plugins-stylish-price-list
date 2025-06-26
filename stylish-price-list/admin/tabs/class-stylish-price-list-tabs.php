@@ -265,6 +265,8 @@ class Stylish_Price_List_Tabs {
 	public function plugin_page_assisted_new() {
 		wp_enqueue_style( 'spl-add-new-page' );
 		wp_enqueue_script( 'spl-add-new-page' );
+		wp_enqueue_style( 'spl-tomselect' );
+		wp_enqueue_script( 'spl-tomselect' );
 		// wp_enqueue_style( 'spl-bootstrap-min' );
 		wp_enqueue_style( 'spl-list-style' );
 		wp_enqueue_style( 'spl-admin-style' );

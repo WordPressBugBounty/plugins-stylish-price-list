@@ -1,3 +1,40 @@
+const htmlNodesManager = {
+	priceListNodes: null,
+	pricingTableNodes: null,
+	
+	backupHtmlNodes: function() {
+		if (!this.priceListNodes) {
+			this.priceListNodes = jQuery('.spl-list-option').detach();
+		}
+		if (!this.pricingTableNodes) {
+			this.pricingTableNodes = jQuery('.spl-table-option').detach();
+		}
+	},
+	
+	restorePriceListNodes: function() {
+		if (this.priceListNodes) {
+			this.priceListNodes.each( ( index, node ) => {
+				node.classList.remove('df-spl-d-none');
+			});
+			jQuery('select[name="tab_style"]').append(this.priceListNodes);
+			this.priceListNodes = null;
+		}
+	},
+	
+	restorePricingTableNodes: function() {
+		if (this.pricingTableNodes) {
+			this.pricingTableNodes.each( ( index, node ) => {
+				node.classList.remove('df-spl-d-none');
+			});
+			jQuery('select[name="tab_style"]').append(this.pricingTableNodes);
+			this.pricingTableNodes = null;
+		}
+	},
+	flushChoices: function() {
+		this.priceListNodes = jQuery('.spl-list-option').detach();
+		this.pricingTableNodes = jQuery('.spl-table-option').detach();
+	},
+};
 
 function add_service( service_link ) {
 	checkIfMaxVarsReached();
@@ -175,13 +212,12 @@ jQuery( "input[type='checkbox']" ).each(
 );
 
 function loadStylishUploadButton( queryRoot = document ) {
-	// if ( jQuery('.stylish-upload-btn .upload-btn', queryRoot ).attr( 'data-event-listener-registered' ) === '1' ) {
-	// 	return;
-	// }
+	if ( splSettings.maxList === 1 ) {
+		return;
+	}
 	jQuery('.stylish-upload-btn .upload-btn', queryRoot).click(function () {
 		jQuery(this).siblings('input[type="file"]').click();
 	});
-	// jQuery('.stylish-upload-btn .upload-btn').attr( 'data-event-listener-registered', 1 );
 }
 
 const handlePreviewDockMode = ( element, mode, event, scrollTo = true ) => {
@@ -404,7 +440,7 @@ function splOnMediaImageSelect( mediaUploader, inputSrc ) {
 
 // initiate tooltip
 
-window.onload = function() {
+window.onload = function($) {
 	jQuery('[title]').tooltip();
 	jQuery( '[data-tooltip-image-key]' ).tooltip({
 		classes: {
@@ -417,6 +453,68 @@ window.onload = function() {
 			return `<img src=${imageLink} style="height: 430px;">`;
 		}
 	});
+	if ( splSettings.maxList === 1 ) {
+		jQuery( '.service-advance-settings .upload-btn' ).text( 'This feature is available in the PRO version.' );
+		jQuery( '.service-advance-settings input.service_button' ).attr( 'disabled', true );
+		jQuery( '.service-advance-settings input.service_button_url' ).attr( 'disabled', true );
+		jQuery( '.premium-cta' ).removeClass( 'd-none' );
+		const searchBarSettings = jQuery( '[name="enable_searchbar"]' );
+		searchBarSettings.attr( 'disabled', true );
+		const iconSearchBarSettings = searchBarSettings.closest( '.more_setting' ).find( '.spl-icon-info:not([data-image-tooltip])' );
+		let altIcon = iconSearchBarSettings.attr( 'src' );
+		altIcon = altIcon.replace( 'info.svg', 'info-red.svg' );
+		iconSearchBarSettings.attr( 'src', altIcon );
+		iconSearchBarSettings.removeClass( 'd-none' );
+		iconSearchBarSettings.attr( 'title', 'This feature is available in the PRO version. Click the info icon to upgrade.' );
+		iconSearchBarSettings.on( 'click', ( evt ) => {
+			evt.preventDefault();
+			window.open( 'https://stylishpricelist.com?utm_source=inside-plugin&utm_medium=buy-premium-cta-icon', '_blank' );
+		} );
+		const jsonldSettings = jQuery( '#jsonld_currency' );
+		jsonldSettings.attr( 'disabled', true );
+		const iconJsonldSettings = jsonldSettings.closest( '.more_setting' ).find( '.spl-icon-info:not([data-image-tooltip])' );
+		iconJsonldSettings.attr( 'src', altIcon );
+		iconJsonldSettings.removeClass( 'd-none' );
+		iconJsonldSettings.attr( 'title', 'This feature is available in the PRO version. Click the info icon to upgrade.' );
+		iconJsonldSettings.on( 'click', ( evt ) => {
+			evt.preventDefault();
+			window.open( 'https://stylishpricelist.com?utm_source=inside-plugin&utm_medium=buy-premium-cta-icon', '_blank' );
+		} );
+		const jsonldPriceCurrencySettings = jQuery( '#jsonld_price_currency' );
+		jsonldPriceCurrencySettings.attr( 'disabled', true );
+		const iconJsonldPriceCurrencySettings = jsonldPriceCurrencySettings.closest( '.more_setting' ).find( '.spl-icon-info:not([data-image-tooltip])' );
+		iconJsonldPriceCurrencySettings.attr( 'src', altIcon );
+		iconJsonldPriceCurrencySettings.removeClass( 'd-none' );
+		iconJsonldPriceCurrencySettings.attr( 'title', 'This feature is available in the PRO version. Click the info icon to upgrade.' );
+		iconJsonldPriceCurrencySettings.on( 'click', ( evt ) => {
+			evt.preventDefault();
+			window.open( 'https://stylishpricelist.com?utm_source=inside-plugin&utm_medium=buy-premium-cta-icon', '_blank' );
+		} );
+		const enableSeoJsonldSettings = jQuery( '[name="enable_seo_jsonld"]' );
+		enableSeoJsonldSettings.attr( 'disabled', true );
+		const iconEnableSeoJsonldSettings = enableSeoJsonldSettings.closest( '.more_setting' ).find( '.spl-icon-info:not([data-image-tooltip])' );
+		iconEnableSeoJsonldSettings.removeClass( 'd-none' );
+		iconEnableSeoJsonldSettings.attr( 'src', altIcon );
+		iconEnableSeoJsonldSettings.attr( 'title', 'This feature is available in the PRO version. Click the info icon to upgrade.' );
+		iconEnableSeoJsonldSettings.on( 'click', ( evt ) => {
+			evt.preventDefault();
+			window.open( 'https://stylishpricelist.com?utm_source=inside-plugin&utm_medium=buy-premium-cta-icon', '_blank' );
+		} );
+		const showDropdownSettings = jQuery( '[name="show_dropdown"]' );
+		showDropdownSettings.attr( 'disabled', true );
+		const iconShowDropdownSettings = showDropdownSettings.closest( '.more_setting' ).find( '.spl-icon-info:not([data-image-tooltip])' );
+		iconShowDropdownSettings.removeClass( 'd-none' );
+		iconShowDropdownSettings.attr( 'src', altIcon );
+		iconShowDropdownSettings.attr( 'title', 'This feature is available in the PRO version. Click the info icon to upgrade.' );
+		iconShowDropdownSettings.on( 'click', ( evt ) => {
+			evt.preventDefault();
+			window.open( 'https://stylishpricelist.com?utm_source=inside-plugin&utm_medium=buy-premium-cta-icon', '_blank' );
+		} );
+		jQuery( '.premium-cta' ).on( 'click', ( evt ) => {
+			evt.preventDefault();
+			window.open( 'https://stylishpricelist.com?utm_source=inside-plugin&utm_medium=buy-premium-cta-icon', '_blank' );
+		} );
+	}
 	const accordions = document.querySelectorAll('.styled-accordion .title');
 	accordions.forEach((accordion) => {
 		accordion.addEventListener('click', (event) => {
@@ -446,6 +544,15 @@ window.onload = function() {
 			colorPicker.color  = evt.target.value;
 		});
 	});
+
+	const listType = jQuery('.spl-list-type-selector').val();
+	if ( listType == 'price_list' ) {
+		htmlNodesManager.backupHtmlNodes();
+		htmlNodesManager.restorePriceListNodes();
+	} else if ( listType == 'pricing_table' ) {
+		htmlNodesManager.backupHtmlNodes();
+		htmlNodesManager.restorePricingTableNodes();
+	}
 
 	loadStylishUploadButton();
 
@@ -562,14 +669,14 @@ window.onload = function() {
 		const listType = jQuery(this).val();
 		const listTemplate = jQuery('.sel1[name="tab_style"]');
 		if(listType == 'price_list') {
-			jQuery('.spl-list-option').removeClass('df-spl-d-none');
-			jQuery('.spl-table-option').addClass('df-spl-d-none');
+			htmlNodesManager.backupHtmlNodes();
+			htmlNodesManager.restorePriceListNodes();
 			jQuery('.spl-pricing-table-row').addClass('df-spl-d-none');
 			jQuery('.service_price').closest('.service-price-length').removeClass('df-spl-d-none');
 		}
 		else {
-			jQuery('.spl-list-option').addClass('df-spl-d-none');
-			jQuery('.spl-table-option').removeClass('df-spl-d-none');
+			htmlNodesManager.backupHtmlNodes();
+			htmlNodesManager.restorePricingTableNodes();
 			jQuery('.spl-pricing-table-row').removeClass('df-spl-d-none');
 			jQuery('.sel1[name="tab_style"]').val('style_5');
 			jQuery('.service_price').closest('.service-price-length').addClass('df-spl-d-none');
@@ -683,7 +790,6 @@ var modalTags = ['#sell1', '#sell2', '#sell3', '#sell4', '#sell5', '#sell6', '#s
 			var previousStyleValue = styleDropdown.data('prev');
 			jQuery(this).find('.cancel-btn').add('button[data-dismiss="modal"]', this).on('click', ee => {
 				isStyleChangeAccepted = false;
-				debugger;
 				jQuery(this).addClass('fade').hide(300).trigger('hide.bs.modal');
 				jQuery(ee.target).unbind();
 				// set previous selected style and stop popup from invoking
@@ -720,7 +826,6 @@ var modalTags = ['#sell1', '#sell2', '#sell3', '#sell4', '#sell5', '#sell6', '#s
 			});
 		});
 		jQuery(e).on('hide.bs.modal', function (e) {
-			debugger;
 			isStyleChangeAccepted && styleDropdown.data('prev', styleDropdown.val());
 			// reset style change value
 			isStyleChangeAccepted = true;

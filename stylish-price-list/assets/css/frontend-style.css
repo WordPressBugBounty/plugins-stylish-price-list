@@ -921,7 +921,6 @@ h4.title-font {
 		width: 48%;
 		float: left;
 		padding: 0 18px;
-		margin-bottom: 20px
 	}
 	.spl-style-5,
 	.spl-style-5 .desc,
@@ -1025,7 +1024,6 @@ h4.title-font {
 	}
 	.left-side-style5 .style-five {
 		width: 100%;
-		margin-bottom: 14px;
 		box-shadow: none
 	}
 	.right-side-style5 {
@@ -1039,7 +1037,6 @@ h4.title-font {
 	.right-side-style5 .style-five {
 		width: 100%;
 		box-shadow: none;
-		margin-bottom: 14px
 	}
 	.left-side-style5 .a-tag,
 	.right-side-style5 .a-tag {
@@ -1432,6 +1429,8 @@ h4.title-font {
 	}
 	.with_tab .col-xs-12.col-sm-6.col-md-6.col-lg-6.name-price-desc {
 		align-items: center;
+		border-bottom: 1px solid #ddd3d3ad;
+		padding-bottom: 10px;
 	}
 	.with_tab .col-xs-12.col-sm-6.col-md-6.col-lg-6.name-price-desc img {
 		border-radius: 5px;
@@ -1927,6 +1926,10 @@ h4.style-6-2-price {
 	padding-right: 0;
 }
 
+.df-spl-style7_cat_tab .tab-content1 .spl-item-root {
+	padding-right: 15px;
+}
+
 .spl-item-popular {
 	font-size: 60%;
     padding: 4px 7px;
@@ -1969,7 +1972,10 @@ h4.style-6-2-price {
 	align-items: center;
 }
 .name-price-desc.spl-style-5 {
-	padding: 0;
+	padding: 20px 0 20px 0;
+}
+.style-five.spl-item-root:not(:last-child) .name-price-desc.spl-style-5 {
+	border-bottom: 1px solid #c3c4c7;
 }
 nav.pricelist-searchbar {
 	float: right;

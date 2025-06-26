@@ -50,9 +50,13 @@ function df_spl_delete_tabs_by_id( $id ) {
 	$option_name = df_spl_get_option_name( $id );
 	delete_option( $option_name );
 }
-function df_spl_get_option( $id ) {
+function df_spl_get_option( $id, $context = 'frontend' ) {
 	$option_name = df_spl_get_option_name( $id );
 	$cats_data   = get_option( $option_name );
+	if ( $context === 'frontend' ) {
+		$opt         = apply_filters( 'post-spricelist-form', df_spl_get_options() );
+		$cats_data   = apply_filters( 'pricelist-form-data', $cats_data, $opt );
+	}
 	return $cats_data;
 }
 function df_spl_clean( $var ) {

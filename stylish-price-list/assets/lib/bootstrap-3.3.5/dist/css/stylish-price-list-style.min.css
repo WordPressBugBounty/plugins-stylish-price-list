@@ -1303,6 +1303,9 @@
 	 border-radius: 8px;
 	 transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
  }
+ .price_wrapper .form-control.price_list_desc {
+	height: unset !important;
+ }
  .price_wrapper .form-control:focus {
 	box-shadow: none;
 	border: #5bb3a7 1px solid;
