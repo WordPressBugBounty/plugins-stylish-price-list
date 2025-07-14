@@ -122,6 +122,13 @@ const dfSPLHandleTooltips = ( priceListId ) => {
 
 jQuery( document ).ready(
 	function( $ ) {
+		// style 6 mobile view detect, and remove the two column class if it's mobile view
+		const style6MobileView = isBreakPoint( 600 ) || isBreakPoint( 480 );
+		if ( style6MobileView ) {
+			document.querySelectorAll('.style-6').forEach(style6 => {
+				style6.querySelector( '.spl-s6-list-wrapper' ).classList.remove('spl-s6-two-cols');
+			});
+		}
 		$( '.spl_main_content_box[id^="spl_"]' ).each(
 			( ii, ee ) => {
 				const listId = $( ee ).attr( 'id' ).replace( 'spl_', '' );

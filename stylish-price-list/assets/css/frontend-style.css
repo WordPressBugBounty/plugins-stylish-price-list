@@ -290,8 +290,19 @@ div.masonary-section ul {
 	grid-template-columns: 50% 50%;
     gap: 0 1rem;
 }
-.price_wrapper .head-title span:not(.spl-icon-wrapper):not(.style5) {
+.price_wrapper .head-title span:not(.spl-icon-wrapper):not(.style5):not(.style-7-title) {
 	margin-bottom: 30px !important;
+	text-align: center;
+	font-size: 1.625rem;
+	font-weight: 300;
+	clear: both;
+	line-height: 1.4;
+	margin: 0 0 .75em;
+	padding: 0 0 0;
+	display: block
+}
+.price_wrapper .head-title span.style-7-title {
+	margin-bottom: 10px !important;
 	text-align: center;
 	font-size: 1.625rem;
 	font-weight: 300;
@@ -390,7 +401,7 @@ span.style-4-productName {
 	max-width: 40%
 }
 span.style-4-productName span {
-	background: #fff;
+	background: transparent;
 	z-index: 10;
 	position: relative;
 	padding-right: 10px
@@ -1899,7 +1910,7 @@ h4.style-6-2-price {
 	font-weight: bold;
 	vertical-align: middle;
 	line-height: 25px;
-	height: 89px;
+	height: 50px;
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
@@ -2270,6 +2281,14 @@ input.spl-mysearch:focus-visible {
 	margin: 10px 0 0 0;
 }
 
+.style-7-title-wrapper {
+	margin-bottom: 1rem;
+}
+
+.pt-0 {
+	padding-top: 0 !important;
+}
+
 @keyframes fade {
 	0% {
 		opacity: 0;
@@ -2397,9 +2416,6 @@ input.spl-mysearch:focus-visible {
 		width: 50%;
 	}
 
-	.df-spl-style-seven-head > .df-spl-style7_cat_tab-container a {
-		height: 50px;
-	}
 
 	.df-spl-row .right-side-style7 {
 		width: unset;

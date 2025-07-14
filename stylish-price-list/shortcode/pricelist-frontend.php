@@ -2976,6 +2976,18 @@ if ( $style == 'style_5' ) {
 if ( $style == 'style_7' ) {
 	?>
 	<div class="body-inner container-fluid price_wrapper df-spl-pull-left col-md-12 spl_main_content_box" id="spl_<?php echo esc_attr($id); ?>" data-config=<?php echo esc_js( json_encode( $pricelist_config ) ); ?> data-style="7" style="max-width:1200px;margin-left:auto;margin-right:auto; ">
+		<div class="head-title">
+			<span class="style-7-title">
+			<?php
+			if ( $spl_remove_title != 1 ) {
+						echo esc_attr($list_name);
+			}
+			?>
+					</span>
+		</div>
+		<?php if ( $price_list_desc != '' ) { ?>
+			<div class="custom-description-section pt-0"><?php echo spl_esc_output( preg_replace( '/[\n\r]/', '<br />', str_replace( '\"', '"', str_replace( "\'", "'", stripslashes( $price_list_desc ) ) ) ) ); ?></div>
+		<?php } ?>
 		<div class="df-spl-row df-spl-style-seven-head">
 			<?php if ( ! $show_dropdown ) : ?>
 				<div class="df-spl-style7_cat_tab-container tabs_spl">

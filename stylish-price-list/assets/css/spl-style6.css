@@ -12,6 +12,10 @@ ul.spl-s6-list-wrapper .service-item > div {
     flex-wrap: wrap;
 }
 
+.style-6 .price {
+    gap: 10px;
+}
+
 .spl-s6-two-cols .spl-s6-list-item {
     width: 50%;
     flex: 0 0 auto;
@@ -137,7 +141,7 @@ ul.spl-s6-list-wrapper .service-item > div {
     padding-top: 0 !important;
 }
 .spl-s6-title-desc-wrapper {
-    margin-bottom: 1rem;
+    margin: 1rem 0;
 }
 
 .spl-s6-top-cat-title {
@@ -250,7 +254,6 @@ ul.spl-s6-list-wrapper .service-item > div {
   .style-6-custom-description-section {
     margin-bottom: 0;
     padding-bottom: 0;
-    margin-top: 1rem;
     text-align: center;
     color: var(--spl-s6-cat-desc-color);
     font-family: var(--spl-s6-cat-desc-font-style);
@@ -314,11 +317,12 @@ ul.spl-s6-list-wrapper .service-item > div {
     margin-right: 10px;
   }
   
-  .buy-now {
+  .style-6 .buy-now {
     background-color: var(--spl-s6-price-color);
     color: white;
     border: none;
     padding: 5px 10px;
+    white-space: nowrap;
     border-radius: 5px;
     cursor: pointer;
     font-family: var(--spl-s6-price-font-style);
@@ -326,8 +330,8 @@ ul.spl-s6-list-wrapper .service-item > div {
     font-size: var(--spl-s6-price-font-size);
     text-decoration: none;
   }
-  .buy-now:focus,
-  .buy-now:hover {
+  .style-6 .buy-now:focus,
+  .style-6 .buy-now:hover {
     outline: none;
     color: white;
   }
