@@ -15,12 +15,12 @@ $action = isset($_GET['action']) ? sanitize_text_field($_GET['action']) : '';
 		</a>
 		<?php
 		$opt = get_option( 'spllk_opt' );
-		if ( empty( $opt ) ) {
+		if ( empty( $opt ) || ( isset( $opt['license'] ) && $opt['license'] !== 'valid' ) ) {
 			?>
 			<span class="spl_plug_ver">Demo</span>
 			<?php
 		}
-		if ( ! empty( $opt ) ) {
+		if ( ! empty( $opt ) && ( isset( $opt['license'] ) && $opt['license'] === 'valid' ) ) {
 			?>
 			<span class="spl_plug_ver">Premium</span>
 		<?php } ?>

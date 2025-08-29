@@ -440,7 +440,27 @@ function splOnMediaImageSelect( mediaUploader, inputSrc ) {
 
 // initiate tooltip
 
-window.onload = function($) {
+// Function to initialize the plugin once dependencies are available
+function initializeStylishPriceListBackend(maxAttempts = 50) { // Max 5 seconds (50 * 100ms)
+	// Prevent multiple initializations
+	if (window.splInitialized) {
+		return;
+	}
+	
+	// Check if required dependencies are available
+	if (typeof window.splSettings === 'undefined' || !window.splSettings || 
+		typeof window.itemFieldTooltipImages === 'undefined' || !window.itemFieldTooltipImages) {
+		// If we've tried too many times, give up
+		if (maxAttempts <= 0) {
+			console.warn('Stylish Price List: Dependencies not available after maximum attempts');
+			return;
+		}
+		// Wait a bit and try again
+		setTimeout(() => initializeStylishPriceListBackend(maxAttempts - 1), 100);
+		return;
+	}
+	
+	// All dependencies are available, proceed with initialization
 	jQuery('[title]').tooltip();
 	jQuery( '[data-tooltip-image-key]' ).tooltip({
 		classes: {
@@ -449,11 +469,17 @@ window.onload = function($) {
 		items: ".service-price-length .lbl",
 		content: function() {
 			const {tooltipImageKey} = this.querySelector('[data-tooltip-image-key]').dataset;
-			const imageLink = itemFieldTooltipImages[tooltipImageKey];
-			return `<img src=${imageLink} style="height: 430px;">`;
+			// Safety check for itemFieldTooltipImages
+			if ( typeof window.itemFieldTooltipImages !== 'undefined' && window.itemFieldTooltipImages ) {
+				const imageLink = window.itemFieldTooltipImages[tooltipImageKey];
+				return `<img src=${imageLink} style="height: 430px;">`;
+			}
+			return '';
 		}
 	});
-	if ( splSettings.maxList === 1 ) {
+	
+	// Safety check for splSettings before using it
+	if ( typeof window.splSettings !== 'undefined' && window.splSettings && window.splSettings.maxList === 1 ) {
 		jQuery( '.service-advance-settings .upload-btn' ).text( 'This feature is available in the PRO version.' );
 		jQuery( '.service-advance-settings input.service_button' ).attr( 'disabled', true );
 		jQuery( '.service-advance-settings input.service_button_url' ).attr( 'disabled', true );
@@ -615,8 +641,22 @@ window.onload = function($) {
 		jQuery('.service_price').closest('.service-price-length').addClass('df-spl-d-none');
 	}
 	
+	// Mark as initialized to prevent multiple runs
+	window.splInitialized = true;
+	
 	
 };
+
+// Start the initialization process
+initializeStylishPriceListBackend();
+
+// Also try to initialize when DOM is ready as a backup
+jQuery(document).ready(function() {
+	// If not already initialized, try again
+	if (!window.splInitialized && typeof window.splSettings !== 'undefined' && window.splSettings) {
+		initializeStylishPriceListBackend();
+	}
+});
 	
 	jQuery(document).on('click', '.delete-icon', function() {
 		var container = jQuery(this).closest('.spl-container-test');

@@ -4195,6 +4195,12 @@ if ( $style == 'style_6' ) {
 	#spl_<?php echo esc_attr($id); ?>.price_wrapper .spl_book_now_btn_style_1 {
 		color: <?php echo esc_attr($price_color); ?> !important;
 		border: 1px solid <?php echo esc_attr($price_color); ?> !important;
+		
+	}
+	#spl_<?php echo esc_attr($id); ?>.price_wrapper .spl_book_now_btn_style_1:hover {
+		border: 1px solid  <?php echo esc_attr( $hover_color ); ?>;
+		background:<?php echo esc_attr( $hover_color ); ?>;
+		border: 1px solid <?php echo esc_attr( $hover_color ); ?>;
 	}
 
 	/*style 2 book now button color*/
@@ -4543,10 +4549,8 @@ Style
 	.spl_book_now_btn_style_1 {
 		width:76px;
 		height:28px;
-		border: 1px solid  #E6A900;
 		background:white;
 		border-radius:5px !important;
-		border: 1px solid #E6A900 !important;
 		text-decoration:none;
 		color:#E6A900 !important;
 		fon-size:12px;
@@ -4555,14 +4559,9 @@ Style
 	.spl_book_now_btn_style_1:hover {
 		width:76px;
 		height:28px;
-		border: 1px solid  #E6A900;
-		background:#E6A900;
 		border-radius:5px !important;
-		border: 1px solid #E6A900;
 		text-decoration:none;
 		color:white !important;
-		fon-size:12px;
-
 	}
 	.df-spl-level .style-1{
 		color:#E6A900;

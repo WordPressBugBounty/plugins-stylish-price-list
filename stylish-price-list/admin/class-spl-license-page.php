@@ -269,7 +269,7 @@ class SPL_LicensePage {
 					<div class="p-5 bg-white rounded">
 						<div class="text-center">
 							<?php 
-							$action = empty( $opt ) || $opt['license'] !== 'valid' ? 'active' : 'deactivate';
+							$action = empty( $opt ) || ( isset( $opt['license'] ) && $opt['license'] !== 'valid' ) ? 'active' : 'deactivate';
 							?>
 							<div class="scc-license-intro-hero w-50 mx-auto">
 								<?php if ( $action == 'active' ) { ?>

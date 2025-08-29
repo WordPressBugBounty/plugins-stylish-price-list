@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 footer-demo-section">
 			<?php
 			$opt = get_option( 'spllk_opt' );
-			if ( empty( $opt ) || $opt['license'] !== 'valid' ) {
+			if ( empty( $opt ) || ( isset( $opt['license'] ) && $opt['license'] !== 'valid' ) ) {
 				echo '<p class="free_version">You are using the <span class="highlighted">free (demo)</span> version of the plugin. Click <span class="highlighted"><a href="https://stylishpricelist.com?utm_source=inside-plugin&utm_medium=buy-premium-cta-banner">here</a></span> to buy the pro version.</p>';
 			}
 			?>

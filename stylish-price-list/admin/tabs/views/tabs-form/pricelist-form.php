@@ -998,12 +998,12 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 		</a>
 		<?php
 		$opt = get_option( 'spllk_opt' );
-		if ( empty( $opt ) ) {
+		if ( empty( $opt ) || ( isset( $opt['license'] ) && $opt['license'] !== 'valid' ) ) {
 			?>
 			<span class="spl_plug_ver">Demo</span>
 			<?php
 		}
-		if ( ! empty( $opt ) ) {
+		if ( ! empty( $opt ) && ( isset( $opt['license'] ) && $opt['license'] === 'valid' ) ) {
 			?>
 			<span class="spl_plug_ver">Premium</span>
 		<?php } ?>
@@ -2196,10 +2196,14 @@ if ( $service_description_color != '' ) {
 		</div> <!-- category-row-template -->
 			<?php
 			$opt = get_option( 'spllk_opt' );
-			if ( empty( $opt ) || $opt['license'] !== 'valid' ) {
+			if ( empty( $opt ) ) {
 				echo '<div class="free_version alert alert2 bg-warning">
 					<p>You are using the <span class="highlighted">free (demo)</span> version of the plugin. Click <span class="highlighted"><a href="https://stylishpricelist.com?utm_source=inside-plugin&utm_medium=buy-premium-cta-banner">here</a></span> to buy the premium version.</p>
-					<p class="text-danger d-none" id="edit-page-alert">Your License key has been expired. Some features might not work properly. Please renew. <a href="'. esc_attr( admin_url('admin.php?page=stylish_price_list_license') ) . '">Go to license manager</a></p>
+				</div>';
+			}
+			if ( ( isset( $opt['license'] ) && $opt['license'] !== 'valid' ) ) {
+				echo '<div class="free_version alert alert2 bg-warning">
+					<p class="text-danger" id="edit-page-alert">Your License key has been expired. Some features might not work properly. Please renew. <a href="'. esc_attr( admin_url('admin.php?page=stylish_price_list_license') ) . '">Go to license manager</a></p>
 				</div>';
 			}
 			?>
