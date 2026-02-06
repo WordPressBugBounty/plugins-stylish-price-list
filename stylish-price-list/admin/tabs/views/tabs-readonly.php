@@ -21,10 +21,28 @@ function df_spl_row( $key, $value ) {
 <div class="wrap">
 	<h2><?php esc_html_e( 'Refer', 'c9s' ); ?></h2>
 	<?php // $item = df_spl_get_tabs_by_id( $id ); ?>
-	<?php $refer = unserialize( $item->refer ); ?>
+	<?php
+	$refer = array();
+	if ( isset( $item->refer ) ) {
+		$raw_refer = $item->refer;
+		if ( is_array( $raw_refer ) ) {
+			$refer = $raw_refer;
+		} elseif ( is_string( $raw_refer ) && $raw_refer !== '' ) {
+			$json = json_decode( $raw_refer, true );
+			if ( json_last_error() === JSON_ERROR_NONE && is_array( $json ) ) {
+				$refer = $json;
+			} elseif ( function_exists( 'is_serialized' ) && is_serialized( $raw_refer ) ) {
+				$unserialized = @unserialize( $raw_refer, array( 'allowed_classes' => false ) );
+				if ( is_array( $unserialized ) ) {
+					$refer = $unserialized;
+				}
+			}
+		}
+	}
+	?>
 	<table>
 		<tbody>
-			<?php foreach ( $refer as $key => $value ) : ?>
+			<?php foreach ( (array) $refer as $key => $value ) : ?>
 				<?php echo df_spl_row( $key, $value ); ?>
 			<?php endforeach ?>
 		 </tbody>

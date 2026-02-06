@@ -822,7 +822,7 @@ if ( ! function_exists( 'category_row' ) ) {
 									<label for="category_<?php echo $cat_id . "_" . $service_id; ?>_service_image">Image</label>
 								</div>
 								<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 spl_service_image_element">
-									<img class="preview" src="<?php echo empty( $service_image ) ? SPL_DEFAULT_THUMBNAIL : $service_image; ?>" width="45px;" height="45px;" />
+									<img class="preview" src="<?php echo esc_url( empty( $service_image ) ? SPL_DEFAULT_THUMBNAIL : $service_image ); ?>" width="45px;" height="45px;" />
 								</div>
 								<div class="col-xs-6 col-sm-7 col-md-7 col-lg-7 stylish-upload-btn">
 									<input type="file" id="category_<?php echo $cat_id . "_" . $service_id; ?>_service_image" class="form-control service_image">
@@ -846,7 +846,7 @@ if ( ! function_exists( 'category_row' ) ) {
 								</div>
 								<div class="col-xs-6 col-sm-7 col-md-7 col-lg-7">
 									<div class="d-flex align-items-center justify-content-between gap-10">
-										<input type="text" value="<?php echo $settings_compare_at; ?>" class="form-control service-compare-at-price" placeholder="Set here comparison price" name="category[<?php echo $cat_id . "][" . $service_id; ?>][settings_compare_at]" id="category_<?php echo $cat_id . "_" . $service_id; ?>_settings_compare_at">
+										<input type="text" value="<?php echo esc_attr( $settings_compare_at ); ?>" class="form-control service-compare-at-price" placeholder="Set here comparison price" name="category[<?php echo $cat_id . "][" . $service_id; ?>][settings_compare_at]" id="category_<?php echo $cat_id . "_" . $service_id; ?>_settings_compare_at">
 									</div>
 								</div>
 							</div>
@@ -858,7 +858,7 @@ if ( ! function_exists( 'category_row' ) ) {
 								</div>
 								<div class="col-xs-6 col-sm-7 col-md-7 col-lg-7">
 									<div class="d-flex align-items-center justify-content-between gap-10">
-										<input type="text" class="form-control service_button" value="<?php echo $service_button; ?>" name="category[<?php echo $cat_id . "][" . $service_id; ?>][service_button]" id="category_<?php echo $cat_id . "_" . $service_id; ?>_service_button">
+										<input type="text" class="form-control service_button" value="<?php echo esc_attr( $service_button ); ?>" name="category[<?php echo $cat_id . "][" . $service_id; ?>][service_button]" id="category_<?php echo $cat_id . "_" . $service_id; ?>_service_button">
 									</div>
 								</div>
 							</div>
@@ -868,7 +868,7 @@ if ( ! function_exists( 'category_row' ) ) {
 									<img class="spl-icon-info d-none premium-cta" src="<?php echo SPL_URL . '/assets/images/info-red.svg'; ?>" alt="some image"  title="This feature is available in the PRO version. Click the info icon to upgrade."/>
 								</div>
 								<div class="col-xs-6 col-sm-7 col-md-7 col-lg-7">
-									<input type="text" class="form-control service_button_url" value="<?php echo $service_button_url; ?>" name="category[<?php echo $cat_id . "][" . $service_id; ?>][service_button_url]" id="category_<?php echo $cat_id . "_" . $service_id; ?>_service_button_url">
+									<input type="text" class="form-control service_button_url" value="<?php echo esc_attr( $service_button_url ); ?>" name="category[<?php echo $cat_id . "][" . $service_id; ?>][service_button_url]" id="category_<?php echo $cat_id . "_" . $service_id; ?>_service_button_url">
 								</div>
 							</div>
 							<div class="spl-one-bottom"></div>
@@ -987,10 +987,26 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 	<!---// INNER FORM IN ONE ROW --->
 	<div class="form-save-and-restore">
 		<form action="" id="main_form" method="POST" enctype="multipart/form-data" role="form">
-			<div style="">
+			<div>
+			<div class="spl-container-header-alt">
+		<a href="https://stylishpricelist.com/" class="spl-header">
+			<img src="<?php echo SPL_URL . '/assets/images/Stylish-Price-List-Logo-418x134.png'; ?>" class="img-responsive1" alt="Image" style="max-height: 40px;">
+		</a>
+		<?php
+		$opt = get_option( 'spllk_opt' );
+		if ( empty( $opt ) || ( isset( $opt['license'] ) && $opt['license'] !== 'valid' ) ) {
+			?>
+			<span class="spl_plug_ver">Demo</span>
+			<?php
+		}
+		if ( ! empty( $opt ) && ( isset( $opt['license'] ) && $opt['license'] === 'valid' ) ) {
+			?>
+			<span class="spl_plug_ver">Premium</span>
+		<?php } ?>
+		</div>
 				<nav class="navbar navbar-secondary df-spl-edit-nav"> <!-- Start of Price List Title, Style, Save Button-->
 					<div class="container-fluid">
-						<div class="d-flex justify-content-between spl-header-wrapper-v2">
+						<div class="spl-header-wrapper-v2">
 							<div class="spl-header-logo-editing-page">
 		<div class="spl-container-header">
 		<a href="https://stylishpricelist.com/" class="spl-header">
@@ -1008,7 +1024,7 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 			<span class="spl_plug_ver">Premium</span>
 		<?php } ?>
 		</div>
-	</div>
+		</div>
 
 							<div class="price-list-name-and-style-wrapper d-flex align-items-center">								
 							<?php $list_name = df_spl_remove_slash_quotes( $list_name ); ?>
@@ -1049,6 +1065,7 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 									</div>
 							  </div>
 							</div>
+							<!-- </span> -->
 						<ul class="settings-actions-wrapper d-flex align-items-center">
 						<li style="margin-right:10px;">
 							<a name="add_to_webpage" value="" class="add_to_webpage" data-tooltip="<?php echo esc_attr($ADD_TO_WEBPAGE); ?>">
@@ -2260,8 +2277,8 @@ if ( $service_description_color != '' ) {
 		<?php wp_nonce_field( 'spl_nonce' ); ?>
 		<input type="hidden" name="spl_nonce" value="<?php echo wp_create_nonce( 'spl_nonce' ); ?>">
 		<div class="clearfix df-spl-edit-nav df-spl-edit-nav-bottom">
-			<div class="col-md-12"  style="display:flex;align-items: center " >
-				<div class="col-md-2"> 
+			<div class="spl-footer-wrapper">
+				<div class="save-button-wrapper"> 
 					<div class="bottom-save spl_btn_primary "><!----Start of Save Button (Bottom) ---->
 						<?php submit_button( __( $Save, 'spl' ), 'primary', 'submit_tabs' ); ?>
 					</div><!----End of Save Button (Bottom) ---->
@@ -2272,7 +2289,7 @@ if ( $service_description_color != '' ) {
 					if ( ! empty( $opt ) && ( isset( $opt['result'] ) && $opt['result'] == 'success' ) ) {
 						$AddClass = '';
 						?>
-						<div class="col-md-8 navbar-bottom-links">
+						<div class="navbar-bottom-links">
 						<ul class="nav navbar-nav">
 							<li><a href="https://stylishcostcalculator.com" target="_blank" id="myBtnSupport">STYLISH COST CALCULATOR</a></li>
 							<li><a href="https://designful.freshdesk.com/support/solutions/48000446986" target="_blank" id="myBtnSupport">KNOWLEDGE BASE</a></li>
@@ -2281,7 +2298,7 @@ if ( $service_description_color != '' ) {
 							<li><a href="https://stylishpricelist.com/support" target="_blank">CONTACT SUPPORT</a></li>
 						</ul>
 						</div>
-						<div class="col-md-2 spl-button-backup">
+						<div class="spl-button-backup">
 						 <button  id="splButtom" type="button" name="backup" value=""
 						 	data-action="<?php echo esc_url( admin_url( 'admin-post.php' ) . '?action=spl_generate_backup' ); ?>"
 							data-list-id="<?php echo htmlentities( $id ); ?>"
@@ -2290,7 +2307,7 @@ if ( $service_description_color != '' ) {
 						 	class="spl_btn_primary button button-primary backup " style="height: 45px;"><i class="fa fa-file" aria-hidden="true" style="font-size:18px;margin-right:15px;color:#6B6B6B"></i><?php echo esc_attr($Backup); ?></button>
 						 <?php if ( $id == '' || $id != '' ) {
 							if ( ! empty( $opt ) && ( isset( $opt['result'] ) && $opt['result'] == 'success' ) ) { ?>
-								<button id="splButtomRest" type="button" name="restore" value="" class="spl_btn_primary button button-primary restore" style="height: 45px;margin-right:15px;">
+								<button id="splButtomRest" type="button" name="restore" value="" class="spl_btn_primary button button-primary restore" style="height: 45px;">
 									<img 	 src="<?php echo SPL_URL . '/assets/images/ICON22.svg'; ?>" aria-hidden="true" style="font-size:20px;vertical-align:middle;">
 									<?php echo esc_attr($Restore); ?>
 								</button>
@@ -2307,7 +2324,7 @@ if ( $service_description_color != '' ) {
 					<div class="col-md-8"></div>
 					<?php if ( $id == '' || $id != '' ) {
 					if ( ! empty( $opt ) && ( isset( $opt['result'] ) && $opt['result'] == 'success' ) ) { ?>
-						<button id="splButtomRest" type="button" name="restore" value="" class="spl_btn_primary button button-primary restore" style="height: 45px;margin-right:15px;">
+						<button id="splButtomRest" type="button" name="restore" value="" class="spl_btn_primary button button-primary restore" style="height: 45px;">
 							<img 	 src="<?php echo SPL_URL . '/assets/images/ICON22.svg'; ?>" aria-hidden="true" style="font-size:20px;vertical-align:middle;"> <!-- Aquí se agrega la imagen -->
 							<?php echo esc_attr($Restore); ?>
 						</button>

@@ -55,7 +55,10 @@ if (!function_exists('spl_generate_schema_markup')) {
 					]
 				];
 				// Encode the array to JSON
-				$jsonLd = json_encode( $schema_data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT );
+				$jsonLd = wp_json_encode(
+					$schema_data,
+					JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
+				);
 				// Output the schema
 				echo '<script id="schemaorg" type="application/ld+json">' . $jsonLd . '</script>';
 			}

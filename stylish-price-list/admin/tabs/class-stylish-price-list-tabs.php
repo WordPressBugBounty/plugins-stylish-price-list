@@ -16,9 +16,12 @@ class Stylish_Price_List_Tabs {
 	}
 	public function spl_setup_wizard() {
 		check_ajax_referer( 'spl-add-new-page', 'nonce' );
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'spl' ) ), 403 );
+		}
 		$input_args              = file_get_contents( 'php://input' );
-    $args                    = json_decode( $input_args, true );
-    $this->spl_send_wizard_quiz_data( $args );
+    	$args                    = json_decode( $input_args, true );
+    	$this->spl_send_wizard_quiz_data( $args );
 		wp_send_json_success();
 	}
     private function spl_send_wizard_quiz_data( $data ) {
@@ -246,10 +249,10 @@ class Stylish_Price_List_Tabs {
 	public function admin_menu() {
 		$icon_url = SPL_URL . 'assets/images/spl_icon.png';
 		/** Top Menu **/
-		add_menu_page( __( 'Stylish Price List', 'spl' ), __( 'Stylish Price List', 'spl' ), 'edit_posts', 'spl-tabs', array( $this, 'plugin_page' ), $icon_url, 99 );
-		add_submenu_page( 'spl-tabs', __( 'All Lists', 'spl' ), __( 'All Lists', 'spl' ), 'edit_posts', 'spl-tabs', array( $this, 'plugin_page' ) );
-		add_submenu_page( 'options.php', __('New Price List', 'spl'), '', 'edit_posts', 'spl-tabs-new', array( $this, 'plugin_page_new' ) );
-		add_submenu_page( 'spl-tabs', __( 'Add New List', 'spl' ), __( 'Add New List', 'spl' ), 'edit_posts', 'spl-assisted-new', array( $this, 'plugin_page_assisted_new' ) );
+		add_menu_page( __( 'Stylish Price List', 'spl' ), __( 'Stylish Price List', 'spl' ), 'manage_options', 'spl-tabs', array( $this, 'plugin_page' ), $icon_url, 99 );
+		add_submenu_page( 'spl-tabs', __( 'All Lists', 'spl' ), __( 'All Lists', 'spl' ), 'manage_options', 'spl-tabs', array( $this, 'plugin_page' ) );
+		add_submenu_page( 'options.php', __('New Price List', 'spl'), '', 'manage_options', 'spl-tabs-new', array( $this, 'plugin_page_new' ) );
+		add_submenu_page( 'spl-tabs', __( 'Add New List', 'spl' ), __( 'Add New List', 'spl' ), 'manage_options', 'spl-assisted-new', array( $this, 'plugin_page_assisted_new' ) );
 		// spl-assisted-new
 		add_submenu_page( 'spl-tabs', __( 'SPL Diagnostic', 'spl' ), __( 'SPL Diagnostic', 'spl' ), 'manage_options', 'spl-tabs-diagnostic', array( $this, 'plugin_page_diagnostic' ) );
 	}
@@ -290,12 +293,16 @@ class Stylish_Price_List_Tabs {
 
     // Verify nonce
     $block = true;
-    if (isset($_REQUEST['_wpnonce'])) {
-        $block = false;
-    } elseif (isset($_GET['nonce'])) {
-        $nonce = sanitize_text_field($_GET['nonce']);
-        $block = !wp_verify_nonce($nonce, 'price_lists_page_nonce');
+
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_die( esc_html__( 'Sorry, you are not allowed to do that.', 'spl' ) );
     }
+
+    $nonce = isset( $_GET['nonce'] ) ? sanitize_text_field( wp_unslash( $_GET['nonce'] ) ) : '';
+    if ( empty( $nonce ) ) {
+        wp_die( esc_html__( 'The page you are trying to access is not available.', 'spl' ) );
+    }
+    $block = !wp_verify_nonce($nonce, 'price_lists_page_nonce');
 
     // Check if access is blocked
     if ($block) {
@@ -381,6 +388,9 @@ public function plugin_page() {
 	*/
 	public function feedback_manage() {
 		check_ajax_referer('spl-feedback-modal');
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'spl' ) ), 403 );
+		}
 		$args = isset( $_POST['btn-type'] ) ? sanitize_text_field( $_POST['btn-type'] ) : false;
 
         if ( $args ) {
@@ -419,6 +429,9 @@ public function plugin_page() {
 	}
 	public function uninstall_reason () {
 		check_ajax_referer( 'uninstall-df-spl-page', 'nonce' );
+		if ( ! current_user_can( 'activate_plugins' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'spl' ) ), 403 );
+		}
 		$base_url            = apply_filters( 'df_spl_api_endpoint', 'https://telemetry.stylishpricelist.com' );
 
 

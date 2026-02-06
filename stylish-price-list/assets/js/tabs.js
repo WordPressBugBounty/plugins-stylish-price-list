@@ -71,11 +71,16 @@ const dfSPLHandleTooltips = ( priceListId ) => {
 	const tooltips = Array.from(priceListWrapper.querySelectorAll(".spl-item-root"));
 	const tooltipContainer = document.querySelector(`.df-spl-tooltip-container[data-price-list-id="${ priceListId }"]`);
 
-	const data = [
-		{id: 1, txt: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque possimus assumenda quis illo minus numquam voluptates nihil, doloremque unde non."},
-		{id: 2, txt: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquid, deleniti."},
-		{id: 3, txt: "Lorem ipsum dolor sit amet."}
-	]
+	const getSafeImageUrl = (value) => {
+		if (!value) return null;
+		try {
+			const url = new URL(value, window.location.origin);
+			if (url.protocol !== "http:" && url.protocol !== "https:") return null;
+			return url.href;
+		} catch (e) {
+			return null;
+		}
+	};
 
 
 	let tooltipID;
@@ -86,20 +91,42 @@ const dfSPLHandleTooltips = ( priceListId ) => {
 			return [...child.querySelectorAll('*')];
 		}).flat()];
 		let allTooltipChild = [ ...tooltipChild].flat().filter(Boolean);
-		let title = tooltip.getAttribute('data-tooltip-title');
-		let description = tooltip.getAttribute('data-tooltip-description');
-		const imageLink = tooltip.getAttribute('data-tooltip-image');
 		for (var i = 0; i < allTooltipChild.length; i++) {
+			const title = tooltip.getAttribute('data-tooltip-title');
+			const description = tooltip.getAttribute('data-tooltip-description');
+			const imageLink = tooltip.getAttribute('data-tooltip-image');
 			if ( title || description ) {
-				title = title === null ? '' : title;
-				description = description === null ? '' : description;
-				const imageFragment = imageLink ? `<div class="spl-tooltip-image-container"><img src="${imageLink}" alt="tooltip-image" /></div>` : '';
 				allTooltipChild[i].addEventListener("mouseenter", (e) => {
 					tooltipID = e.target.getAttribute('data-id');
 					tooltipContainer.classList.add("fade-in");
 					tooltipContainer.style.left = `${e.pageX}px`;
 					tooltipContainer.style.top = `${e.pageY}px`;
-					tooltipContainer.innerHTML = `${imageFragment}<div class="spl-tooltip-content"><h5>${title}</h5><p>${description}</p></div>`;
+
+					const safeTitle = title === null ? '' : title;
+					const safeDescription = description === null ? '' : description;
+					const safeImageUrl = getSafeImageUrl(imageLink);
+
+					tooltipContainer.textContent = '';
+
+					if (safeImageUrl) {
+						const imageContainer = document.createElement('div');
+						imageContainer.className = 'spl-tooltip-image-container';
+						const image = document.createElement('img');
+						image.alt = 'tooltip-image';
+						image.src = safeImageUrl;
+						imageContainer.appendChild(image);
+						tooltipContainer.appendChild(imageContainer);
+					}
+
+					const content = document.createElement('div');
+					content.className = 'spl-tooltip-content';
+					const titleEl = document.createElement('h5');
+					titleEl.textContent = safeTitle;
+					const descEl = document.createElement('p');
+					descEl.textContent = safeDescription;
+					content.appendChild(titleEl);
+					content.appendChild(descEl);
+					tooltipContainer.appendChild(content);
 				});
 				allTooltipChild[i].addEventListener("mouseout", (e) => {
 					tooltipContainer.classList.remove("fade-in");

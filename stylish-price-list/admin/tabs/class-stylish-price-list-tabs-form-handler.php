@@ -25,11 +25,11 @@ class Stylish_Price_List_Tabs_Form_Handler {
 		if ( ! isset( $_POST['submit_tabs'] ) ) {
 			return;
 		}
-		if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'spl_nonce' ) ) {
+		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'spl_nonce' ) ) {
 			die( __( 'Error: WP Verify Nonce error. Try to log out of WP and log back in, clear your cache. Try to disable Word Fence or any security pluigin. If the problem persist, please contact support at https://stylishpricelist.com/support/', 'spl' ) );
 		}
-		if ( ! current_user_can( 'read' ) ) {
-			wp_die( __( 'Error: Permission Denied! Current user cannot read.', 'spl' ) );
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( __( 'Error: Permission Denied! Current user cannot manage options.', 'spl' ) );
 		}
 		$errors   = array();
 		$field_id = isset( $_POST['field_id'] ) ? intval( $_POST['field_id'] ) : '';
@@ -40,7 +40,9 @@ class Stylish_Price_List_Tabs_Form_Handler {
 			wp_safe_redirect( $redirect_to );
 			exit;
 		}
-		unset( $_POST['category'][0] );
+		if ( isset( $_POST['category'] ) && is_array( $_POST['category'] ) ) {
+			unset( $_POST['category'][0] );
+		}
 		unset( $_POST['_wpnonce'] );
 		unset( $_POST['_wp_http_referer'] );
 		$fields     = df_spl_clean( $_POST );

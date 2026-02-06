@@ -85,6 +85,12 @@ div.masonary-section ul {
 .stylish-upload-btn {
 	float: right !important;
 }
+.spl-style8-img-container {
+	display: flex;
+}
+.spl-style8-img-container img {
+	flex-shrink: 0;
+}
 @media only screen and (min-width:1024px) {
 	.spl_cstm_style_2_book-full {
 		padding-left: 0 !important;

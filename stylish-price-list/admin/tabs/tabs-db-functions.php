@@ -6,9 +6,16 @@ function df_spl_get_all_tabs( $args ) {
 	//https://wordpress.stackexchange.com/questions/236514/uninstalling-a-plugin-delete-all-options-with-specific-prefix
 	global $wpdb;
 	$prefix       = df_spl_get_option_prefix();
-	$offset       = esc_sql( $args['offset'] );
-	$limit        = esc_sql( $args['number'] );
-	$option_names = $wpdb->get_results( "SELECT option_name FROM $wpdb->options WHERE option_name LIKE '$prefix%' LIMIT $limit OFFSET $offset" );
+	$offset       = isset( $args['offset'] ) ? absint( $args['offset'] ) : 0;
+	$limit        = isset( $args['number'] ) ? absint( $args['number'] ) : 0;
+	$like         = $wpdb->esc_like( $prefix ) . '%';
+	$query        = $wpdb->prepare(
+		"SELECT option_name FROM $wpdb->options WHERE option_name LIKE %s LIMIT %d OFFSET %d",
+		$like,
+		$limit,
+		$offset
+	);
+	$option_names = $wpdb->get_results( $query );
 	$cats_data    = array();
 	foreach ( $option_names as $opt ) {
 		$id               = df_spl_get_id_from_option_name( $opt->option_name );

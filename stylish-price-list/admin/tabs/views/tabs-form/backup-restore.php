@@ -30,9 +30,18 @@ class SPLBackupRestore {
 	}
 
 	public function handle_backup() {
-		check_ajax_referer( 'spl_backup_nonce' );
-		$id        = absint( $_POST['list_id'] );
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'Sorry, you are not allowed to do that.', 'spl' ) );
+		}
+		check_admin_referer( 'spl_backup_nonce' );
+		$id        = isset( $_POST['list_id'] ) ? absint( $_POST['list_id'] ) : 0;
+		if ( empty( $id ) ) {
+			wp_die( esc_html__( 'Invalid list ID.', 'spl' ) );
+		}
 		$cats_data = df_spl_get_option( $id );
+		if ( empty( $cats_data ) || ! is_array( $cats_data ) ) {
+			wp_die( esc_html__( 'Price list not found.', 'spl' ) );
+		}
 		$data      = array(
 			'0' => array(
 				'List Name'                     => $cats_data['list_name'],
@@ -76,7 +85,9 @@ class SPLBackupRestore {
 			),
 		);
 		/***export data***/
-		$filename = sanitize_text_field( $_POST['backup'] ) . '.csv';
+		$base_filename = isset( $_POST['backup'] ) ? sanitize_file_name( wp_unslash( $_POST['backup'] ) ) : '';
+		$base_filename = $base_filename ? $base_filename : 'stylish-price-list-backup';
+		$filename      = $base_filename . '.csv';
 		header( 'Cache-Control: must-revalidate, post-check=0, pre-check=0' );
 		header( 'Content-type: text/csv' );
 		header( "Content-Disposition: attachment; filename=\"$filename\"" );
@@ -84,9 +95,18 @@ class SPLBackupRestore {
 	}
 
 	public function handle_restore() {
-		check_ajax_referer( 'spl_restore_nonce' );
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'Sorry, you are not allowed to do that.', 'spl' ) );
+		}
+		check_admin_referer( 'spl_restore_nonce' );
 		$dir          = plugin_dir_path( __FILE__ );
 		$allowed      = array( 'csv' );
+		if ( empty( $_FILES['importtocsv'] ) || ! isset( $_FILES['importtocsv']['tmp_name'], $_FILES['importtocsv']['name'] ) ) {
+			wp_die( esc_html__( 'No file uploaded.', 'spl' ) );
+		}
+		if ( ! empty( $_FILES['importtocsv']['error'] ) ) {
+			wp_die( esc_html__( 'File upload failed.', 'spl' ) );
+		}
 		$filename     = spl_stripDotsFromFilename( $_FILES['importtocsv']['name'] );
 		$tmp_filename = $_FILES['importtocsv']['tmp_name'];
 		$ext          = pathinfo( $filename, PATHINFO_EXTENSION );
@@ -97,8 +117,10 @@ class SPLBackupRestore {
 			// move_uploaded_file( $tmp_filename, $dir . 'upload-csv/' . $filename );
 			// $file = $dir . 'upload-csv/' . $filename;
 			// skipped moving the file to WordPress installation directory for better security
-			$file = $tmp_filename;
-			$file = fopen( $file, 'r' );
+			$file = fopen( $tmp_filename, 'r' );
+			if ( ! $file ) {
+				wp_die( esc_html__( 'Unable to read uploaded file.', 'spl' ) );
+			}
 			// echo $randnum = rand(1000000000,9999999999);
 			$file_data = array();
 			while ( ( $emapData = fgetcsv( $file, 10000, ',' ) ) !== false ) {
@@ -149,10 +171,11 @@ class SPLBackupRestore {
 				'field_id'                      => $rand_num,
 				'id'                            => $rand_num,
 			);
+			$data = df_spl_clean( $data );
 			update_option( 'spl_cats_' . $rand_num, $data );
-			$url = admin_url() . '/admin.php?page=spl-tabs&action=edit&id=' . $rand_num;
+			$url = admin_url( 'admin.php?page=spl-tabs&action=edit&id=' . $rand_num );
 			fclose( $file );
-			header( 'Location: ' . $url );
+			wp_safe_redirect( $url );
 			exit;
 		}
 	}

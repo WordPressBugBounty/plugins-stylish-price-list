@@ -21,8 +21,8 @@ if ( ! empty( $id ) ) {
 	$style5_category                             = isset( $cats_data['style5_category'] ) ? $cats_data['style5_category'] : '';
 	$default                                     = isset( $cats_data['default_tab'] ) ? $cats_data['default_tab'] : '';
 	$select_column                               = isset( $cats_data['select_column'] ) ? $cats_data['select_column'] : '';
-	$list_name                                   = df_spl_remove_slash_quotes( $cats_data['list_name'] );
-	$list_description                            = df_spl_remove_slash_quotes( trim( $cats_data['price_list_desc'] ) );
+	$list_name                                   = isset( $cats_data['list_name'] ) ? df_spl_remove_slash_quotes( $cats_data['list_name'] ) : '';
+	$list_description                            = isset( $cats_data['price_list_desc'] ) ? df_spl_remove_slash_quotes( trim( $cats_data['price_list_desc'] ) ) : '';
 	$list_type                                   = isset( $cats_data['list_type'] ) ? $cats_data['list_type'] : '';
 	$spl_remove_title                            = isset( $cats_data['spl_remove_title'] ) ? $cats_data['spl_remove_title'] : '';
 	$hover_color                                 = isset( $cats_data['hover_color'] ) ? $cats_data['hover_color'] : '';
@@ -88,7 +88,7 @@ if ( ! empty( $id ) ) {
 	$service_price_font_weight   = isset( $cats_data['service_price_font-weight'] ) ? $cats_data['service_price_font-weight'] : '';
 	$tab_description_font_weight = isset( $cats_data['tab_description_font-weight'] ) ? $cats_data['tab_description_font-weight'] : '';
 	$description_font_weight     = isset( $cats_data['description_font-weight'] ) ? $cats_data['description_font-weight'] : '';
-	$opt_cats                    = $cats_data['category'];
+	$opt_cats                    = isset( $cats_data['category'] ) ? $cats_data['category'] : array();
 	$jsonld_currency		     = isset( $cats_data['jsonld_currency'] ) ? $cats_data['jsonld_currency'] : 'USD';
 	$enable_seo_jsonld           = isset( $cats_data['enable_seo_jsonld'] ) ? $cats_data['enable_seo_jsonld'] : 0;
 	$spl_data_values             = $opt_cats;
@@ -151,9 +151,9 @@ if ( ! empty( $id ) ) {
 				'popular_text' => $service['popular_text'],
 			) );
 			$services[ $service_id ]['tooltip_config'] = [
-				'data-tooltip-title' => $services[ $service_id ]['settings_tooltip_title'],
-				'data-tooltip-description' => wp_kses_post( $services[ $service_id ]['settings_tooltip_description'] ),
-				'data-tooltip-image' => $services[ $service_id ]['settings_tooltip_image']
+				'data-tooltip-title' => trim( wp_strip_all_tags( $services[ $service_id ]['settings_tooltip_title'] ) ),
+				'data-tooltip-description' => trim( wp_strip_all_tags( $services[ $service_id ]['settings_tooltip_description'] ) ),
+				'data-tooltip-image' => esc_url_raw( $services[ $service_id ]['settings_tooltip_image'] ),
 			];
 		}
 		$cats[ $cat_id ]['name']        = df_spl_remove_slash_quotes( $cat_name );
@@ -206,13 +206,14 @@ $spl_googlefonts_var->enqueue_fonts_style( $fonts, $id ); //load google fonts cs
 if ( ! function_exists( 'output_service_style2' ) ) {
 	function output_service_style2( $service, $is_buy_btn_newtab_enabled ) {
 		extract( $service );
-		$price = "<span data-price=$price>" . esc_attr( $price ) . '</span>';
-		$price = empty($settings_compare_at) ? $price : '<s>'.$settings_compare_at.'</s>'. ' ' . $price;
+		$price_attr = esc_attr( $price );
+		$price      = '<span data-price="' . $price_attr . '">' . esc_html( $price ) . '</span>';
+		$price      = empty( $settings_compare_at ) ? $price : '<s>' . esc_html( $settings_compare_at ) . '</s> ' . $price;
 		if ( empty( $name ) ) {
 			return;
 		}
 		if ( isset( $is_buy_btn_newtab_enabled ) && $is_buy_btn_newtab_enabled == '1' ) {
-			$newTabOpen = 'target="_blank"';
+			$newTabOpen = 'target="_blank" rel="noopener noreferrer"';
 		}
 		ob_start();
 		?>
@@ -227,7 +228,7 @@ if ( ! function_exists( 'output_service_style2' ) ) {
 						<div class="df-spl-row">
 							<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 spl_cstm_style_2_book" style="padding-left:0px;padding-top: 5px">
 								<?php if ( ! empty( $service['service_url'] ) ) { ?>
-									<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+									<a href="<?php echo esc_url( $service['service_url'] ); ?>" target="_blank" rel="noopener noreferrer"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 								<?php } else { ?>
 									<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 								<?php } ?>
@@ -235,7 +236,7 @@ if ( ! function_exists( 'output_service_style2' ) ) {
 							</div>
 							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 right-style-2" style="padding: 5px 10px 0 0;">
 								<?php echo df_spl_output_a_tag( $price, '', 'spl-price a-tag' ); ?>
-								<a href="<?php echo esc_attr($service['service_button_url']); ?>" <?php echo isset( $newTabOpen ) ? esc_attr($newTabOpen) : ''; ?> class="btn btn-book-now spl_book_now_btn_style_1"><?php echo esc_attr($service['service_button']); ?></a>
+								<a href="<?php echo esc_url( $service['service_button_url'] ); ?>" <?php echo isset( $newTabOpen ) ? $newTabOpen : ''; ?> class="btn btn-book-now spl_book_now_btn_style_1"><?php echo esc_html( $service['service_button'] ); ?></a>
 							</div>
 						</div>
 					</div>
@@ -247,7 +248,7 @@ if ( ! function_exists( 'output_service_style2' ) ) {
 				<div class="df-spl-row name-price">
 					<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9" style="padding:5px 10px 0 0">
 						<?php if ( ! empty( $service['service_url'] ) ) { ?>
-							<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+							<a href="<?php echo esc_url( $service['service_url'] ); ?>" target="_blank" rel="noopener noreferrer"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 						<?php } else { ?>
 							<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 						<?php } ?>
@@ -275,13 +276,14 @@ if ( ! function_exists( 'output_service_style2' ) ) {
 if ( ! function_exists( 'output_service_style2_beta' ) ) {
 	function output_service_style2_beta( $service, $is_buy_btn_newtab_enabled ) {
 		extract( $service );
-		$price = "<span data-price=$price>" . esc_attr( $price ) . '</span>';
-		$price = empty($settings_compare_at) ? $price : '<s>'.$settings_compare_at.'</s>'. ' ' . $price;
+		$price_attr = esc_attr( $price );
+		$price      = '<span data-price="' . $price_attr . '">' . esc_html( $price ) . '</span>';
+		$price      = empty( $settings_compare_at ) ? $price : '<s>' . esc_html( $settings_compare_at ) . '</s> ' . $price;
 		if ( empty( $name ) ) {
 			return;
 		}
 		if ( isset( $is_buy_btn_newtab_enabled ) && $is_buy_btn_newtab_enabled == '1' ) {
-			$newTabOpen = 'target="_blank"';
+			$newTabOpen = 'target="_blank" rel="noopener noreferrer"';
 		}
 		ob_start();
 		?>
@@ -295,7 +297,7 @@ if ( ! function_exists( 'output_service_style2_beta' ) ) {
 						<div class="df-spl-row">
 							<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 spl_cstm_style_2_book">
 								<?php if ( ! empty( $service['service_url'] ) ) { ?>
-									<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+									<a href="<?php echo esc_url( $service['service_url'] ); ?>" target="_blank" rel="noopener noreferrer"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 								<?php } else { ?>
 									<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 								<?php } ?>
@@ -303,7 +305,7 @@ if ( ! function_exists( 'output_service_style2_beta' ) ) {
 							</div>
 							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 right-style-2">
 								<?php echo df_spl_output_a_tag( $price, '', 'spl-price a-tag' ); ?>
-								<a href="<?php echo esc_attr($service['service_button_url']); ?>" <?php echo isset( $newTabOpen ) ? esc_attr($newTabOpen) : ''; ?> class="btn btn-book-now spl_book_now_btn_style_1"><?php echo esc_attr($service['service_button']); ?></a>
+								<a href="<?php echo esc_url( $service['service_button_url'] ); ?>" <?php echo isset( $newTabOpen ) ? $newTabOpen : ''; ?> class="btn btn-book-now spl_book_now_btn_style_1"><?php echo esc_html( $service['service_button'] ); ?></a>
 							</div>
 						</div>
 					</div>
@@ -315,7 +317,7 @@ if ( ! function_exists( 'output_service_style2_beta' ) ) {
 				<div class="df-spl-row name-price">
 					<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 pl-0">
 						<?php if ( ! empty( $service['service_url'] ) ) { ?>
-							<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+							<a href="<?php echo esc_url( $service['service_url'] ); ?>" target="_blank" rel="noopener noreferrer"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 						<?php } else { ?>
 							<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 						<?php } ?>
@@ -344,13 +346,14 @@ if ( ! function_exists( 'output_service_style2_beta' ) ) {
 if ( ! function_exists( 'output_service_style2_single_column' ) ) {
 	function output_service_style2_single_column( $service, $is_buy_btn_newtab_enabled ) {
 		extract( $service );
-		$price = "<span data-price=$price>" . esc_attr( $price ) . '</span>';
-		$price = empty($settings_compare_at) ? $price : '<s>'.$settings_compare_at.'</s>'. ' ' . $price;
+		$price_attr = esc_attr( $price );
+		$price      = '<span data-price="' . $price_attr . '">' . esc_html( $price ) . '</span>';
+		$price      = empty( $settings_compare_at ) ? $price : '<s>' . esc_html( $settings_compare_at ) . '</s> ' . $price;
 		if ( empty( $name ) ) {
 			return;
 		}
 		if ( isset( $is_buy_btn_newtab_enabled ) && $is_buy_btn_newtab_enabled == '1' ) {
-			$newTabOpen = 'target="_blank"';
+			$newTabOpen = 'target="_blank" rel="noopener noreferrer"';
 		}
 		ob_start();
 		?>
@@ -364,16 +367,16 @@ if ( ! function_exists( 'output_service_style2_single_column' ) ) {
 						<div class="df-spl-row">
 							<div class="col-xs-6 col-sm-6 col-md-8 col-lg-8 spl_cstm_style_2_book padding-left-no">
 								<?php if ( ! empty( $service['service_url'] ) ) { ?>
-									<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+									<a href="<?php echo esc_url( $service['service_url'] ); ?>" target="_blank" rel="noopener noreferrer"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 								<?php } else { ?>
 									<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 								<?php } ?>
 								<?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag' ); ?>
 							</div>
-							<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 right-style-2 padding-right-no">
-								<?php echo df_spl_output_a_tag( $price, '', 'spl-price a-tag' ); ?>
-								<a href="<?php echo esc_attr($service['service_button_url']); ?>" <?php echo isset( $newTabOpen ) ? esc_attr($newTabOpen) : ''; ?> class="btn btn-book-now spl_book_now_btn_style_1"><?php echo esc_attr($service['service_button']); ?></a>
-							</div>
+								<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 right-style-2 padding-right-no">
+									<?php echo df_spl_output_a_tag( $price, '', 'spl-price a-tag' ); ?>
+									<a href="<?php echo esc_url( $service['service_button_url'] ); ?>" <?php echo isset( $newTabOpen ) ? $newTabOpen : ''; ?> class="btn btn-book-now spl_book_now_btn_style_1"><?php echo esc_html( $service['service_button'] ); ?></a>
+								</div>
 						</div>
 					</div>
 				</div>
@@ -383,7 +386,7 @@ if ( ! function_exists( 'output_service_style2_single_column' ) ) {
 				<div class="df-spl-row name-price">
 					<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
 						<?php if ( ! empty( $service['service_url'] ) ) { ?>
-							<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+							<a href="<?php echo esc_url( $service['service_url'] ); ?>" target="_blank" rel="noopener noreferrer"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 						<?php } else { ?>
 							<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 						<?php } ?>
@@ -411,13 +414,14 @@ if ( ! function_exists( 'output_service_style2_single_column' ) ) {
 if ( ! function_exists( 'output_service_col1' ) ) {
 	function output_service_col1( $service, $is_buy_btn_newtab_enabled ) {
 		extract( $service );
-		$price = "<span data-price=$price>" . esc_attr( $price ) . '</span>';
-		$price = empty($settings_compare_at) ? $price : '<s>'.$settings_compare_at.'</s>'. ' ' . $price;
+		$price_attr = esc_attr( $price );
+		$price      = '<span data-price="' . $price_attr . '">' . esc_html( $price ) . '</span>';
+		$price      = empty( $settings_compare_at ) ? $price : '<s>' . esc_html( $settings_compare_at ) . '</s> ' . $price;
 		if ( empty( $name ) ) {
 			return;
 		}
 		if ( isset( $is_buy_btn_newtab_enabled ) && $is_buy_btn_newtab_enabled == '1' ) {
-			$newTabOpen = 'target="_blank"';
+			$newTabOpen = 'target="_blank" rel="noopener noreferrer"';
 		}
 		ob_start();
 		?>
@@ -450,9 +454,9 @@ if ( ! function_exists( 'output_service_col1' ) ) {
 						<div class="df-spl-row">
 						<?php endif; ?>
 							<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 padding-left-no spl_cstm_style_1_book ">
-								<div class="spl-title-desc">
+									<div class="spl-title-desc">
 									<?php if ( ! empty( $service['service_url'] ) ) { ?>
-										<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+										<a href="<?php echo esc_url( $service['service_url'] ); ?>" target="_blank" rel="noopener noreferrer"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 									<?php } else { ?>
 										<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 									<?php } ?>
@@ -461,9 +465,9 @@ if ( ! function_exists( 'output_service_col1' ) ) {
 							</div>
 							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 padding-left-no padding-right-no">
 								<div class="df-spl-level style-1">
-									<div class="df-spl-level-right style-1">
+										<div class="df-spl-level-right style-1">
 										<?php echo df_spl_output_a_tag( $price, '', 'spl-price a-tag' ); ?>
-										<a href="<?php echo esc_attr($service['service_button_url']); ?>" <?php echo isset( $newTabOpen ) ? esc_attr($newTabOpen) : ''; ?> class="btn btn-book-now spl_book_now_btn_style_1"><?php echo esc_attr($service['service_button']); ?></a>
+										<a href="<?php echo esc_url( $service['service_button_url'] ); ?>" <?php echo isset( $newTabOpen ) ? $newTabOpen : ''; ?> class="btn btn-book-now spl_book_now_btn_style_1"><?php echo esc_html( $service['service_button'] ); ?></a>
 									</div>
 								</div>
 							</div>
@@ -482,9 +486,9 @@ if ( ! function_exists( 'output_service_col1' ) ) {
 				">
 					<div class="df-spl-row name-price">
 						<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 style1" style="padding:0 10px 0 0">
-							<div class="spl-title-desc">
+								<div class="spl-title-desc">
 								<?php if ( ! empty( $service['service_url'] ) ) { ?>
-									<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+									<a href="<?php echo esc_url( $service['service_url'] ); ?>" target="_blank" rel="noopener noreferrer"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 								<?php } else { ?>
 									<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 								<?php } ?>
@@ -519,7 +523,7 @@ if ( ! function_exists( 'output_service_style6' ) ) {
 			return;
 		}
 		if ( isset( $is_buy_btn_newtab_enabled ) && $is_buy_btn_newtab_enabled == '1' ) {
-			$newTabOpen = 'target="_blank"';
+			$newTabOpen = 'target="_blank" rel="noopener noreferrer"';
 		}
 		ob_start();
 		?>
@@ -578,7 +582,7 @@ if ( ! function_exists( 'output_service_style6' ) ) {
 					<table class="table ">
 						<tbody>
 							<tr>
-								<td class="spl_prd_img_td"><img src="<?php echo esc_attr($service['service_image']); ?>" /></td>
+								<td class="spl_prd_img_td"><img src="<?php echo esc_url( $service['service_image'] ); ?>" /></td>
 								<td class="padd_0">
 									<table style="width:100%;">
 										<tr>
@@ -592,7 +596,7 @@ if ( ! function_exists( 'output_service_style6' ) ) {
 												<?php echo df_spl_output_a_tag( $service['price'], '', 'spl-price a-tag' ); ?>
 												<?php if ( ! empty( $service['service_button'] ) ) : ?>
 													<div>
-														<a href="<?php echo esc_attr($service['service_button_url']); ?>" <?php echo isset( $newTabOpen ) ? esc_attr($newTabOpen) : ''; ?> class="btn btn-book-now spl_book_now_btn_style_6"><?php echo esc_attr($service['service_button']); ?></a>
+														<a href="<?php echo esc_url( $service['service_button_url'] ); ?>" <?php echo isset( $newTabOpen ) ? $newTabOpen : ''; ?> class="btn btn-book-now spl_book_now_btn_style_6"><?php echo esc_html( $service['service_button'] ); ?></a>
 													</div>
 												<?php endif; ?>
 											</td>
@@ -620,19 +624,20 @@ if ( ! function_exists( 'output_service_style6_item' ) ) {
 			return;
 		}
 		if ( isset( $is_buy_btn_newtab_enabled ) && $is_buy_btn_newtab_enabled == '1' ) {
-			$newTabOpen = 'target="_blank"';
+			$newTabOpen = 'target="_blank" rel="noopener noreferrer"';
 		}
 		$price = $service['price'];
 		$settings_compare_at = $service['settings_compare_at'];
-		$price = "<span data-price=$price>" . esc_attr( $price ) . '</span>';
-		$price = empty($settings_compare_at) ? $price : '<s>'.$settings_compare_at.'</s>'. ' ' . $price;
+		$price_attr = esc_attr( $price );
+		$price      = '<span data-price="' . $price_attr . '">' . esc_html( $price ) . '</span>';
+		$price      = empty( $settings_compare_at ) ? $price : '<s>' . esc_html( $settings_compare_at ) . '</s> ' . $price;
 		ob_start();
 		?>
 		<div class="style-6-two-column spl-item-root" <?php foreach ($service['tooltip_config'] as $key => $value) {
 			if ( empty( $value ) ) continue;
 				echo esc_attr($key) . '="' . esc_attr($value) . '" ';
 			} ?>>
-			<?php echo ! empty( $service['service_image'] ) ? '<img alt="" class="style-6-two-image" width="80" src="' . $service['service_image'] . '">' : '<div class="style-6-two-image"></div>'; ?>
+			<?php echo ! empty( $service['service_image'] ) ? '<img alt="" class="style-6-two-image" width="80" src="' . esc_url( $service['service_image'] ) . '">' : '<div class="style-6-two-image"></div>'; ?>
 			<div class="style-6-section spl-position-relative">
 				<div class="spl-position_absolute spl-height-3 spl-width-full spl-bottom-2 scc-2-dotted-grey"></div>
 				<h4 class="style-6-2-desc"><strong data-price-list-fragment="item_name" class="name a-tag"><?php echo spl_esc_output( $service['name'] ); ?></strong></h4>
@@ -643,7 +648,7 @@ if ( ! function_exists( 'output_service_style6_item' ) ) {
 				<p class="st-6-fl-l desc a-tag"><?php echo spl_esc_output($service['desc']); ?></p>
 				<?php
 				if ( $service['service_button'] !== '' ) {
-					echo '<a href="' . $service['service_button_url'] . '" ' . ( isset( $newTabOpen ) ? esc_attr($newTabOpen) : '' ) . ' class="style-6-2-btn">' . $service['service_button'] . '</a>';
+					echo '<a href="' . esc_url( $service['service_button_url'] ) . '"' . ( isset( $newTabOpen ) ? ' ' . $newTabOpen : '' ) . ' class="style-6-2-btn">' . esc_html( $service['service_button'] ) . '</a>';
 				}
 				?>
 			</div>
@@ -662,10 +667,11 @@ if ( ! function_exists( 'output_service' ) ) {
 			return;
 		}
 		if ( isset( $is_buy_btn_newtab_enabled ) && $is_buy_btn_newtab_enabled == '1' ) {
-			$newTabOpen = 'target="_blank"';
+			$newTabOpen = 'target="_blank" rel="noopener noreferrer"';
 		}
-		$price = "<span data-price=$price>" . esc_attr( $price ) . '</span>';
-		$price = empty($settings_compare_at) ? $price : '<s>'.$settings_compare_at.'</s>'. ' ' . $price;
+		$price_attr = esc_attr( $price );
+		$price      = '<span data-price="' . $price_attr . '">' . esc_html( $price ) . '</span>';
+		$price      = empty( $settings_compare_at ) ? $price : '<s>' . esc_html( $settings_compare_at ) . '</s> ' . $price;
 		ob_start();
 		?>
 		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 name-price-desc spl-item-root" <?php foreach ($tooltip_config as $key => $value) {
@@ -696,9 +702,9 @@ if ( ! function_exists( 'output_service' ) ) {
 						<div class="df-spl-row">
 						<?php endif; ?>
 							<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 padding-left-no spl_cstm_style_1_book ">
-								<div class="spl-title-desc">
+									<div class="spl-title-desc">
 									<?php if ( ! empty( $service['service_url'] ) ) { ?>
-										<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+										<a href="<?php echo esc_url( $service['service_url'] ); ?>" target="_blank" rel="noopener noreferrer"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 									<?php } else { ?>
 										<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text'] ); ?>
 									<?php } ?>
@@ -709,7 +715,7 @@ if ( ! function_exists( 'output_service' ) ) {
 								<div class="df-spl-level style-1">
 									<div class="df-spl-level-right style-1">
 										<?php echo df_spl_output_a_tag( $price, '', 'spl-price a-tag' ); ?>
-										<a href="<?php echo esc_attr($service['service_button_url']); ?>" <?php echo isset( $newTabOpen ) ? esc_attr($newTabOpen) : ''; ?> class="btn btn-book-now spl_book_now_btn_style_1"><?php echo esc_attr($service['service_button']); ?></a>
+										<a href="<?php echo esc_url( $service['service_button_url'] ); ?>" <?php echo isset( $newTabOpen ) ? $newTabOpen : ''; ?> class="btn btn-book-now spl_book_now_btn_style_1"><?php echo esc_html( $service['service_button'] ); ?></a>
 									</div>
 								</div>
 							</div>
@@ -728,9 +734,9 @@ if ( ! function_exists( 'output_service' ) ) {
 				">
 					<div class="df-spl-row name-price">
 						<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 style1" style="padding:0 10px 0 0">
-							<div class="spl-title-desc">
+								<div class="spl-title-desc">
 								<?php if ( ! empty( $service['service_url'] ) ) { ?>
-									<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+									<a href="<?php echo esc_url( $service['service_url'] ); ?>" target="_blank" rel="noopener noreferrer"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 								<?php } else { ?>
 									<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 								<?php } ?>
@@ -761,13 +767,14 @@ if ( ! function_exists( 'output_service' ) ) {
 if ( ! function_exists( 'output_service_break_col1' ) ) {
 	function output_service_break_col1( $service, $is_buy_btn_newtab_enabled ) {
 		extract( $service );
-		$price = "<span data-price=$price>" . esc_attr( $price ) . '</span>';
-		$price = empty($settings_compare_at) ? $price : '<s>'.$settings_compare_at.'</s>'. ' ' . $price;
+		$price_attr = esc_attr( $price );
+		$price      = '<span data-price="' . $price_attr . '">' . esc_html( $price ) . '</span>';
+		$price      = empty( $settings_compare_at ) ? $price : '<s>' . esc_html( $settings_compare_at ) . '</s> ' . $price;
 		if ( empty( $name ) ) {
 			return;
 		}
 		if ( isset( $is_buy_btn_newtab_enabled ) && $is_buy_btn_newtab_enabled == '1' ) {
-			$newTabOpen = 'target="_blank"';
+			$newTabOpen = 'target="_blank" rel="noopener noreferrer"';
 		}
 		ob_start();
 		?>
@@ -776,9 +783,9 @@ if ( ! function_exists( 'output_service_break_col1' ) ) {
 				echo esc_attr($key) . '="' . esc_attr($value) . '" ';
 			} ?>>
 			<div class="df-spl-row name-price">
-				<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 custom_line">
+					<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 custom_line">
 					<?php if ( ! empty( $service['service_url'] ) ) { ?>
-						<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+						<a href="<?php echo esc_url( $service['service_url'] ); ?>" target="_blank" rel="noopener noreferrer"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 					<?php } else { ?>
 						<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 					<?php } ?>
@@ -794,7 +801,7 @@ if ( ! function_exists( 'output_service_break_col1' ) ) {
 						<?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag' ); ?>
 					</div>
 					<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2 spl_category_brak_style4">
-						<a href="<?php echo esc_attr($service['service_button_url']); ?>" <?php echo isset( $newTabOpen ) ? esc_attr($newTabOpen) : ''; ?> class="btn btn-book-now spl_book_now_btn_style_4"><?php echo esc_attr($service['service_button']); ?></a>
+						<a href="<?php echo esc_url( $service['service_button_url'] ); ?>" <?php echo isset( $newTabOpen ) ? $newTabOpen : ''; ?> class="btn btn-book-now spl_book_now_btn_style_4"><?php echo esc_html( $service['service_button'] ); ?></a>
 					</div>
 				<?php } else { ?>
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-left-0">
@@ -815,13 +822,14 @@ if ( ! function_exists( 'output_service_break_col1' ) ) {
 if ( ! function_exists( 'output_service_break' ) ) {
 	function output_service_break( $service, $is_buy_btn_newtab_enabled ) {
 		extract( $service );
-		$price = "<span data-price=$price>" . esc_attr( $price ) . '</span>';
-		$price = empty($settings_compare_at) ? $price : '<s>'.$settings_compare_at.'</s>'. ' ' . $price;
+		$price_attr = esc_attr( $price );
+		$price      = '<span data-price="' . $price_attr . '">' . esc_html( $price ) . '</span>';
+		$price      = empty( $settings_compare_at ) ? $price : '<s>' . esc_html( $settings_compare_at ) . '</s> ' . $price;
 		if ( empty( $name ) ) {
 			return;
 		}
 		if ( isset( $is_buy_btn_newtab_enabled ) && $is_buy_btn_newtab_enabled == '1' ) {
-			$newTabOpen = 'target="_blank"';
+			$newTabOpen = 'target="_blank" rel="noopener noreferrer"';
 		}
 		ob_start();
 		?>
@@ -830,9 +838,9 @@ if ( ! function_exists( 'output_service_break' ) ) {
     				echo esc_attr($key) . '="' . esc_attr($value) . '" ';
 				} ?>>
 			<div class="df-spl-row name-price">
-				<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 custom_line">
+					<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 custom_line">
 					<?php if ( ! empty( $service['service_url'] ) ) { ?>
-						<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+						<a href="<?php echo esc_url( $service['service_url'] ); ?>" target="_blank" rel="noopener noreferrer"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 					<?php } else { ?>
 						<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 					<?php } ?>
@@ -848,7 +856,7 @@ if ( ! function_exists( 'output_service_break' ) ) {
 						<?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag' ); ?>
 					</div>
 					<div class="col-xs-4 col-sm-2 col-md-2 col-lg-2 spl_category_brak_style4">
-						<a href="<?php echo esc_attr($service['service_button_url']); ?>" <?php echo isset( $newTabOpen ) ? esc_attr($newTabOpen) : ''; ?> class="btn btn-book-now spl_book_now_btn_style_4"><?php echo esc_attr($service['service_button']); ?></a>
+						<a href="<?php echo esc_url( $service['service_button_url'] ); ?>" <?php echo isset( $newTabOpen ) ? $newTabOpen : ''; ?> class="btn btn-book-now spl_book_now_btn_style_4"><?php echo esc_html( $service['service_button'] ); ?></a>
 					</div>
 				<?php } else { ?>
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-left-0">
@@ -869,13 +877,14 @@ if ( ! function_exists( 'output_service_break' ) ) {
 if ( ! function_exists( 'output_service_style3' ) ) {
 	function output_service_style3( $service, $is_buy_btn_newtab_enabled ) {
 		extract( $service );
-		$price = "<span data-price=$price>" . esc_attr( $price ) . '</span>';
-		$price = empty($settings_compare_at) ? $price : '<s>'.$settings_compare_at.'</s>'. ' ' . $price;
+		$price_attr = esc_attr( $price );
+		$price      = '<span data-price="' . $price_attr . '">' . esc_html( $price ) . '</span>';
+		$price      = empty( $settings_compare_at ) ? $price : '<s>' . esc_html( $settings_compare_at ) . '</s> ' . $price;
 		if ( empty( $name ) ) {
 			return;
 		}
 		if ( isset( $is_buy_btn_newtab_enabled ) && $is_buy_btn_newtab_enabled == '1' ) {
-			$newTabOpen = 'target="_blank"';
+			$newTabOpen = 'target="_blank" rel="noopener noreferrer"';
 		}
 		ob_start();
 		?>
@@ -887,7 +896,7 @@ if ( ! function_exists( 'output_service_style3' ) ) {
 				<?php if ( ! empty( $service['service_button'] ) ) { ?>
 					<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9" style="padding:0;">
 						<?php if ( ! empty( $service['service_url'] ) ) { ?>
-							<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+							<a href="<?php echo esc_url( $service['service_url'] ); ?>" target="_blank" rel="noopener noreferrer"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 						<?php } else { ?>
 							<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 							<?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag df-spl-d-ib' ); ?>
@@ -895,16 +904,16 @@ if ( ! function_exists( 'output_service_style3' ) ) {
 					</div>
 					<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="padding:0;">
 						<div class="df-spl-level">
-							<div class="df-spl-level-left" style="display: block">
+								<div class="df-spl-level-left" style="display: block">
 								<?php echo df_spl_output_a_tag( $price, '', 'spl-price a-tag' ); ?>
-								<a href="<?php echo esc_attr($service['service_button_url']); ?>" <?php echo isset( $newTabOpen ) ? esc_attr($newTabOpen) : ''; ?> class="txt-button-style3"><?php echo esc_attr($service['service_button']); ?></a>
+								<a href="<?php echo esc_url( $service['service_button_url'] ); ?>" <?php echo isset( $newTabOpen ) ? $newTabOpen : ''; ?> class="txt-button-style3"><?php echo esc_html( $service['service_button'] ); ?></a>
 							</div>
 						</div>
 					</div>
 				<?php } else { ?>
 					<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9" style="padding:0;">
 						<?php if ( ! empty( $service['service_url'] ) ) { ?>
-							<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+							<a href="<?php echo esc_url( $service['service_url'] ); ?>" target="_blank" rel="noopener noreferrer"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 						<?php } else { ?>
 							<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 							<?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag df-spl-d-ib' ); ?>
@@ -927,13 +936,14 @@ if ( ! function_exists( 'output_service_style3' ) ) {
 if ( ! function_exists( 'output_service_style4_col1' ) ) {
 	function output_service_style4_col1( $service, $is_buy_btn_newtab_enabled ) {
 		extract( $service );
-		$price = "<span data-price=$price>" . esc_attr( $price ) . '</span>';
-		$price = empty($settings_compare_at) ? $price : '<s>'.$settings_compare_at.'</s>'. ' ' . $price;
+		$price_attr = esc_attr( $price );
+		$price      = '<span data-price="' . $price_attr . '">' . esc_html( $price ) . '</span>';
+		$price      = empty( $settings_compare_at ) ? $price : '<s>' . esc_html( $settings_compare_at ) . '</s> ' . $price;
 		if ( empty( $name ) ) {
 			return;
 		}
 		if ( isset( $is_buy_btn_newtab_enabled ) && $is_buy_btn_newtab_enabled == '1' ) {
-			$newTabOpen = 'target="_blank"';
+			$newTabOpen = 'target="_blank" rel="noopener noreferrer"';
 		}
 		ob_start();
 		?>
@@ -946,17 +956,17 @@ if ( ! function_exists( 'output_service_style4_col1' ) ) {
 				<?php
 				if ( ! empty( $service['service_url'] ) ) {
 					?>
-					<a href="<?php echo esc_attr($service['service_url']); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+					<a href="<?php echo esc_url( $service['service_url'] ); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 					<?php
 				} else {
 					?>
-					<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?><?php } ?></span> <span class="style-4-border"></span><span class="style-4-productPrice style-4-width"> <?php echo df_spl_output_a_tag( $price, '', 'spl-price a-tag' ); ?></span></div><span class="df-spl-row desc spl_cstm_btn_style4"><?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag' ); ?><a href="<?php echo esc_attr($service['service_button_url']); ?>" <?php echo isset( $newTabOpen ) ? esc_attr($newTabOpen) : ''; ?> class="btn btn-book-now spl_book_now_btn_style_4"><?php echo esc_attr($service['service_button']); ?></a></span>
+					<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?><?php } ?></span> <span class="style-4-border"></span><span class="style-4-productPrice style-4-width"> <?php echo df_spl_output_a_tag( $price, '', 'spl-price a-tag' ); ?></span></div><span class="df-spl-row desc spl_cstm_btn_style4"><?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag' ); ?><a href="<?php echo esc_url( $service['service_button_url'] ); ?>" <?php echo isset( $newTabOpen ) ? $newTabOpen : ''; ?> class="btn btn-book-now spl_book_now_btn_style_4"><?php echo esc_html( $service['service_button'] ); ?></a></span>
 			<?php } else { ?>
 				<div class="content-section name-price clearfix"><span class="style-4-productName style-4-width">
 				<?php
 				if ( ! empty( $service['service_url'] ) ) {
 					?>
-					<a href="<?php echo esc_attr($service['service_url']); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+					<a href="<?php echo esc_url( $service['service_url'] ); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 					<?php
 				} else {
 					?>
@@ -973,13 +983,14 @@ if ( ! function_exists( 'output_service_style4_col1' ) ) {
 if ( ! function_exists( 'output_service_style4' ) ) {
 	function output_service_style4( $service, $is_buy_btn_newtab_enabled ) {
 		extract( $service );
-		$price = "<span data-price=$price>" . esc_attr( $price ) . '</span>';
-		$price = empty($settings_compare_at) ? $price : '<s>'.$settings_compare_at.'</s>'. ' ' . $price;
+		$price_attr = esc_attr( $price );
+		$price      = '<span data-price="' . $price_attr . '">' . esc_html( $price ) . '</span>';
+		$price      = empty( $settings_compare_at ) ? $price : '<s>' . esc_html( $settings_compare_at ) . '</s> ' . $price;
 		if ( empty( $name ) ) {
 			return;
 		}
 		if ( isset( $is_buy_btn_newtab_enabled ) && $is_buy_btn_newtab_enabled == '1' ) {
-			$newTabOpen = 'target="_blank"';
+			$newTabOpen = 'target="_blank" rel="noopener noreferrer"';
 		}
 		ob_start();
 		?>
@@ -992,17 +1003,17 @@ if ( ! function_exists( 'output_service_style4' ) ) {
 				<?php
 				if ( ! empty( $service['service_url'] ) ) {
 					?>
-					<a href="<?php echo esc_attr($service['service_url']); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+					<a href="<?php echo esc_url( $service['service_url'] ); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 					<?php
 				} else {
 					?>
-					<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?><?php } ?></span> <span class="style-4-border"></span><span class="style-4-productPrice style-4-width"> <?php echo df_spl_output_a_tag( $price, '', 'spl-price a-tag' ); ?></span></div><span class="df-spl-row desc spl_cstm_btn_style4"><?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag' ); ?><a href="<?php echo esc_attr($service['service_button_url']); ?>" <?php echo isset( $newTabOpen ) ? esc_attr($newTabOpen) : ''; ?> class="btn btn-book-now spl_book_now_btn_style_4"><?php echo esc_attr($service['service_button']); ?></a></span>
+					<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?><?php } ?></span> <span class="style-4-border"></span><span class="style-4-productPrice style-4-width"> <?php echo df_spl_output_a_tag( $price, '', 'spl-price a-tag' ); ?></span></div><span class="df-spl-row desc spl_cstm_btn_style4"><?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag' ); ?><a href="<?php echo esc_url( $service['service_button_url'] ); ?>" <?php echo isset( $newTabOpen ) ? $newTabOpen : ''; ?> class="btn btn-book-now spl_book_now_btn_style_4"><?php echo esc_html( $service['service_button'] ); ?></a></span>
 			<?php } else { ?>
 				<div class="content-section name-price clearfix"><span class="style-4-productName style-4-width">
 				<?php
 				if ( ! empty( $service['service_url'] ) ) {
 					?>
-					<a href="<?php echo esc_attr($service['service_url']); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+					<a href="<?php echo esc_url( $service['service_url'] ); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 					<?php
 				} else {
 					?>
@@ -1022,13 +1033,14 @@ if ( ! function_exists( 'output_service_style5' ) ) {
 			return;
 		}
 		extract( $service );
-		$price = "<span data-price=$price>" . esc_attr( $price ) . '</span>';
-		$price = empty($settings_compare_at) ? $price : '<s>'.$settings_compare_at.'</s>'. ' ' . $price;
+		$price_attr = esc_attr( $price );
+		$price      = '<span data-price="' . $price_attr . '">' . esc_html( $price ) . '</span>';
+		$price      = empty( $settings_compare_at ) ? $price : '<s>' . esc_html( $settings_compare_at ) . '</s> ' . $price;
 		if ( empty( $name ) ) {
 			return;
 		}
 		if ( isset( $is_buy_btn_newtab_enabled ) && $is_buy_btn_newtab_enabled == '1' ) {
-			$newTabOpen = 'target="_blank"';
+			$newTabOpen = 'target="_blank" rel="noopener noreferrer"';
 		}
 		ob_start();
 		?>
@@ -1039,9 +1051,9 @@ if ( ! function_exists( 'output_service_style5' ) ) {
 			<div class="name-price-desc spl-style-5">
 				<?php if ( ! empty( $service['service_button'] ) ) { ?>
 					<div class="">
-						<div class="col-md-9 col-sm-9 col-xs-9 padding-left-no spl-mr-0">
-							<?php if ( ! empty( $service['service_url'] ) ) { ?>
-								<a href="<?php echo esc_attr($service['service_url']); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+							<div class="col-md-9 col-sm-9 col-xs-9 padding-left-no spl-mr-0">
+								<?php if ( ! empty( $service['service_url'] ) ) { ?>
+								<a href="<?php echo esc_url( $service['service_url'] ); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 							<?php } else { ?>
 								<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 								<?php
@@ -1050,7 +1062,7 @@ if ( ! function_exists( 'output_service_style5' ) ) {
 							?>
 						</div>
 						<div class="col-md-3 col-sm-3 col-xs-3 padding-left-no padding-right-no" data-price-list-fragment="price">
-							<div class="spl-style5-price"><?php echo df_spl_output_a_tag_style5( $price, '', 'spl-price a-tag' ); ?><a href="<?php echo esc_attr($service['service_button_url']); ?>" <?php echo isset( $newTabOpen ) ? esc_attr($newTabOpen) : ''; ?> class="btn btn-book-now spl_book_now_btn_style_5"><?php echo esc_attr($service['service_button']); ?></a></div>
+							<div class="spl-style5-price"><?php echo df_spl_output_a_tag_style5( $price, '', 'spl-price a-tag' ); ?><a href="<?php echo esc_url( $service['service_button_url'] ); ?>" <?php echo isset( $newTabOpen ) ? $newTabOpen : ''; ?> class="btn btn-book-now spl_book_now_btn_style_5"><?php echo esc_html( $service['service_button'] ); ?></a></div>
 						</div>
 					</div>
 					<div class="df-spl-row liner spl-five-bottom">
@@ -1059,7 +1071,7 @@ if ( ! function_exists( 'output_service_style5' ) ) {
 					<div class="">
 						<div class="col-md-9 col-sm-9 col-xs-9 padding-left-no">
 							<?php if ( ! empty( $service['service_url'] ) ) { ?>
-								<a href="<?php echo esc_attr($service['service_url']); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+								<a href="<?php echo esc_url( $service['service_url'] ); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 							<?php } else { ?>
 								<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 								<?php
@@ -1783,7 +1795,7 @@ if ( ! function_exists( 'output_service_style7' ) ) {
 			return;
 		}
 		if ( isset( $is_buy_btn_newtab_enabled ) && $is_buy_btn_newtab_enabled == '1' ) {
-			$newTabOpen = 'target="_blank"';
+			$newTabOpen = 'target="_blank" rel="noopener noreferrer"';
 		}
 		ob_start();
 		?>
@@ -1791,9 +1803,9 @@ if ( ! function_exists( 'output_service_style7' ) ) {
 			<div class="spl-style-7">
 				<?php if ( ! empty( $service['service_button'] ) ) { ?>
 					<div class="spl-seven-bottom">
-						<div class="col-md-6 col-sm-6 col-xs-6">
+							<div class="col-md-6 col-sm-6 col-xs-6">
 							<?php if ( ! empty( $service['service_url'] ) ) { ?>
-								<a href="<?php echo esc_attr($service['service_url']); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+								<a href="<?php echo esc_url( $service['service_url'] ); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 							<?php } else { ?>
 								<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text'] ); ?>
 								<?php
@@ -1802,14 +1814,14 @@ if ( ! function_exists( 'output_service_style7' ) ) {
 							?>
 						</div>
 						<div class="col-md-6 col-sm-6 col-xs-6 padding-left-no">
-							<div class="spl-style7-price"><?php echo df_spl_output_a_tag_style5( $price, '', 'spl-price a-tag' ); ?><a href="<?php echo esc_attr($service['service_button_url']); ?>" <?php echo isset( $newTabOpen ) ? esc_attr($newTabOpen) : ''; ?> class="btn btn-book-now spl_book_now_btn_style_7"><?php echo esc_attr($service['service_button']); ?></a></div>
+							<div class="spl-style7-price"><?php echo df_spl_output_a_tag_style5( $price, '', 'spl-price a-tag' ); ?><a href="<?php echo esc_url( $service['service_button_url'] ); ?>" <?php echo isset( $newTabOpen ) ? $newTabOpen : ''; ?> class="btn btn-book-now spl_book_now_btn_style_7"><?php echo esc_html( $service['service_button'] ); ?></a></div>
 						</div>
 					</div>
 				<?php } else { ?>
 					<div class="spl-seven-bottom">
 						<div class="col-md-9 col-sm-9 col-xs-9">
 							<?php if ( ! empty( $service['service_url'] ) ) { ?>
-								<a href="<?php echo esc_attr($service['service_url']); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+								<a href="<?php echo esc_url( $service['service_url'] ); ?>"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 							<?php } else { ?>
 								<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text'] ); ?>
 								<?php
@@ -1839,10 +1851,11 @@ if ( ! function_exists( 'output_service_style7b' ) ) {
 		if ( empty( $name ) ) {
 			return;
 		}
-		$price = "<span data-price=$price>" . esc_attr( $price ) . '</span>';
-		$price = empty($settings_compare_at) ? $price : '<s>'.$settings_compare_at.'</s>'. ' ' . $price;
+		$price_attr = esc_attr( $price );
+		$price      = '<span data-price="' . $price_attr . '">' . esc_html( $price ) . '</span>';
+		$price      = empty( $settings_compare_at ) ? $price : '<s>' . esc_html( $settings_compare_at ) . '</s> ' . $price;
 		if ( isset( $is_buy_btn_newtab_enabled ) && $is_buy_btn_newtab_enabled == '1' ) {
-			$newTabOpen = 'target="_blank"';
+			$newTabOpen = 'target="_blank" rel="noopener noreferrer"';
 		}
 		ob_start();
 		?>
@@ -1854,17 +1867,17 @@ if ( ! function_exists( 'output_service_style7b' ) ) {
 				<div class="df-spl-row name-price style-7 spl_cstm_style2">
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 spl_cstm_style_2_book-full">
 						<div class="spl-d-flex spl-s7-content">
-							<div class="s7-left-content">
+								<div class="s7-left-content">
 								<?php if ( ! empty( $service['service_url'] ) ) { ?>
-									<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank" class="btn btn-book-now spl_book_now_btn_style_7"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+									<a href="<?php echo esc_url( $service['service_url'] ); ?>" target="_blank" rel="noopener noreferrer" class="btn btn-book-now spl_book_now_btn_style_7"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 								<?php } else { ?>
 									<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text'] ); ?>
 								<?php } ?>
 								<?php echo df_spl_output_a_tag( $desc, '', 'desc a-tag' ); ?>
 							</div>
-							<div class="s7-right-content">
+								<div class="s7-right-content">
 								<?php echo df_spl_output_a_tag( $price, '', 'spl-price a-tag spl-style-7-price' ); ?>
-								<a href="<?php echo esc_attr($service['service_button_url']); ?>" <?php echo isset( $newTabOpen ) ? esc_attr($newTabOpen) : ''; ?> class="btn btn-book-now spl_book_now_btn_style_7"><?php echo esc_attr($service['service_button']); ?></a>
+								<a href="<?php echo esc_url( $service['service_button_url'] ); ?>" <?php echo isset( $newTabOpen ) ? $newTabOpen : ''; ?> class="btn btn-book-now spl_book_now_btn_style_7"><?php echo esc_html( $service['service_button'] ); ?></a>
 							</div>
 						</div>
 					</div>
@@ -1875,7 +1888,7 @@ if ( ! function_exists( 'output_service_style7b' ) ) {
 				<div class="spl-d-flex spl-s7-content">
 					<div class="s7-left-content">
 						<?php if ( ! empty( $service['service_url'] ) ) { ?>
-							<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank" class="btn btn-book-now spl_book_now_btn_style_1"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+							<a href="<?php echo esc_url( $service['service_url'] ); ?>" target="_blank" rel="noopener noreferrer" class="btn btn-book-now spl_book_now_btn_style_1"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 						<?php } else { ?>
 							<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 						<?php } ?>
@@ -1906,10 +1919,11 @@ if ( ! function_exists( 'output_service_style8' ) ) {
 		if ( empty( $name ) ) {
 			return;
 		}
-		$price = "<span data-price=$price>" . esc_attr( $price ) . '</span>';
-		$price = empty($settings_compare_at) ? $price : '<s>'.$settings_compare_at.'</s>'. ' ' . $price;
+		$price_attr = esc_attr( $price );
+		$price      = '<span data-price="' . $price_attr . '">' . esc_html( $price ) . '</span>';
+		$price      = empty( $settings_compare_at ) ? $price : '<s>' . esc_html( $settings_compare_at ) . '</s> ' . $price;
 		if ( isset( $is_buy_btn_newtab_enabled ) && $is_buy_btn_newtab_enabled == '1' ) {
-			$newTabOpen = 'target="_blank"';
+			$newTabOpen = 'target="_blank" rel="noopener noreferrer"';
 		}
 		ob_start();
 		?>
@@ -1920,7 +1934,7 @@ if ( ! function_exists( 'output_service_style8' ) ) {
 			<?php if ( $service['service_image'] ) { ?>
 				<div class="style8-desc-with-image">
 					<div class="spl-style8-img-container df-spl-pull-left">
-						<img src="<?php echo esc_attr($service['service_image']); ?>">
+						<img src="<?php echo esc_url( $service['service_image'] ); ?>">
 					</div>
 					<div class="style-8-card-content">
 						<div class="style-8-title-with-pricetag">
@@ -1981,10 +1995,11 @@ if ( ! function_exists( 'output_service_style7_single_col' ) ) {
 		if ( empty( $name ) ) {
 			return;
 		}
-		$price = "<span data-price=$price>" . esc_attr( $price ) . '</span>';
-		$price = empty($settings_compare_at) ? $price : '<s>'.$settings_compare_at.'</s>'. ' ' . $price;
+		$price_attr = esc_attr( $price );
+		$price      = '<span data-price="' . $price_attr . '">' . esc_html( $price ) . '</span>';
+		$price      = empty( $settings_compare_at ) ? $price : '<s>' . esc_html( $settings_compare_at ) . '</s> ' . $price;
 		if ( isset( $is_buy_btn_newtab_enabled ) && $is_buy_btn_newtab_enabled == '1' ) {
-			$newTabOpen = 'target="_blank"';
+			$newTabOpen = 'target="_blank" rel="noopener noreferrer"';
 		}
 		ob_start();
 		?>
@@ -1998,7 +2013,7 @@ if ( ! function_exists( 'output_service_style7_single_col' ) ) {
 						<div class="df-spl-row">
 							<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 spl_cstm_style_2_book">
 								<?php if ( ! empty( $service['service_url'] ) ) { ?>
-									<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank" class="btn btn-book-now spl_book_now_btn_style_7"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+									<a href="<?php echo esc_url( $service['service_url'] ); ?>" target="_blank" rel="noopener noreferrer" class="btn btn-book-now spl_book_now_btn_style_7"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 								<?php } else { ?>
 									<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 								<?php } ?>
@@ -2006,7 +2021,7 @@ if ( ! function_exists( 'output_service_style7_single_col' ) ) {
 							</div>
 							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 right-style-2">
 								<?php echo df_spl_output_a_tag( $price, '', 'spl-price a-tag spl-style-7-price' ); ?>
-								<a href="<?php echo esc_attr($service['service_button_url']); ?>" <?php echo isset( $newTabOpen ) ? esc_attr($newTabOpen) : ''; ?> class="btn btn-book-now spl_book_now_btn_style_7"><?php echo esc_attr($service['service_button']); ?></a>
+								<a href="<?php echo esc_url( $service['service_button_url'] ); ?>" <?php echo isset( $newTabOpen ) ? $newTabOpen : ''; ?> class="btn btn-book-now spl_book_now_btn_style_7"><?php echo esc_html( $service['service_button'] ); ?></a>
 							</div>
 						</div>
 					</div>
@@ -2017,7 +2032,7 @@ if ( ! function_exists( 'output_service_style7_single_col' ) ) {
 				<div class="df-spl-row name-price">
 					<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
 						<?php if ( ! empty( $service['service_url'] ) ) { ?>
-							<a href="<?php echo esc_attr($service['service_url']); ?>" target="_blank" class="btn btn-book-now spl_book_now_btn_style_1"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
+							<a href="<?php echo esc_url( $service['service_url'] ); ?>" target="_blank" rel="noopener noreferrer" class="btn btn-book-now spl_book_now_btn_style_1"><?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?></a>
 						<?php } else { ?>
 							<?php echo df_spl_output_a_tag( $name, '', 'name a-tag', $service['is_popular'] === 'on', $service['popular_text']); ?>
 						<?php } ?>
@@ -4604,6 +4619,9 @@ add_action('wp_footer', function() use ( $spl_data_values, $jsonld_currency, $en
 ?>
 <script type="text/javascript">
 	document.addEventListener('DOMContentLoaded', function() {
+
+		dfSPLHandleTooltips(<?php echo esc_attr($id); ?>);
+
 		function splWhenPluginAvailable(name, callback) {
 			var interval = 10; // ms
 			window.setTimeout(function () {

@@ -18,6 +18,10 @@ function spl_shortcode_pricelist( $atts, $content = null ) {
 			$atts
 		)
 	);
+	$id = absint( $id );
+	if ( empty( $id ) ) {
+		return '';
+	}
 
 	/* you can use following enqueue in a shortcode to load as required */
 
@@ -28,17 +32,20 @@ function spl_shortcode_pricelist( $atts, $content = null ) {
 
 	add_action( 'wp_footer', function() use ( $id ) {
 		?>
-			<div class="df-spl-tooltip-container" data-price-list-id=<?php echo esc_attr( $id ); ?>></div>
+			<div class="df-spl-tooltip-container" data-price-list-id="<?php echo esc_attr( $id ); ?>"></div>
 		<?php
 	} );
 	add_action( 'admin_footer', function() use ( $id ) {
 		?>
-			<div class="df-spl-tooltip-container" data-price-list-id=<?php echo esc_attr( $id ); ?>></div>
+			<div class="df-spl-tooltip-container" data-price-list-id="<?php echo esc_attr( $id ); ?>"></div>
 			<div class="df-spl-admin-tooltip-container"></div>
 		<?php
 	} );
 
-	wp_add_inline_script( 'spl-pricelist-tabs', "document.addEventListener('DOMContentLoaded', function() {dfSPLHandleTooltips($id)});" );
+	wp_add_inline_script(
+		'spl-pricelist-tabs',
+		"document.addEventListener('DOMContentLoaded', function() { if ( typeof dfSPLHandleTooltips === 'function' ) { dfSPLHandleTooltips(" . (int) $id . "); } });"
+	);
 
 	wp_enqueue_style( 'font-awwsone' );
 	ob_start();

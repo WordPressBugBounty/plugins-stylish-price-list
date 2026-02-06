@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											<button type="button" class="spl-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 										</div>
 										<div class="df-spl-show-style-mockups">
-											<img class="w-690" src="<?php echo SPL_URL . '/assets/images/Style1.png'; ?>" alt="some image" />
+											<img src="<?php echo SPL_URL . '/assets/images/Style1.png'; ?>" alt="some image" />
 											<div class="spl-container-buttom">
 												<div class="spl-button-container">
 												<button class="spl-button" data-btnType='keep-current'>Switch & Keep My Font Setting</button>
@@ -60,7 +60,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											<button type="button" class="spl-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 										</div>
 										<div class="df-spl-show-style-mockups">
-											<img class="w-690" src="<?php echo SPL_URL . '/assets/images/Style2.png'; ?>" alt="some image" />
+											<img src="<?php echo SPL_URL . '/assets/images/Style2.png'; ?>" alt="some image" />
 											<div class="spl-container-buttom">
 												<div class="spl-button-container">
 												<button class="spl-button" data-btnType='keep-current'>Switch & Keep My Font Setting</button>
@@ -90,7 +90,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											<button type="button" class="spl-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 										</div>
 										<div class="df-spl-show-style-mockups">
-											<img class="w-690" src="<?php echo SPL_URL . '/assets/images/Style3.png'; ?>" alt="some image" />
+											<img src="<?php echo SPL_URL . '/assets/images/Style3.png'; ?>" alt="some image" />
 											<div class="spl-container-buttom">
 												<div class="spl-button-container">
 												<button class="spl-button" data-btnType='keep-current'>Switch & Keep My Font Setting</button>
@@ -120,7 +120,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											<button type="button" class="spl-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 										</div>
 										<div class="df-spl-show-style-mockups">
-											<img class="w-690" src="<?php echo SPL_URL . '/assets/images/Style4.png'; ?>" alt="some image" />
+											<img src="<?php echo SPL_URL . '/assets/images/Style4.png'; ?>" alt="some image" />
 											<div class="spl-container-buttom">
 												<div class="spl-button-container">
 												<button class="spl-button" data-btnType='keep-current'>Switch & Keep My Font Setting</button>
@@ -150,7 +150,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											<button type="button" class="spl-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 										</div>
 										<div class="df-spl-show-style-mockups">
-											<img class="w-690" src="<?php echo SPL_URL . '/assets/images/Style5.png'; ?>" alt="some image" />
+											<img src="<?php echo SPL_URL . '/assets/images/Style5.png'; ?>" alt="some image" />
 											<div class="spl-container-buttom">
 												<div class="spl-button-container">
 												<button class="spl-button" data-btnType='keep-current'>Switch & Keep My Font Setting</button>
@@ -180,7 +180,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											<button type="button" class="spl-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 										</div>
 										<div class="df-spl-show-style-mockups">
-											<img class="w-690" src="<?php echo SPL_URL . '/assets/images/Style6.png'; ?>" alt="some image" />
+											<img src="<?php echo SPL_URL . '/assets/images/Style6.png'; ?>" alt="some image" />
 											<div class="spl-container-buttom">
 												<div class="spl-button-container">
 												<button class="spl-button" data-btnType='keep-current'>Switch & Keep My Font Setting</button>
@@ -210,7 +210,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											<button type="button" class="spl-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 										</div>
 										<div class="df-spl-show-style-mockups">
-											<img class="w-690" src="<?php echo SPL_URL . '/assets/images/Style7.png'; ?>" alt="some image" />
+											<img src="<?php echo SPL_URL . '/assets/images/Style7.png'; ?>" alt="some image" />
 											<div class="spl-container-buttom">
 												<div class="spl-button-container">
 												<button class="spl-button" data-btnType='keep-current'>Switch & Keep My Font Setting</button>
@@ -240,7 +240,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											<button type="button" class="spl-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 										</div>
 										<div class="df-spl-show-style-mockups">
-											<img class="w-690" src="<?php echo SPL_URL . '/assets/images/style8.png'; ?>" alt="some image" />
+											<img src="<?php echo SPL_URL . '/assets/images/style8.png'; ?>" alt="some image" />
 											<div class="spl-container-buttom">
 												<div class="spl-button-container">
 												<button class="spl-button" data-btnType='keep-current'>Switch & Keep My Font Setting</button>
@@ -270,7 +270,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 												<button type="button" class="spl-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 											</div>
 											<div class="df-spl-show-style-mockups">
-												<img class="w-690" src="<?php echo SPL_URL . '/assets/images/Style10.png'; ?>" alt="some image" />
+												<img src="<?php echo SPL_URL . '/assets/images/Style10.png'; ?>" alt="some image" />
 												<div class="spl-container-buttom">
 													<div class="spl-button-container">
 													<button class="spl-button" data-btnType='keep-current'>Switch & Keep My Font Setting</button>
@@ -300,7 +300,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 												<button type="button" class="spl-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 											</div>
 											<div class="df-spl-show-style-mockups">
-												<img class="w-690" src="<?php echo SPL_URL . '/assets/images/style-table-1.png'; ?>" alt="Style Table 1" />
+												<img src="<?php echo SPL_URL . '/assets/images/style-table-1.png'; ?>" alt="Style Table 1" />
 												<div class="spl-container-buttom">
 													<div class="spl-button-container">
 													<button class="spl-button" data-btnType='keep-current'>Switch & Keep My Font Setting</button>
@@ -330,7 +330,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 												<button type="button" class="spl-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 											</div>
 											<div class="df-spl-show-style-mockups">
-												<img class="w-690" src="<?php echo SPL_URL . '/assets/images/style-table-2.png'; ?>" alt="Style Table 2" />
+												<img src="<?php echo SPL_URL . '/assets/images/style-table-2.png'; ?>" alt="Style Table 2" />
 												<div class="spl-container-buttom">
 													<div class="spl-button-container">
 													<button class="spl-button" data-btnType='keep-current'>Switch & Keep My Font Setting</button>
@@ -625,25 +625,85 @@ if ( ! defined( 'ABSPATH' ) ) {
 	.unique-spl-content {
 		background: #5bb3a7;
 		border-radius: 5px;
-		width: 953px;
-		display: flex;
-		height: 83px;
+	    display: flex;
 		align-content: center;
 		flex-wrap: wrap;
 		align-items: center;
 		display: flex;
-    justify-content: space-between;
-}
+        justify-content: space-between;
+		margin-top: 40px;
+		height: 83px;
+    }
 
-.unique-spl-content h1 {
-    color: white;
-    text-align: center;
-    font-size: 37px;
-}
+    .unique-spl-content h1 {
+       font-size: 37px;
+	   color: #fff;
+    }
 
-.unique-spl-content h1 span {
-    font-weight: 670;
-}
+	.df-spl-show-style-mockups img {
+		max-height: 620px;
+	}
+
+    @media (max-width: 768px) {
+		.df-spl-show-style-mockups img {
+			width: 100% !important;
+			margin-top: 10px;
+		}
+		.unique-spl-content {
+			width: 100%;
+			height: 100px;
+		}
+
+		.unique-spl-content h1 {
+			font-size: 25px;
+		}
+
+		.spl-container-buttom {
+			width: 100%;
+		}
+
+		.spl-button-container {
+			width: 100%;
+	    }
+    }
+
+	@media (min-width: 769px) and (max-width: 1440px) {
+		.df-spl-show-style-mockups img {
+			width: 90% !important;
+			margin-top: 10px;
+		}
+
+		.unique-spl-content {
+			width: 90%;
+		}
+
+		.spl-container-buttom {
+			width: 90%;
+		}
+
+		.spl-button-container {
+			width: 80%;
+	    }
+	}
+
+    @media (min-width: 1441px) {
+		.df-spl-show-style-mockups img {
+			width: 60% !important;
+			margin-top: 10px;
+		}
+		 
+        .unique-spl-content {
+            width: 60%;
+        }
+
+		.spl-container-buttom {
+			width: 60%;
+		}
+
+		.spl-button-container {
+		    width:  65%;
+	    }
+    }
 
 .modal-dialog .df-spl-row {
     justify-content: center;
@@ -683,7 +743,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     border: none !important;
 }
 .spl-container-buttom {
-    width: 953px;
     height: 83px;
     background: white;
     display: flex;
@@ -693,7 +752,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 .spl-button-container {
-    width: 700px;
     display: flex;
     justify-content: space-between; /* Espacio entre elementos */
     align-items: center; /* Alineación vertical al centro */
@@ -711,6 +769,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	user-select: none;
 	cursor: pointer;
 	color:#5bb3a7;
+	margin-right: 10px;
 }
 .spl-button:hover{
 	background: #5bb3a7;

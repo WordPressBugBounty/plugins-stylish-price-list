@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // only accessible to admin
-if ( ! is_admin() || ! current_user_can( 'edit_posts' ) ) {
+if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
 	return;
 }
 // verify nonce for price_lists_page_nonce

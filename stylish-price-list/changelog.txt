@@ -1,3 +1,19 @@
+= 7.2.4 - 2026-01-29
+* Compatibility fixes
+* Fixed tooltip not showing up in some of the styles
+
+= 7.2.3 - 2025-12-22
+* BUG-FIX: Font Selection Modal is Not Responsive and Does Not Adapt to the Screen
+* Fixed XSS vulnerablity from authenticated users
+
+= 7.2.2 - 2025-10-21
+* [Price List Editor] Fix tablet view of the price list editor
+* [Price List Editor] Enhance mobile responsiveness and update footer layout
+* [Price List Editor] Add header with license status for tablet/mobile view and adjust CSS for responsive design
+* [Price List Editor] Remove redundant CSS for submit button in mobile view
+* [Price List Editor] Remove commented-out code in price list form
+* Fixed Style 6 images shrinking in some pages
+
 = 7.2.1 - 2025-08-29
 * Fixed style one button hover color settings not being applied
 * Fixed click to upload button failing after using the save button in the price list editor

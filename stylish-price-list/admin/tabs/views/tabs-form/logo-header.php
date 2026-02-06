@@ -38,7 +38,7 @@ $action = isset($_GET['action']) ? sanitize_text_field($_GET['action']) : '';
 <style type="text/css">
 	.spl_plug_ver{
 		position: relative;
-		top: -6px;
+		vertical-align: super;
 		font-weight: 700;
 		font-size: 16px;
 		color: #5bb3a7;
