@@ -1,3 +1,7 @@
+= 7.2.5 - 2026-02-26
+* Compatibility fixes
+* Frrontend styles improvement
+
 = 7.2.4 - 2026-01-29
 * Compatibility fixes
 * Fixed tooltip not showing up in some of the styles

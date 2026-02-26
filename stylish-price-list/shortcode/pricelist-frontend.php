@@ -15,6 +15,12 @@ $default_tab_size         = '';
 if ( ! empty( $id ) ) {
 	$shortcode_id = isset( $id ) ? $id : '';
 	$cats_data    = df_spl_get_option( $id );
+
+	if ( ! $cats_data ) {
+        echo "<h4 style='color:red'>Invalid Price List with ID " . esc_html( $id ) . "</h4>";
+		return;
+    }
+	
 	$style_cat_tab_btn                           = isset( $cats_data['style_cat_tab_btn'] ) ? $cats_data['style_cat_tab_btn'] : '';
 	$all_tab                                     = isset( $cats_data['all_tab'] ) ? $cats_data['all_tab'] : '';
 	$style                                       = isset( $cats_data['tab_style'] ) ? $cats_data['tab_style'] : '';
@@ -1064,8 +1070,6 @@ if ( ! function_exists( 'output_service_style5' ) ) {
 						<div class="col-md-3 col-sm-3 col-xs-3 padding-left-no padding-right-no" data-price-list-fragment="price">
 							<div class="spl-style5-price"><?php echo df_spl_output_a_tag_style5( $price, '', 'spl-price a-tag' ); ?><a href="<?php echo esc_url( $service['service_button_url'] ); ?>" <?php echo isset( $newTabOpen ) ? $newTabOpen : ''; ?> class="btn btn-book-now spl_book_now_btn_style_5"><?php echo esc_html( $service['service_button'] ); ?></a></div>
 						</div>
-					</div>
-					<div class="df-spl-row liner spl-five-bottom">
 					</div>
 				<?php } else { ?>
 					<div class="">
@@ -2909,7 +2913,7 @@ if ( $style == 'style_5' ) {
 				</div>
 		</div>
 	<?php } else { ?>
-		<div class="col-md-8">
+		<div class="col-md-10">
 			<div class="head-title">
 				<span class="style5">
 				<?php
@@ -3974,6 +3978,8 @@ if ( $style == 'style_6' ) {
 	[data-price-list-id="<?php echo esc_attr($id); ?>"] h5 {
 		font-family: <?php echo splPrintFontName( $desc_font ); ?>;
 		font-weight: 500;
+		word-break: break-word;
+	    overflow-wrap: anywhere;
 	}
 
 		<?php
@@ -4041,6 +4047,8 @@ if ( $style == 'style_6' ) {
 		font-size: <?php echo esc_attr($service_description_font_size); ?>;
 		color: <?php echo esc_attr($service_description_color); ?>;
 		font-weight: 400;
+		word-break: break-word;
+	    overflow-wrap: anywhere;
 	}
 
 

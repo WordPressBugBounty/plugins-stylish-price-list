@@ -45,7 +45,8 @@ ul.spl-s10-list-wrapper {
     margin-bottom: 25px;
 }
 .spl-s10-cat-cover-image {
-    height: 250px;
+    min-height: 250px;
+    padding: 10px;
     font-size: 160%;
     background-position: center;
     background-size: cover;

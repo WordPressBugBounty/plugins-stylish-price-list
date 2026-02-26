@@ -34,6 +34,7 @@ if (!function_exists('spl_generate_schema_markup')) {
 				if ( !filter_var( $product['service_image'], FILTER_VALIDATE_URL ) || empty( $price ) ) {
 					continue;
 				}
+				$service_id = isset( $product['service_id'] ) ? absint( $product['service_id'] ) : 0;
 				$schema_data = [
 					"@context" => "https://schema.org/",
 					"@type" => "Product",
@@ -44,8 +45,7 @@ if (!function_exists('spl_generate_schema_markup')) {
 						"@type" => "Offer",
 						"price" => $price,
 						"priceCurrency" => $jsonld_currency,
-						"availability" => "https://schema.org/InStock",
-						"url" => get_permalink( $product['service_id'] )
+						"availability" => "https://schema.org/InStock"
 					],
 					"image" => [
 						"@type" => "ImageObject",
@@ -54,10 +54,14 @@ if (!function_exists('spl_generate_schema_markup')) {
 						"name" => html_entity_decode( $product['service_name'] )
 					]
 				];
+
+				if ( $service_id > 0 ) {
+					$schema_data['offers']['url'] = get_permalink( $service_id );
+				}
 				// Encode the array to JSON
 				$jsonLd = wp_json_encode(
-					$schema_data,
-					JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
+				$schema_data,
+				JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
 				);
 				// Output the schema
 				echo '<script id="schemaorg" type="application/ld+json">' . $jsonLd . '</script>';
@@ -91,4 +95,3 @@ if ( ! function_exists( 'spl_limit_log_entries' ) ) {
         }
     }
 }
-

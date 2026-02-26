@@ -91,6 +91,18 @@ div.masonary-section ul {
 .spl-style8-img-container img {
 	flex-shrink: 0;
 }
+
+/* Prevent long list titles from breaking layouts on small screens */
+.spl-s10-title,
+.spl-s6-title,
+.spl-st1-title,
+.spl-st2-title,
+.head-title {
+	word-break: break-word;
+	overflow-wrap: anywhere;
+	max-width: 100%;
+}
+
 @media only screen and (min-width:1024px) {
 	.spl_cstm_style_2_book-full {
 		padding-left: 0 !important;
@@ -495,9 +507,11 @@ span.style-4-productName a {
 		vertical-align: top
 	}
 }
-.style4_cat_desc {
+.style4_cat_desc, .spl-s10-cat-desc {
 	padding-bottom: 10px;
 	/* padding-left: 6px */
+	word-break: break-word;
+	overflow-wrap: anywhere;
 }
 .style3_cat_desc {
 	padding-left: 26px;
@@ -1456,9 +1470,11 @@ h4.title-font {
 		display: flex;
 		flex-wrap: wrap;
 	}
-	.cat_descreption {
-		font-weight: normal
-	}
+.cat_descreption {
+	font-weight: normal;
+	word-break: break-word;
+	overflow-wrap: anywhere;
+}
 	.spl_cstm_style_6 table.table.table-bordered tr td {
 		padding: 8px;
 		vertical-align: middle;

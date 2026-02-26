@@ -590,8 +590,18 @@ if ( ! function_exists( 'service_item' ) ) {
 		<?php endif; ?>
 		<?php } elseif ( $id == 'service_long_description' ) { ?>
 				<textarea name="<?php echo esc_attr($name); ?>" id="<?php echo esc_attr($html_id); ?>" class="form-control <?php echo esc_attr($id); ?>" rows="5" cols="33"><?php echo esc_attr($value); ?></textarea>
-			<?php } else { ?>
-				<input type="text" name="<?php echo esc_attr($name); ?>" id="<?php echo esc_attr($html_id); ?>" class="form-control <?php echo esc_attr($id); ?>" value="<?php echo esc_attr($value); ?>" title="">
+			<?php } else { 
+				if ( $id === 'service_price' ) {
+					$lengthLimit = '20';
+				}
+				elseif ( $id === 'service_desc' ) {
+					$lengthLimit = '1000';
+				}
+				else {
+					$lengthLimit = '100';
+				}
+			?>
+				<input type="text" name="<?php echo esc_attr($name); ?>" id="<?php echo esc_attr($html_id); ?>" class="form-control <?php echo esc_attr($id); ?>" value="<?php echo esc_attr($value); ?>" title="" maxlength="<?php echo $lengthLimit; ?>">
 			<?php } ?>
 		</div>
 		</div>  <?php echo '<!-- ' . $title . ' -->'; ?>
@@ -629,7 +639,7 @@ if ( ! function_exists( 'category_name_row' ) ) {
 						<label for="category_<?php echo esc_attr($cat_id); ?>_name"><?php echo esc_attr($GLOBALS['Category_Name']); ?></label>
 					</div>
 					<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 ini ">
-						<input type="text" name="category[<?php echo esc_attr($cat_id); ?>][name]" id="category_<?php echo esc_attr($cat_id); ?>_name" class="form-control category_name" value="<?php echo esc_attr($cat_name); ?>">
+							<input type="text" name="category[<?php echo esc_attr($cat_id); ?>][name]" id="category_<?php echo esc_attr($cat_id); ?>_name" class="form-control category_name" value="<?php echo esc_attr($cat_name); ?>" maxlength="60">
 					</div>
 				</div> <!-- Category Name -->
 				<!--Category Description-->
@@ -638,7 +648,7 @@ if ( ! function_exists( 'category_name_row' ) ) {
 						<label for="category_<?php echo esc_attr($cat_id); ?>_description"><?php echo esc_attr($GLOBALS['Category_Description']); ?></label>
 					</div>
 					<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 ini">
-						<textarea name="category[<?php echo esc_attr($cat_id); ?>][description]" id="category_<?php echo esc_attr($cat_id); ?>_description" class="form-control category_description" rows="2" cols="50"><?php echo df_spl_remove_slash_quotes( $cat_description ); ?></textarea>
+					<textarea name="category[<?php echo esc_attr($cat_id); ?>][description]" id="category_<?php echo esc_attr($cat_id); ?>_description" class="form-control category_description" rows="2" cols="50" maxlength="500"><?php echo df_spl_remove_slash_quotes( $cat_description ); ?></textarea>
 					</div>
 				</div>
 				<!--End Category Description-->
@@ -1028,7 +1038,7 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 
 							<div class="price-list-name-and-style-wrapper d-flex align-items-center">								
 							<?php $list_name = df_spl_remove_slash_quotes( $list_name ); ?>
-							<input type="text" name="list_name" id="list_name" class="form-control list_name" placeholder="<?php echo esc_attr($Price_List_Name); ?>" required="" value="<?php echo esc_attr($list_name); ?>" title="">
+							<input type="text" name="list_name" id="list_name" class="form-control list_name" maxlength="100" placeholder="<?php echo esc_attr($Price_List_Name); ?>" required="" value="<?php echo esc_attr($list_name); ?>" title="">
 							<?php $list_type = isset($list_type) && (strpos($list_type, 'table') !== false) ? 'pricing_table' : 'price_list'; ?>
 								<div class="col-md-8 mode-select">
 									<select class="form-control sel1 spl-list-type-selector" name="list_type" style="max-width:140px !important;height:40px;">

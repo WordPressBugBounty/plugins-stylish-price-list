@@ -40,13 +40,44 @@ class Stylish_Price_List_Tabs_Form_Handler {
 			wp_safe_redirect( $redirect_to );
 			exit;
 		}
-		if ( isset( $_POST['category'] ) && is_array( $_POST['category'] ) ) {
-			unset( $_POST['category'][0] );
-		}
-		unset( $_POST['_wpnonce'] );
-		unset( $_POST['_wp_http_referer'] );
-		$fields     = df_spl_clean( $_POST );
-		$save_count = get_option( 'spl_save_count' );
+			if ( isset( $_POST['category'] ) && is_array( $_POST['category'] ) ) {
+				unset( $_POST['category'][0] );
+			}
+			unset( $_POST['_wpnonce'] );
+			unset( $_POST['_wp_http_referer'] );
+			$fields     = df_spl_clean( $_POST );
+			$fields['list_name'] = mb_substr( $fields['list_name'], 0, 100 );
+			if ( isset( $fields['category'] ) && is_array( $fields['category'] ) ) {
+				foreach ( $fields['category'] as $cat_id => $cat_data ) {
+					if ( isset( $cat_data['name'] ) ) {
+						$fields['category'][ $cat_id ]['name'] = mb_substr( $cat_data['name'], 0, 60 );
+					}
+					if ( isset( $cat_data['description'] ) ) {
+						$fields['category'][ $cat_id ]['description'] = mb_substr( $cat_data['description'], 0, 500 );
+					}
+					foreach ( $cat_data as $service_id => $service_data ) {
+						if ( ! is_array( $service_data ) ) {
+							continue; // skip category-level properties
+						}
+						foreach ( $service_data as $service_key => $service_value ) {
+							if ( ! is_scalar( $service_value ) ) {
+								continue;
+							}
+							// Limit user input on the server side
+							if ( $service_key === 'service_price' ) {
+								$fields['category'][ $cat_id ][ $service_id ][ $service_key ] = mb_substr( $service_value, 0, 20 );
+							} elseif ( $service_key === 'service_desc' ) {
+								$fields['category'][ $cat_id ][ $service_id ][ $service_key ] = mb_substr( $service_value, 0, 1000 );
+							} elseif ( $service_key === 'service_long_description' ) {
+								continue; // intentionally unlimited to match UI
+							} else {
+								$fields['category'][ $cat_id ][ $service_id ][ $service_key ] = mb_substr( $service_value, 0, 100 );
+							}
+						}
+					}
+				}
+			}
+			$save_count = get_option( 'spl_save_count' );
 		if ( ! $save_count ) {
 			update_option( 'spl_save_count', 1 );
 		} else {
