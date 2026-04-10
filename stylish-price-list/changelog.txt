@@ -1,3 +1,17 @@
+## 7.2.7 - 2026-04-09
+
+**Frontend Changes:**
+- Fixed long item names and descriptions causing layout overlap in templates 6, 8, and 10.
+- Improved template 6 and 8 responsive layouts so two-column listings stack more cleanly on smaller screens.
+- Improved template 6 content spacing and description display for items with images and longer text.
+
+**Editing Page Changes:**
+- Fixed category prices, item prices, and compare-at prices so formatted values are preserved more reliably when saved.
+- Updated price fields to allow slightly longer price text where needed.
+
+**Backend Changes:**
+- Improved server-side normalization for price fields to better handle formatted price input.
+
 = 7.2.5 - 2026-02-26
 * Compatibility fixes
 * Frrontend styles improvement
@@ -764,4 +778,3 @@ button for those who display their list in other languages.
 = 1.0.0 - 2017-5-4 =
 
 * Full Features are ready
-

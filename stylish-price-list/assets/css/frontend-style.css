@@ -2067,14 +2067,30 @@ input.spl-mysearch:focus-visible {
 .style-8-title-with-pricetag {
 	display: flex;
 	margin-bottom: 5px;
+	gap: 8px;
+	align-items: flex-start;
+	width: 100%;
 }
 .style-8-pricetag-container {
 	margin-left: auto;
+	flex-shrink: 0;
+}
+.style-8-title-container {
+	min-width: 0; /* allow flex child to shrink instead of overflowing */
 }
 .style-8-title-container h3 {
 	margin-top: 0;
 	margin-bottom: 0;
 	font-size: 20px;
+	word-break: break-word;
+	overflow-wrap: anywhere;
+	width: 200px;
+}
+.style-8-title-container h3 span {
+	display: -webkit-box;
+	-webkit-line-clamp: 6;
+	-webkit-box-orient: vertical;
+	overflow: hidden; /* prevent unbroken strings from stretching the card */
 }
 .style-8-pricetag-container .pricetag {
 	color: #fff;
@@ -2087,8 +2103,13 @@ input.spl-mysearch:focus-visible {
 }
 .style-8-description {
 	text-align: justify;
-	overflow-wrap: break-word;
+	overflow-wrap: anywhere;
+	word-break: break-all; /* force-break unspaced strings */
 	font-size: initial;
+	display: -webkit-box;
+	-webkit-line-clamp: 10;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
 }
 .style-8-card {
 	margin-bottom: 25px;
@@ -2123,7 +2144,7 @@ input.spl-mysearch:focus-visible {
 .style-8-cards.is-two-column .style-8-card {
 	width: 48%;
 	margin-right: 2%;
-	margin-bottom: 0;
+	margin-bottom: 30px;
 }
 .df-spl-style8_cat_tab-container ul > li {
 	display: inline;
@@ -2186,7 +2207,7 @@ input.spl-mysearch:focus-visible {
 .style8-desc-with-image,
 .style8-has-images {
 	display: flex;
-	align-items: center;
+	align-items: top;
 }
 
 /* end of style 8 css */
@@ -2344,15 +2365,19 @@ input.spl-mysearch:focus-visible {
 	}
 }
 
+@media screen and (max-width:900px) {
+.style-8-cards.is-two-column .style-8-card {
+		width: 100%;
+	}
+}
+
 
 @media screen and (max-width:600px) {
 	.style-8-cards.is-two-column {
 		align-items: center;
 		flex-direction: column;
 	}
-	.style-8-cards.is-two-column .style-8-card {
-		width: 100%;
-	}
+	
 	#tiles {
 		list-style-type: none
 	}

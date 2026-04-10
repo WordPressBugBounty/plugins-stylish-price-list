@@ -592,7 +592,7 @@ if ( ! function_exists( 'service_item' ) ) {
 				<textarea name="<?php echo esc_attr($name); ?>" id="<?php echo esc_attr($html_id); ?>" class="form-control <?php echo esc_attr($id); ?>" rows="5" cols="33"><?php echo esc_attr($value); ?></textarea>
 			<?php } else { 
 				if ( $id === 'service_price' ) {
-					$lengthLimit = '20';
+					$lengthLimit = '30';
 				}
 				elseif ( $id === 'service_desc' ) {
 					$lengthLimit = '1000';
@@ -714,7 +714,7 @@ if ( ! function_exists( 'category_name_row' ) ) {
 						<label for="category_<?php echo esc_attr($cat_id); ?>_price"><?php echo esc_attr($GLOBALS['Category_Price']); ?></label>
 					</div>
 					<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 ini">
-						<input type="text" name="category[<?php echo esc_attr($cat_id); ?>][price]" id="category_<?php echo esc_attr($cat_id); ?>_price" class="form-control category_price" value="<?php echo esc_attr($cat_price); ?>" placeholder="E.g: $50">
+						<input type="text" name="category[<?php echo esc_attr($cat_id); ?>][price]" id="category_<?php echo esc_attr($cat_id); ?>_price" class="form-control category_price" value="<?php echo esc_attr($cat_price); ?>" placeholder="E.g: $50" maxlength="30">
 					</div>
 				</div>
 				<!--End Category Price-->
@@ -856,7 +856,7 @@ if ( ! function_exists( 'category_row' ) ) {
 								</div>
 								<div class="col-xs-6 col-sm-7 col-md-7 col-lg-7">
 									<div class="d-flex align-items-center justify-content-between gap-10">
-										<input type="text" value="<?php echo esc_attr( $settings_compare_at ); ?>" class="form-control service-compare-at-price" placeholder="Set here comparison price" name="category[<?php echo $cat_id . "][" . $service_id; ?>][settings_compare_at]" id="category_<?php echo $cat_id . "_" . $service_id; ?>_settings_compare_at">
+										<input type="text" value="<?php echo esc_attr( $settings_compare_at ); ?>" class="form-control service-compare-at-price" placeholder="Set here comparison price" name="category[<?php echo $cat_id . "][" . $service_id; ?>][settings_compare_at]" id="category_<?php echo $cat_id . "_" . $service_id; ?>_settings_compare_at" maxlength="30">
 									</div>
 								</div>
 							</div>

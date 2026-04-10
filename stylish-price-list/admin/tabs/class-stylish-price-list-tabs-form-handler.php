@@ -12,6 +12,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 * Hook 'em all
 */
 class Stylish_Price_List_Tabs_Form_Handler {
+	/**
+	 * Normalize price-like text after generic cleaning so currency symbols remain intact.
+	 *
+	 * @param mixed $value Raw cleaned field value.
+	 * @return string
+	 */
+	private function normalize_price_field( $value ) {
+		if ( ! is_scalar( $value ) ) {
+			return '';
+		}
+
+		return html_entity_decode( wp_unslash( (string) $value ), ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+	}
+
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'handle_form' ) );
 		// add_action( 'load-toplevel_page_spl-tabs-new', array( $this, 'handle_form' ) );
@@ -55,6 +69,9 @@ class Stylish_Price_List_Tabs_Form_Handler {
 					if ( isset( $cat_data['description'] ) ) {
 						$fields['category'][ $cat_id ]['description'] = mb_substr( $cat_data['description'], 0, 500 );
 					}
+					if ( isset( $cat_data['price'] ) ) {
+						$fields['category'][ $cat_id ]['price'] = mb_substr( $this->normalize_price_field( $cat_data['price'] ), 0, 30 );
+					}
 					foreach ( $cat_data as $service_id => $service_data ) {
 						if ( ! is_array( $service_data ) ) {
 							continue; // skip category-level properties
@@ -64,8 +81,8 @@ class Stylish_Price_List_Tabs_Form_Handler {
 								continue;
 							}
 							// Limit user input on the server side
-							if ( $service_key === 'service_price' ) {
-								$fields['category'][ $cat_id ][ $service_id ][ $service_key ] = mb_substr( $service_value, 0, 20 );
+							if ( in_array( $service_key, array( 'service_price', 'service_regular_price', 'settings_compare_at' ), true ) ) {
+								$fields['category'][ $cat_id ][ $service_id ][ $service_key ] = mb_substr( $this->normalize_price_field( $service_value ), 0, 30 );
 							} elseif ( $service_key === 'service_desc' ) {
 								$fields['category'][ $cat_id ][ $service_id ][ $service_key ] = mb_substr( $service_value, 0, 1000 );
 							} elseif ( $service_key === 'service_long_description' ) {

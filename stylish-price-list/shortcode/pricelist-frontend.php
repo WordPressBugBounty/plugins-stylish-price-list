@@ -3742,7 +3742,7 @@ if ( $style == 'style_6' ) {
 						<?php if ( ! empty( $item_data['service_image'] ) ) { ?>
 							<img src="<?php echo esc_url($item_data['service_image']); ?>">
 						<?php } ?>
-						<div>
+						<div class="service-item-content">
 							<h3>
 								<span><?php echo sanitize_text_field($item_data['name']); ?></span>
 								<?php if ( $item_data['is_popular'] === 'on' ) { ?>
@@ -4049,7 +4049,13 @@ if ( $style == 'style_6' ) {
 		font-weight: 400;
 		word-break: break-word;
 	    overflow-wrap: anywhere;
-	}
+		 /* Show more of longer descriptions; 3 lines was too restrictive. */
+        display: -webkit-box;
+        -webkit-line-clamp: 10;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin-right: 7px;
+  }
 
 
 	#spl_<?php echo esc_attr($id); ?>.price_wrapper .cat_descreption .col-sm-12,

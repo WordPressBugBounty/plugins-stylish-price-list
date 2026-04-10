@@ -41,6 +41,12 @@ ul.spl-s6-list-wrapper .service-item > div {
     font-weight: var(--spl-s6-item-name-font-weight);
     color: var(--spl-s6-item-name-color);
     transition: all 0.3s ease;
+    word-break: break-all; /* allow extremely long strings without spaces to wrap */
+    overflow-wrap: anywhere;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    max-width: 100%;
 }
 
 .style-6 .service-item h3:hover,
@@ -165,6 +171,15 @@ ul.spl-s6-list-wrapper .service-item > div {
     font-size: var(--spl-s6-desc-font-size);
     font-family: var(--spl-s6-desc-font-style);
     font-weight: var(--spl-s6-desc-font-weight);
+
+    word-break: break-all; /* allow extremely long strings without spaces to wrap */
+    overflow-wrap: anywhere;
+    overflow: hidden; /* keep clamped text from overlapping the price row */
+    display: -webkit-box;
+    -webkit-line-clamp: 10;
+    -webkit-box-orient: vertical;
+    max-width: 100%;
+
 }
 .spl-s6-list-item .item-btn-wrapper p {
     color: var(--spl-s6-price-color);
@@ -240,16 +255,23 @@ ul.spl-s6-list-wrapper .service-item > div {
     flex-direction: row;
     align-items: center;
     width: 100%;
+    min-width: 0; /* let children shrink/wrap inside flex row */
     padding: 20px;
     margin: 2%;
     background-color: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
   }
+  .service-item > * {
+    min-width: 0; /* prevent child flex items from forcing overflow */
+  }
 
   .spl-s6-two-cols .service-item {
     width: 46%;
+    min-width: 0; /* avoid overflow in two-column layout */
   }
+  
+ 
 
   .style-6-custom-description-section {
     margin-bottom: 0;
@@ -282,6 +304,10 @@ ul.spl-s6-list-wrapper .service-item > div {
     object-fit: cover;
     border-radius: 5px;
   }
+
+  .service-item-content {
+    width: calc(100% - 120px - 5%);
+  }
   
   .service-item h3 {
     margin-top: 10px;
@@ -293,8 +319,7 @@ ul.spl-s6-list-wrapper .service-item > div {
     margin-bottom: 14px;
     text-align: left;
   }
-  
-  
+
   .price {
     display: flex;
     justify-content: space-between;
@@ -343,4 +368,10 @@ ul.spl-s6-list-wrapper .service-item > div {
   .df-spl-style6_cat_tab-container ul > li.active a, .style-8-container .noUi-connect {
     background-color: var(--spl-s6-category-color);
     color: var(--spl-s6-item-name-hover-color);
+  }
+
+ @media screen and (max-width:900px) {
+    .spl-s6-two-cols .service-item {
+        width: 100%;
+    }
   }

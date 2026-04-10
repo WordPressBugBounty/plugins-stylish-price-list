@@ -90,6 +90,13 @@ ul.spl-s10-list-wrapper {
     font-family: var(--spl-s10-item-name-font-style);
     font-size: var(--spl-s10-item-name-font-size);
     color: var(--spl-s10-item-name-color);
+     word-break: break-all; /* allow extremely long strings without spaces to wrap */
+    overflow-wrap: anywhere;
+    overflow: hidden; /* keep clamped text from overlapping the price row */
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    max-width: 100%;
 }
 .spl-s10-bold:hover {
     color: var(--spl-s10-item-name-hover-color);
@@ -124,6 +131,13 @@ ul.spl-s10-list-wrapper {
     font-size: var(--spl-s10-desc-font-size);
     font-family: var(--spl-s10-desc-font-style);
     font-weight: var(--spl-s10-desc-font-weight);
+    word-break: break-all; /* allow extremely long strings without spaces to wrap */
+    overflow-wrap: anywhere;
+    overflow: hidden; /* keep clamped text from overlapping the price row */
+    display: -webkit-box;
+    -webkit-line-clamp: 10;
+    -webkit-box-orient: vertical;
+    max-width: 100%;
 }
 .spl-s10-list-item .item-btn-wrapper p {
     color: var(--spl-s10-price-color);
