@@ -1,8 +1,12 @@
 const htmlNodesManager = {
 	priceListNodes: null,
 	pricingTableNodes: null,
+	currentValue: null,
 	
-	backupHtmlNodes: function() {
+	backupHtmlNodes: function() {  
+		const $select = jQuery('select[name="tab_style"]');
+		this.currentValue = $select.val();
+
 		if (!this.priceListNodes) {
 			this.priceListNodes = jQuery('.spl-list-option').detach();
 		}
@@ -11,30 +15,75 @@ const htmlNodesManager = {
 		}
 	},
 	
-	restorePriceListNodes: function() {
+	restorePriceListNodes: function() { 
 		if (this.priceListNodes) {
+			const $select = jQuery('select[name="tab_style"]');
 			this.priceListNodes.each( ( index, node ) => {
 				node.classList.remove('df-spl-d-none');
 			});
-			jQuery('select[name="tab_style"]').append(this.priceListNodes);
+			$select.append(this.priceListNodes);
+			$select.append(this.pricingTableNodes);
+			if (this.currentValue) {
+				$select.val(this.currentValue);
+			}
 			this.priceListNodes = null;
 		}
 	},
 	
 	restorePricingTableNodes: function() {
 		if (this.pricingTableNodes) {
+			const $select = jQuery('select[name="tab_style"]');
+			const currentValue = $select.val();
 			this.pricingTableNodes.each( ( index, node ) => {
 				node.classList.remove('df-spl-d-none');
 			});
-			jQuery('select[name="tab_style"]').append(this.pricingTableNodes);
+			$select.append(this.pricingTableNodes);
+			if (currentValue) {
+				$select.val(currentValue);
+			}
 			this.pricingTableNodes = null;
 		}
 	},
-	flushChoices: function() {
+	flushChoices: function() {  
 		this.priceListNodes = jQuery('.spl-list-option').detach();
 		this.pricingTableNodes = jQuery('.spl-table-option').detach();
 	},
 };
+
+function updateCategorySummary( categoryRow ) {
+	const summaryNode = categoryRow.find( '.category-accordion-summary' );
+	if ( ! summaryNode.length ) {
+		return;
+	}
+
+	const categoryName = categoryRow.find( '.category_name' ).first().val()?.trim() || '';
+	summaryNode.text( categoryName );
+	summaryNode.toggleClass( 'is-empty', categoryName.length === 0 );
+}
+
+function setCategoryAccordionState( categoryRow, shouldExpand, animate = true ) {
+	const accordionPanel = categoryRow.find( '.category-accordion-panel' ).first();
+	const toggleButton = categoryRow.find( '.category-accordion-toggle' ).first();
+	const toggleIcon = toggleButton.find( '.fas' ).first();
+	const toggleAction = shouldExpand ? 'slideDown' : 'slideUp';
+
+	categoryRow.toggleClass( 'is-collapsed', ! shouldExpand );
+	toggleButton.attr( 'aria-expanded', shouldExpand ? 'true' : 'false' );
+	toggleButton.attr( 'aria-label', shouldExpand ? 'Collapse category' : 'Expand category' );
+	toggleIcon.toggleClass( 'fa-chevron-up', shouldExpand );
+	toggleIcon.toggleClass( 'fa-chevron-down', ! shouldExpand );
+
+	if ( ! accordionPanel.length ) {
+		return;
+	}
+
+	if ( animate ) {
+		accordionPanel.stop( true, true )[ toggleAction ]( 180 );
+		return;
+	}
+
+	accordionPanel.toggle( shouldExpand );
+}
 
 function add_service( service_link ) {
 	checkIfMaxVarsReached();
@@ -164,7 +213,11 @@ function add_category( add_cat_row_ele ) {
 		var category_max = parseInt( get_category_max( jQuery( '#category-rows-wrapper' ) ) );
 		update_category_row_html( cat_clone, category_max + 1, service_id );
 		cat_clone.appendTo( '#category-rows-wrapper .categories' );
-		makeServiceSortable(cat_clone.children(".service-container")[0]);
+		imagePickerEventHandler( cat_clone[0] );
+		loadStylishUploadButton( cat_clone );
+		updateCategorySummary( cat_clone );
+		setCategoryAccordionState( cat_clone, true, false );
+		makeServiceSortable( cat_clone.find( '.service-container' ).first()[0] );
 		cat_count = parseInt( get_category_count( jQuery( '#category-rows-wrapper' ) ) );
 		if ( cat_count >= splSettings.maxCats ) {
 			show_license_tips_for_category( add_cat_row_ele );
@@ -230,7 +283,7 @@ const handlePreviewDockMode = ( element, mode, event, scrollTo = true ) => {
 	const buttons = document.querySelectorAll( '[data-dock-mode]' );
 	const previewPane = document.querySelector( '.spl-preview' );
 	const secondaryNav = document.querySelector( '.navbar.navbar-secondary' );
-	const moreSettingsWrapper = document.querySelector( '#more-settings-wrapper' );
+	//const moreSettingsWrapper = document.querySelector( '#more-settings-wrapper' );
 	const priceListEditorForm = document.querySelector( '#main_form' );
 	const style5ExtraOptions = document.querySelector( '#style5_category_container' );
 	// remove btn-primary from all buttons
@@ -242,13 +295,16 @@ const handlePreviewDockMode = ( element, mode, event, scrollTo = true ) => {
 		leftPane.classList.add( 'preview-docked-bottom' );
 		secondaryNav.classList.add( 'preview-docked-bottom');
 		style5ExtraOptions.classList.add( 'preview-docked-bottom');
-		moreSettingsWrapper.classList.add( 'preview-docked-bottom');
+		//moreSettingsWrapper.classList.add( 'preview-docked-bottom');
 		const dockToBottomBtns = document.querySelectorAll( '[data-dock-mode="bottom"]' );
 		dockToBottomBtns.forEach( ( btn ) => {
 			btn.classList.add( 'btn-primary' );
 		} );
 		floatingDockSwitcher?.classList.remove( 'df-spl-d-none' );
 		priceListEditorForm?.classList.add( 'preview-docked-bottom' );
+		if ( previewPane ) {
+			previewPane.style.setProperty('width', '100%', 'important');
+		}
 		if ( event ) {
 			if ( scrollTo ) {
 				previewPane.scrollIntoView( { behavior: 'smooth' } );
@@ -275,12 +331,16 @@ const handlePreviewDockMode = ( element, mode, event, scrollTo = true ) => {
 		secondaryNav.classList.remove( 'preview-docked-bottom' );
 		style5ExtraOptions.classList.remove( 'preview-docked-bottom' );
 		priceListEditorForm.classList.remove( 'preview-docked-bottom' );
-		moreSettingsWrapper.classList.remove( 'preview-docked-bottom' );
+		//moreSettingsWrapper.classList.remove( 'preview-docked-bottom' );
 		const dockToRightBtns = document.querySelectorAll( '[data-dock-mode="right"]' );
 		dockToRightBtns.forEach( ( btn ) => {
 			btn.classList.add( 'btn-primary' );
 		} );
+		if ( previewPane ) {
+			previewPane.style.setProperty('width', '48%', 'important');
+		}
 		if ( event ) {
+			
 			if ( scrollTo ) {
 				previewPane.scrollIntoView( { behavior: 'smooth' } );
 				previewPane.scrollTop = previewPane.scrollHeight;
@@ -581,6 +641,25 @@ function initializeStylishPriceListBackend(maxAttempts = 50) { // Max 5 seconds 
 	}
 
 	loadStylishUploadButton();
+
+	jQuery( document ).on( 'click', '.category-accordion-toggle', function( event ) {
+		event.preventDefault();
+		event.stopPropagation();
+
+		const categoryRow = jQuery( this ).closest( '.category-row' );
+		const shouldExpand = jQuery( this ).attr( 'aria-expanded' ) !== 'true';
+		setCategoryAccordionState( categoryRow, shouldExpand );
+	} );
+
+	jQuery( document ).on( 'input', '.category_name', function() {
+		updateCategorySummary( jQuery( this ).closest( '.category-row' ) );
+	} );
+
+	jQuery( '.category-row' ).each( function() {
+		const categoryRow = jQuery( this );
+		updateCategorySummary( categoryRow );
+		setCategoryAccordionState( categoryRow, ! categoryRow.hasClass( 'is-collapsed' ), false );
+	} );
 
 	// image tooltip setup
 

@@ -7,23 +7,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 */
 class Stylish_Price_List_Tabs {
 	public function __construct() {
-		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-		add_action( 'wp_ajax_df_spl_feedback_manage', array( $this, 'feedback_manage' ) );
-		add_action( 'wp_ajax_stylish-price-list-submit-uninstall-reason', array( $this, 'uninstall_reason' ) );
-		add_action( 'wp_ajax_spl_setup_wizard', array( $this, 'spl_setup_wizard' ) );
-    add_action('admin_init', array($this, 'handle_delete_action'));
-		// spl_setup_wizard
+		    add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+		    add_action( 'wp_ajax_df_spl_feedback_manage', array( $this, 'feedback_manage' ) );
+		    add_action( 'wp_ajax_stylish-price-list-submit-uninstall-reason', array( $this, 'uninstall_reason' ) );
+		    add_action( 'wp_ajax_spl_setup_wizard', array( $this, 'spl_setup_wizard' ) );
+        add_action('admin_init', array($this, 'handle_delete_action'));
+        add_action( 'wp_ajax_spl_handle_license', [ $this, 'ajax_handle_license' ] );
+		    // spl_setup_wizard
 	}
 	public function spl_setup_wizard() {
-		check_ajax_referer( 'spl-add-new-page', 'nonce' );
-		if ( ! current_user_can( 'edit_posts' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permission denied.', 'spl' ) ), 403 );
-		}
-		$input_args              = file_get_contents( 'php://input' );
-    	$args                    = json_decode( $input_args, true );
-    	$this->spl_send_wizard_quiz_data( $args );
-		wp_send_json_success();
-	}
+		    check_ajax_referer( 'spl-add-new-page', 'nonce' );
+		    if ( ! current_user_can( 'edit_posts' ) ) {
+			      wp_send_json_error( array( 'message' => __( 'Permission denied.', 'spl' ) ), 403 );
+		    }
+		    $input_args              = file_get_contents( 'php://input' );
+    	  $args                    = json_decode( $input_args, true );
+    	  $this->spl_send_wizard_quiz_data( $args );
+		    wp_send_json_success();
+	  }
+    public function ajax_handle_license() {
+        require_once dirname( __FILE__ ) . '/../class-spl-license-page.php';   
+        $license_page = new Spl_LicensePage();
+        $license_page->ajax_handle_license();
+    }
     private function spl_send_wizard_quiz_data( $data ) {
         $telemetry_url = SPL_TELEMETRY_ENDPOINT . '/api/public/collect';
         $telemetry_url = add_query_arg( 'app', 'spl', $telemetry_url );

@@ -78,6 +78,7 @@ class SPL_LicensePage {
 		// $this->page();
 		// $this->page_style();
 		// $this->page_script();
+		
 	}
 
 	private static function get_action_url() {
@@ -206,6 +207,39 @@ class SPL_LicensePage {
 			$this->update_opt( '' );
 			return 'The license key is empty';
 		}
+	}
+
+	
+
+	public function ajax_handle_license() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( [ 'message' => __( 'Permission denied.', 'stylishpl' ) ] );
+		}
+		check_ajax_referer( 'spl-license', '_nonce' );
+
+		$form = wp_unslash( $_POST );
+		$action = $form['_action'] ?? '';
+
+		switch ( $action ) {
+			case 'active':
+				$this->active_client_license( $form );
+				break;
+			case 'deactivate':
+				$this->deactive_client_license( $form );
+				break;
+			case 'refresh':
+				$this->refresh_client_license( $form );
+				break;
+		}
+
+		if ( ! empty( $this->error ) ) {
+			wp_send_json_error( [ 'message' => $this->error ] );
+		}
+
+		wp_send_json_success( [
+			'message' => $this->success ?: 'License updated.',
+			'license' => get_option( 'spllk_opt' ),
+		] );
 	}
 
 	// private function
@@ -537,8 +571,8 @@ class SPL_LicensePage {
 
 			.btn-primary {
 				color: #fff;
-				background-color: #314af3;
-				border-color: #314af3;
+				background-color: #111;
+				border-color: #111;
 				border-radius: 3px;
 			}
 			.btn {
@@ -661,12 +695,12 @@ class SPL_LicensePage {
 				font-size: 17px;
 				padding: 8px;
 				height: 46px;
-				background-color: #0082BF;
+				background-color: #111;
 				border-radius: 3px;
 				cursor: pointer;
 				flex: 0 0 25%;
 				max-width: 25%;
-				border: 1px solid #0082BF;
+				border: 1px solid #111;
 			}
 
 			.license-input-fields button.deactive-button {
@@ -707,10 +741,10 @@ class SPL_LicensePage {
 
 			.appsero-license-refresh-button {
 				padding: 6px 10px 4px 10px;
-				border: 1px solid #0082BF;
+				border: 1px solid #111;
 				border-radius: 3px;
 				margin-left: auto;
-				background-color: #0082BF;
+				background-color: #111;
 				color: #fff;
 				cursor: pointer;
 			}

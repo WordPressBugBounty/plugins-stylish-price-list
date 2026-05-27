@@ -1,3 +1,24 @@
+## 7.2.8 - 2026-05-27
+
+**Editing Page Changes:**
+- Added a new settings modal for price list configuration, including backup, category, feature, font, general, global, layout, license, QR code, and SEO sections.
+- Refactored the price list form layout and navigation for a cleaner editing experience.
+- Improved category management with accordion behavior, summary updates, and better initialization for image picker and upload controls when adding categories.
+- Enhanced price list name editing and header display behavior.
+- Improved form submission handling and preserved selected styles more reliably.
+
+**Settings & License Changes:**
+- Added support for storing extra settings from the settings modal.
+- Updated license handling to use Ajax and added a permission check for license update requests.
+- Improved license and restore settings UI.
+
+**Admin Style Changes:**
+- Added and refined admin styles for the settings modal, modal header, settings container, buttons, color labels, and responsive editor header layout.
+
+**Backend & Deployment Changes:**
+- Updated settings classes and tab form handling to support the new settings modal structure.
+- Added a Cloudflare firewall workaround for GitHub Actions test-site deployments.
+
 ## 7.2.7 - 2026-04-09
 
 **Frontend Changes:**

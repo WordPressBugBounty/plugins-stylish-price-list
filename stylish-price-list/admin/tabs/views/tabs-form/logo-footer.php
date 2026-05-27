@@ -715,6 +715,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 .df-spl-show-style-mockups {
     margin: 0 auto;
     display: contents;
+	z-index: 9999;
 }
 
 .spl-close {

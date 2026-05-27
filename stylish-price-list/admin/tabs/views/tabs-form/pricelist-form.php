@@ -23,7 +23,7 @@ wp_localize_script(
 	)
 );
 
-
+ 
 
 $id = '';
 // phpcs:ignore
@@ -110,7 +110,7 @@ $optionArr                 = array(
 
 if ( ! empty( $id ) ) {
 	$cats_data = df_spl_get_option( $id, 'editor' );
-	
+
 	$list_name         = isset( $cats_data['list_name'] ) ? $cats_data['list_name'] : ''; //$cats_data['list_name']
 	$list_type         = isset( $cats_data['list_type'] ) ? $cats_data['list_type'] : ''; //$cats_data['list_type']
 	$all_tab           = isset( $cats_data['all_tab'] ) ? $cats_data['all_tab'] : ''; //$cats_data['all_tab']
@@ -118,6 +118,7 @@ if ( ! empty( $id ) ) {
 	$spl_remove_title  = isset( $cats_data['spl_remove_title'] ) ? $cats_data['spl_remove_title'] : '';
 	$style             = isset( $cats_data['tab_style'] ) ? $cats_data['tab_style'] : '';
 	
+
 	$style5_category   = isset( $cats_data['style5_category'] ) ? $cats_data['style5_category'] : '';
 	 //$cats_data['tab_style']
 	$hover_color               = isset( $cats_data['hover_color'] ) ? $cats_data['hover_color'] : ''; //$cats_data['hover_color']
@@ -452,25 +453,10 @@ if ( ! function_exists( 'select_html' ) ) {
 	function select_html( $name, $options = array(), $current_value = '', $title = '' ) {
 		ob_start();
 		?>
-		<div class="field-wrapper" style="margin-bottom:0;">
-				<label for="<?php echo esc_attr($name); ?>"><?php echo esc_attr($title); ?></label>
-				<select name="<?php echo esc_attr($name); ?>" id="<?php echo esc_attr($name); ?>" class="form-control" style="box-shadow: 2px 2px 0px #888;">
-					<?php foreach ( $options as $value => $label ) : ?>
-						<?php
-						$selected = '';
-						if ( $current_value == $value ) {
-							$selected = ' selected="selected"';
-						}
-						if ( $current_value == '' ) {
-							if ( $label == 'Open Sans' ) {
-								$selected = ' selected="selected"';
-							}
-						}
-						?>
-					<option value="<?php echo esc_attr($value); ?>"<?php echo esc_attr($selected); ?>><?php echo esc_attr($label); ?></option>
-				<?php endforeach ?>
+		 <select id="<?php echo esc_attr($name); ?>">
+
 			</select>
-	</div> <!-- <?php echo esc_attr($title); ?> -->
+
 		<?php
 		$html = ob_get_clean();
 		return $html;
@@ -543,11 +529,11 @@ if ( ! function_exists( 'service_item' ) ) {
 		$html_id = "category_{$cat_id}_{$service_id}_{$id}";
 		//$title=remove_slash_quotes($title);
     $value = df_spl_remove_slash_quotes( $value );
-		?> 
+		?>
 		<?php
 		$image_name = basename($value);
-		?> 
-		<div class="df-spl-row service-price-length 
+		?>
+		<div class="df-spl-row service-price-length
 		<?php
 		if ( $id == 'service_regular_price' || $id == 'service_image' ) {
 			echo 'spl_service_image_element'; }
@@ -590,7 +576,7 @@ if ( ! function_exists( 'service_item' ) ) {
 		<?php endif; ?>
 		<?php } elseif ( $id == 'service_long_description' ) { ?>
 				<textarea name="<?php echo esc_attr($name); ?>" id="<?php echo esc_attr($html_id); ?>" class="form-control <?php echo esc_attr($id); ?>" rows="5" cols="33"><?php echo esc_attr($value); ?></textarea>
-			<?php } else { 
+			<?php } else {
 				if ( $id === 'service_price' ) {
 					$lengthLimit = '30';
 				}
@@ -616,7 +602,7 @@ if ( ! function_exists( 'category_name_row' ) ) {
 		?>
 		<?php
 		$image_name = basename($cat_cover_image);
-		?> 
+		?>
 		<?php
 		if ( ! filter_var( $cat_cover_image, FILTER_VALIDATE_URL ) ) {
 			$cat_cover_image = null;
@@ -626,20 +612,13 @@ if ( ! function_exists( 'category_name_row' ) ) {
 		ob_start();
 		?>
 		<div class="categor-sec-first" style="background: none;">
-			<div class="heading-catag">
-				<div class="title"><?php echo esc_attr($GLOBALS['CATEGORY']); ?></div>
-				<div class="action-btn">
-				<i class="far fa-trash-alt remove-category spl-custom-color"></i>
-				<i class="fas fa-arrows-alt spl-custom-color"></i>
-				</div>
-			</div>
 			<div class="spl-container-col-2">
 				<div class="df-spl-row category-name-row">
 					<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 lbl">
 						<label for="category_<?php echo esc_attr($cat_id); ?>_name"><?php echo esc_attr($GLOBALS['Category_Name']); ?></label>
 					</div>
 					<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 ini ">
-							<input type="text" name="category[<?php echo esc_attr($cat_id); ?>][name]" id="category_<?php echo esc_attr($cat_id); ?>_name" class="form-control category_name" value="<?php echo esc_attr($cat_name); ?>" maxlength="60">
+							<input type="text" name="category[<?php echo esc_attr($cat_id); ?>][name]" id="category_<?php echo esc_attr($cat_id); ?>_name" class="form-control category_name" value="<?php echo esc_attr($cat_name); ?>" maxlength="60"> 
 					</div>
 				</div> <!-- Category Name -->
 				<!--Category Description-->
@@ -659,12 +638,12 @@ if ( ! function_exists( 'category_name_row' ) ) {
 						<label for="category_<?php echo esc_attr($cat_id); ?>_background_color"><?php echo esc_attr($GLOBALS['Category_Background_Color']); ?></label>
 					</div>
 					<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 ini">
-						<?php 
+						<?php
 						echo df_spl_color_out(
-							"category[" . esc_attr($cat_id) . "][background_color]", 
+							"category[" . esc_attr($cat_id) . "][background_color]",
 							df_spl_remove_slash_quotes($cat_background_color),
 							''
-						); 
+						);
 						?>
 					</div>
 				</div>
@@ -676,12 +655,12 @@ if ( ! function_exists( 'category_name_row' ) ) {
 						<label for="category_<?php echo esc_attr($cat_id); ?>_color"><?php echo esc_attr($GLOBALS['Category_Text_Color']); ?></label>
 					</div>
 					<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 ini">
-						<?php 
+						<?php
 						echo df_spl_color_out(
-							"category[" . esc_attr($cat_id) . "][text_color]", 
+							"category[" . esc_attr($cat_id) . "][text_color]",
 							df_spl_remove_slash_quotes($cat_text_color),
 							''
-						); 
+						);
 						?>
 					</div>
 				</div>
@@ -719,8 +698,8 @@ if ( ! function_exists( 'category_name_row' ) ) {
 				</div>
 				<!--End Category Price-->
 			</div>
-			
-			
+
+
 
 
 		<!--Category Cover Image-->
@@ -735,7 +714,7 @@ if ( ! function_exists( 'category_name_row' ) ) {
 			<input style="display:none;" type="file"  id="spl-file-input"  name="category[<?php echo esc_attr($cat_id); ?>][cover-image]" class="file-input  form-control category_image" value="<?php echo esc_attr($cat_cover_image); ?>" title="" id="category_<?php echo esc_attr($cat_id); ?>_cover-image">
 			<input style="display:none;" type="hidden" name="category[<?php echo esc_attr($cat_id); ?>][cover-image]" id="category_<?php echo esc_attr($cat_id); ?>_cover-image" class="form-control category_image" value="<?php echo esc_attr($cat_cover_image); ?>" title="">
 			<div class="spl-container">
-				<div class="spl-container-icon"><?php echo $image_name; ?> 
+				<div class="spl-container-icon"><?php echo $image_name; ?>
 					<i class="spl-icon">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#dae2e1" d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"></path></svg>
 					</i>
@@ -743,7 +722,7 @@ if ( ! function_exists( 'category_name_row' ) ) {
 			</div>
 		<?php else : ?>
 			<input type="file"  name="category[<?php echo esc_attr($cat_id); ?>][cover-image]" class="form-control category_image" value="<?php echo esc_attr($cat_cover_image); ?>" title="" id="category_<?php echo esc_attr($cat_id); ?>_cover-image">
-			<input type="hidden" name="category[<?php echo esc_attr($cat_id); ?>][cover-image]" id="category_<?php echo esc_attr($cat_id); ?>_cover-image" class="form-control category_image" value="<?php echo esc_attr($cat_cover_image); ?>" title=""> 
+			<input type="hidden" name="category[<?php echo esc_attr($cat_id); ?>][cover-image]" id="category_<?php echo esc_attr($cat_id); ?>_cover-image" class="form-control category_image" value="<?php echo esc_attr($cat_cover_image); ?>" title="">
 		<?php endif; ?>
 			</div>
 		</div>
@@ -757,7 +736,6 @@ if ( ! function_exists( 'category_name_row' ) ) {
 }//end if !function_exists('category_name_row')
 if ( ! function_exists( 'category_row' ) ) {
 	function category_row( $cat_id, $cat = null, $max_service_count = 3 ) {
-		//echo esc_attr($cat_id);
 		ob_start();
 		$cat_name = '';
 		if ( ! is_null( $cat ) ) {
@@ -788,9 +766,24 @@ if ( ! function_exists( 'category_row' ) ) {
 			unset( $cat['action_link'] );//remove the action link items, so, we can use foreach to process
 			unset( $cat['price'] );//remove the price items, so, we can use foreach to process
 		}
+		$category_summary = trim( wp_strip_all_tags( df_spl_remove_slash_quotes( $cat_name ) ) );
 		?>
 		<div id="sortable" class="df-spl-row category-row ui-widget-content" style="margin:0;padding:0;margin-top:20px">
-			<?php echo category_name_row( $cat_id, $cat_name, $cat_description, $cat_cover_image, $cat_background_color, $cat_text_color, $cat_action_text, $cat_action_link, $cat_price ); ?>
+			<div class="heading-catag">
+				<div class="category-card-heading">
+					<div class="title"><?php echo esc_attr($GLOBALS['CATEGORY']); ?></div>
+					<div class="category-accordion-summary<?php echo '' === $category_summary ? ' is-empty' : ''; ?>"><?php echo esc_html( $category_summary ); ?></div>
+				</div>
+				<div class="action-btn">
+					<i class="far fa-trash-alt remove-category spl-custom-color"></i>
+					<button type="button" class="category-accordion-toggle spl-custom-color" aria-expanded="true" aria-label="<?php esc_attr_e( 'Collapse category', 'text_domain' ); ?>">
+						<i class="fas fa-chevron-up" aria-hidden="true"></i>
+					</button>
+					<i class="fas fa-arrows-alt spl-custom-color"></i>
+				</div>
+			</div>
+			<div class="category-accordion-panel">
+				<?php echo category_name_row( $cat_id, $cat_name, $cat_description, $cat_cover_image, $cat_background_color, $cat_text_color, $cat_action_text, $cat_action_link, $cat_price ); ?>
 				<div class="spl-separator">
 					<div class="spl-separator-background">
 
@@ -798,7 +791,7 @@ if ( ! function_exists( 'category_row' ) ) {
 				</div>
 			<div class="service-container">
 				<?php
-				foreach ( $cat as $service_id => $service ) : 
+				foreach ( $cat as $service_id => $service ) :
 					$service_image = isset($service['service_image']) ? $service['service_image'] : '';
 					$settings_compare_at = isset($service['settings_compare_at']) ? $service['settings_compare_at'] : '';
 					$service_button_enable = isset($service['settings_button_text_checkbox']) ? 'checked' : '';
@@ -950,9 +943,10 @@ if ( ! function_exists( 'category_row' ) ) {
 
 			<div class="action-button">
 				<a href="javascript:void(0);" class="add-service-btn" onclick="add_service(this)">
-					<i class="fas fa-plus-circle" style="margin-right: 2px;"></i>
-					Add Service
+					<i class="fas fa-plus" aria-hidden="true"></i>
+					Add New Item
 				</a>
+			</div>
 			</div>
 
 		</div> <!-- category-row -->
@@ -962,25 +956,21 @@ if ( ! function_exists( 'category_row' ) ) {
 	}//end category_row()
 }//end if !function_exists('category_row')
 ?>
-<?php 
+<?php
 // phpcs:ignore
 if ( array_key_exists( 'error', $_GET ) ) : ?>
-	<div class="notice notice-error"><p><?php 
+	<div class="notice notice-error"><p><?php
 	 // phpcs:ignore
 	 esc_html_e( $_GET['error'], 'text_domain' ); ?></p></div>
 <?php endif; ?>
-<?php 
+<?php
 // phpcs:ignore
 if ( array_key_exists( 'success', $_GET ) ) : ?>
-	<div class="notice notice-success"><p><?php 
+	<div class="notice notice-success" style="margin: 5px 0px 0px 0px"><p><?php
 	// phpcs:ignore
 	esc_html_e( $_GET['success'], 'text_domain' ); ?></p></div>
 <?php endif; ?>
-<div class="container-fluid spl-editing-page-header">
-	<?php
-	require_once dirname( __FILE__ ) . '/logo-header.php';
-	?>
-</div>
+ 
 <?php
 global $spl_googlefonts_var;
 $google_fonts = $spl_googlefonts_var->$get_fonts_options();
@@ -993,127 +983,150 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 			margin-left: 0 !important;
 		}
     </style>
-<div class="body-inner price_wrapper" style="padding-right: 15px">
+<div class="body-inner price_wrapper">
 	<!---// INNER FORM IN ONE ROW --->
 	<div class="form-save-and-restore">
 		<form action="" id="main_form" method="POST" enctype="multipart/form-data" role="form">
 			<div>
-			<div class="spl-container-header-alt">
-		<a href="https://stylishpricelist.com/" class="spl-header">
-			<img src="<?php echo SPL_URL . '/assets/images/Stylish-Price-List-Logo-418x134.png'; ?>" class="img-responsive1" alt="Image" style="max-height: 40px;">
-		</a>
-		<?php
-		$opt = get_option( 'spllk_opt' );
-		if ( empty( $opt ) || ( isset( $opt['license'] ) && $opt['license'] !== 'valid' ) ) {
-			?>
-			<span class="spl_plug_ver">Demo</span>
-			<?php
-		}
-		if ( ! empty( $opt ) && ( isset( $opt['license'] ) && $opt['license'] === 'valid' ) ) {
-			?>
-			<span class="spl_plug_ver">Premium</span>
-		<?php } ?>
-		</div>
-				<nav class="navbar navbar-secondary df-spl-edit-nav"> <!-- Start of Price List Title, Style, Save Button-->
-					<div class="container-fluid">
-						<div class="spl-header-wrapper-v2">
-							<div class="spl-header-logo-editing-page">
-		<div class="spl-container-header">
-		<a href="https://stylishpricelist.com/" class="spl-header">
-			<img src="<?php echo SPL_URL . '/assets/images/Stylish-Price-List-Logo-418x134.png'; ?>" class="img-responsive1" alt="Image" style="max-height: 40px;">
-		</a>
-		<?php
-		$opt = get_option( 'spllk_opt' );
-		if ( empty( $opt ) || ( isset( $opt['license'] ) && $opt['license'] !== 'valid' ) ) {
-			?>
-			<span class="spl_plug_ver">Demo</span>
-			<?php
-		}
-		if ( ! empty( $opt ) && ( isset( $opt['license'] ) && $opt['license'] === 'valid' ) ) {
-			?>
-			<span class="spl_plug_ver">Premium</span>
-		<?php } ?>
-		</div>
-		</div>
 
-							<div class="price-list-name-and-style-wrapper d-flex align-items-center">								
-							<?php $list_name = df_spl_remove_slash_quotes( $list_name ); ?>
-							<input type="text" name="list_name" id="list_name" class="form-control list_name" maxlength="100" placeholder="<?php echo esc_attr($Price_List_Name); ?>" required="" value="<?php echo esc_attr($list_name); ?>" title="">
-							<?php $list_type = isset($list_type) && (strpos($list_type, 'table') !== false) ? 'pricing_table' : 'price_list'; ?>
-								<div class="col-md-8 mode-select">
-									<select class="form-control sel1 spl-list-type-selector" name="list_type" style="max-width:140px !important;height:40px;">
-										<option value="">Select List Type</option>
-										<option class="form-control default_tab" value="price_list" <?php echo isset( $list_type ) && $list_type == 'price_list' ? 'selected' : ''; ?> >Price List</option>
-										<option class="form-control default_tab" value="pricing_table" <?php echo isset( $list_type ) && $list_type == 'pricing_table' ? 'selected' : ''; ?>>Pricing Table</option>
-									</select>
-									<div class="select-right-icon">
-										<span class="df-spl-eui-FormControlLayoutCustomIcon">
-											<img src="<?php echo SPL_URL . '/assets/images/cicle-icon.svg'; ?>" aria-hidden="true">
-										</span>
-									</div>
-								</div>
-								<div class="col-md-8 pl-0">
-									<select class="form-control sel1" name="tab_style" style="max-width:100% !important;height:40px;">
-										<option class="form-control default_tab" value="">Select Style</option>
-										<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="with_tab" <?php echo isset( $style ) && $style == 'with_tab' ? 'selected' : ''; ?> >Style #1 (Supports Images)</option>
-										<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="without_tab" <?php echo isset( $style ) && $style == 'without_tab' ? 'selected' : ''; ?>>Style #2</option>
-										<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="without_tab_single_column" <?php echo isset( $style ) && $style == 'without_tab_single_column' ? 'selected' : ''; ?>>Style #2 (Single Column)</option>
-										<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_3" <?php echo isset( $style ) && $style == 'style_3' ? 'selected' : ''; ?>>Style #3</option>
-										<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_4" <?php echo isset( $style ) && $style == 'style_4' ? 'selected' : ''; ?>>Style #4</option>
-										<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_5" <?php echo isset( $style ) && $style == 'style_5' ? 'selected' : ''; ?>>Style #5</option>
-										<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_6" <?php echo isset( $style ) && $style == 'style_6' ? 'selected' : ''; ?>>Style #6 (Supports Images)</option>
-										<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_7" <?php echo isset( $style ) && $style == 'style_7' ? 'selected' : ''; ?>>Style #7</option>
-										<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_8" <?php echo isset( $style ) && $style == 'style_8' ? 'selected' : ''; ?>>Style #8 (Supports Images)</option>
-										<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_10" <?php echo isset( $style ) && $style == 'style_10' ? 'selected' : ''; ?>>Style #10</option>
-										<option class="form-control default_tab spl-table-option <?php echo isset($list_type) && ($list_type == 'pricing_table') ? '' : 'df-spl-d-none'; ?>" value="style_table_1" <?php echo ((isset( $style ) && $style == 'style_table_1') || ($list_type == 'pricing_table' && ! isset( $style ))) ? 'selected' : ''; ?>>Table Style #1</option>
-										<option class="form-control default_tab spl-table-option <?php echo isset($list_type) && ($list_type == 'pricing_table') ? '' : 'df-spl-d-none'; ?>" value="style_table_2" <?php echo isset( $style ) && $style == 'style_table_2' ? 'selected' : ''; ?>>Table Style #2</option>
-									</select>
-									<div class="select-right-icon">
-										<span class="df-spl-eui-FormControlLayoutCustomIcon">
-											<img src="<?php echo SPL_URL . '/assets/images/cicle-icon.svg'; ?>" aria-hidden="true">
-										</span>
-									</div>
-							  </div>
+				<div class="clearfix df-spl-edit-nav df-spl-edit-nav-bottom">
+					<div class="spl-footer-wrapper">
+					<!-- delete later -->
+					<div class="spl-header-wrapper-v2">
+									<div class="spl-header-logo-editing-page">
+				<div class="spl-container-header">
+				<a href="https://stylishpricelist.com/" class="spl-header">
+					<img src="<?php echo SPL_URL . '/assets/images/Stylish-Price-List-Logo-418x134.png'; ?>" class="img-responsive1" alt="Image" style="max-height: 40px;">
+				</a>
+							<?php
+				$opt = get_option( 'spllk_opt' );
+				if ( empty( $opt ) || ( isset( $opt['license'] ) && $opt['license'] !== 'valid' ) ) {
+					?>
+					<span class="spl_plug_ver">Demo</span>
+					<?php
+				}
+				if ( ! empty( $opt ) && ( isset( $opt['license'] ) && $opt['license'] === 'valid' ) ) {
+					?>
+					<span class="spl_plug_ver">Premium</span>
+				<?php } ?>
 							</div>
-							<!-- </span> -->
-						<ul class="settings-actions-wrapper d-flex align-items-center">
-						<li style="margin-right:10px;">
-							<a name="add_to_webpage" value="" class="add_to_webpage" data-tooltip="<?php echo esc_attr($ADD_TO_WEBPAGE); ?>">
-								<img class="w-690" src="<?php echo SPL_URL . '/assets/images/Group.svg'; ?>" aria-hidden="true">
-							</a>
-						</li>
-					<li style="margin-right:10px;">
-						<a name="load_template" value="" class="advance_setting" data-tooltip="<?php echo esc_attr($More_Settings); ?>">
-						<img class="w-690" src="<?php echo SPL_URL . '/assets/images/icon.svg'; ?>" aria-hidden="true" >
-					</a>
+				</div>
+
+                 </div><!-- delete later -->
+
+							 <!--Start of BackUp Button-->
+
+
+						<div class="save-button-wrapper">
+							<div class="spl_low_res_h1 spl-price-list-name-field spl-price-list-name-field-mobile" data-spl-list-name-field="mobile">
+								<div class="spl-price-list-name-display">
+									<span class="spl-price-list-name-text" data-spl-list-name-text="mobile"><?php echo esc_html( $list_name ); ?></span>
+									<button type="button" class="spl-price-list-name-edit-toggle" data-spl-list-name-toggle="mobile" aria-label="<?php echo esc_attr( 'Edit ' . $Price_List_Name ); ?>">
+										<i class="fa fa-pencil" aria-hidden="true"></i>
+									</button>
+								</div>
+								<label class="screen-reader-text" for="spl-header-list-name-mobile"><?php echo esc_attr( $Price_List_Name ); ?></label>
+								<input
+									type="text"
+									id="spl-header-list-name-mobile"
+									class="spl-price-list-name-input"
+									data-spl-list-name-input="mobile"
+									value="<?php echo esc_attr( $list_name ); ?>"
+									placeholder="<?php echo esc_attr( $Price_List_Name ); ?>"
+									maxlength="100"
+									autocomplete="off"
+								>
+							</div>
+												<ul class="nav navbar-nav view-lists spl_mt_7" >
+														<li><a href="<?php echo esc_url(admin_url('admin.php?page=spl-tabs')); ?>"><i class="fa fa-list" aria-hidden="true"></i>View Lists</a></li>
+								<li><a href="https://stylishpricelist.com/support" target="_blank"><i class="fa fa-life-ring" aria-hidden="true"></i>Help</a></li>
+														<li><div class="btn-save spl_rounded_lg" onclick="javascript:return splHandleFormSubmit(this, event)">
+								<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-save w-4 h-4" aria-hidden="true"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"></path><path d="M7 3v4a1 1 0 0 0 1 1h7"></path></svg>
+								<span >Save</span></div></li>
+												</ul>
+						</div>
+
+
+					 <!--End of BackUp Button-->
+
+
+				 </div>
+				 <div class="spl-header-logo-editing-page">
+			<div style="text-align: left;" class="spl_mt_1 spl_admin_title">
+				<div class="spl_pl_12 spl-price-list-name-field spl-price-list-name-field-desktop" data-spl-list-name-field="desktop">
+					<div class="spl-price-list-name-display">
+						<span class="spl-price-list-name-text" data-spl-list-name-text="desktop"><?php echo esc_html( $list_name ); ?></span>
+						<button type="button" class="spl-price-list-name-edit-toggle" data-spl-list-name-toggle="desktop" aria-label="<?php echo esc_attr( 'Edit ' . $Price_List_Name ); ?>">
+							<i class="fa fa-pencil" aria-hidden="true"></i>
+						</button>
+					</div>
+					<label class="screen-reader-text" for="spl-header-list-name-desktop"><?php echo esc_attr( $Price_List_Name ); ?></label>
+					<input
+						type="text"
+						id="spl-header-list-name-desktop"
+						class="spl-price-list-name-input"
+						data-spl-list-name-input="desktop"
+						value="<?php echo esc_attr( $list_name ); ?>"
+						placeholder="<?php echo esc_attr( $Price_List_Name ); ?>"
+						maxlength="100"
+						autocomplete="off"
+					>
+				</div>
+			 </div>
+			<div class="spl_mt_1 spl_admin_top_side">
+			<ul class="nav navbar-nav spl-nav-float-right spl-header-actions" >
+				<li class="spl-header-hidden-control">
+		<select class="form-control sel1 spl-list-type-selector" name="list_type" style="max-width:140px !important;height:40px;">
+			<option value="">Select List Type 1</option>
+			<option class="form-control default_tab" value="price_list" <?php echo isset($list_type) && ($list_type == 'price_list') ? 'selected' : ''; ?>>Price List</option>
+			<option class="form-control default_tab" value="pricing_table" <?php echo isset($list_type) && ($list_type == 'pricing_table') ? 'selected' : ''; ?>>Pricing Table</option>
+		</select>
+
+				</li>
+
+						<li class="spl-header-style-control"> 
+					<select class="form-control sel1" name="tab_style" style="max-width:100% !important;height:40px;">
+						    <option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="with_tab" <?php echo isset( $style ) && $style == 'with_tab' ? 'selected' : ''; ?> >Style #1 (Supports Images)</option>
+							<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="without_tab" <?php echo isset( $style ) && $style == 'without_tab' ? 'selected' : ''; ?>>Style #2</option>
+							<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="without_tab_single_column" <?php echo isset( $style ) && $style == 'without_tab_single_column' ? 'selected' : ''; ?>>Style #2 (Single Column)</option>
+							<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_3" <?php echo isset( $style ) && $style == 'style_3' ? 'selected' : ''; ?>>Style #3</option>
+							<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_4" <?php echo isset( $style ) && $style == 'style_4' ? 'selected' : ''; ?>>Style #4</option>
+							<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_5" <?php echo isset( $style ) && $style == 'style_5' ? 'selected' : ''; ?>>Style #5</option>
+							<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_6" <?php echo isset( $style ) && $style == 'style_6' ? 'selected' : ''; ?>>Style #6 (Supports Images)</option>
+							<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_7" <?php echo isset( $style ) && $style == 'style_7' ? 'selected' : ''; ?>>Style #7</option>
+							<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_8" <?php echo isset( $style ) && $style == 'style_8' ? 'selected' : ''; ?>>Style #8 (Supports Images)</option>
+							<option class="form-control default_tab spl-list-option <?php echo isset($list_type) && ($list_type == 'price_list' || $list_type == '') ? '' : 'df-spl-d-none'; ?>" value="style_10" <?php echo isset( $style ) && $style == 'style_10' ? 'selected' : ''; ?>>Style #10</option>
+							<option class="form-control default_tab spl-table-option <?php echo isset($list_type) && ($list_type == 'pricing_table') ? '' : 'df-spl-d-none'; ?>" value="style_table_1" <?php echo ((isset( $style ) && $style == 'style_table_1') || ($list_type == 'pricing_table' && ! isset( $style ))) ? 'selected' : ''; ?>>Table Style #1</option>
+							<option class="form-control default_tab spl-table-option <?php echo isset($list_type) && ($list_type == 'pricing_table') ? '' : 'df-spl-d-none'; ?>" value="style_table_2" <?php echo isset( $style ) && $style == 'style_table_2' ? 'selected' : ''; ?>>Table Style #2</option>
+				    </select>
+				</li>
+
+					<li>
+						<button type="button" class="spl-header-action-button spl-header-editor-button">
+							<i class="fa fa-code" aria-hidden="true"></i>
+							<span>Editor</span>
+						</button>
 					</li>
-					<li style="margin-right:10px;">
-						<a name="font_settitng" value="" class="font_settitng" data-tooltip="<?php echo esc_attr($FONT_SETTINGS); ?>">
-						<img class="w-690" src="<?php echo SPL_URL . '/assets/images/ri_font-size-2.svg'; ?>" aria-hidden="true">
-						</a>
-				  </li>
-							<li style="margin-right:10px;"><span class="main-save spl_btn_primary" >
-								<p class="submit">
-									<span class="btn btn-primary" onclick="javascript:splHandleFormSubmit(this)">Save</span>
-								</p>
-						   </span></li>
-						   <li>
-							<!-- A vertical line -->
-							<div class="vertical-line"></div>
-						   </li>
-						   <li style="margin-right:10px;">
-						   		<button class="btn-close" onclick="javascript:historyGoBack(this)">
-									<i class="fas fa-chevron-left"></i>
-								</button>
-						   </li>
-					   </ul>
-					   </button>
-				   </div>
+
+					<li><a href="#" id="settings-link" class="spl-header-action-link">
+					<i class="fa fa-cog" aria-hidden="true"></i>Settings</a>
+				</li>
+
+					<li><a href="#" name="add_to_webpage" value="" class="add_to_webpage spl-header-action-link" data-tooltip="ADD TO WEBPAGE">
+					<i class="fa fa-desktop" aria-hidden="true"></i>Embed</a>
+				</li>
+				</ul>
+			</div></div>
+			 </div>
+
+	    <nav class="navbar navbar-secondary df-spl-edit-nav"> <!-- Start of Price List Title, Style, Save Button-->
+					<div class="container-fluid">
+				 
 			   </div>
 		   </nav><!--End of Nav 2 --- Price List Title, Style, Save Button-->
-		   <div id="style5_category_container" style="display:none">
-			<div class="form-group" style="padding: 10px;border-radius: 5px;">
-				<label for="exampleInputEmail1" style="padding-bottom:10px;">Nav-Bar Style  | Category Tabs</label>
+		   <div id="style5_category_container" style="display:none; margin-top: 10px;">
+			<div class="form-group" style="border-radius: 5px;">
+				<label for="exampleInputEmail1" style="padding-bottom:10px; font-weight: bold;">Nav-Bar Style  | Category Tabs</label>
 				<select class="form-control" id="style5_category" name="style5_category" style="max-width:200px!important;margin-top:5px">
 					<option class="form-control default_tab" value="style5_category_1" <?php echo isset( $style5_category ) && $style5_category == 'style5_category_1' ? 'selected' : ''; ?> >Style 1 | Right Side</option>
 					<option class="form-control default_tab" value="style5_category_2" <?php echo isset( $style5_category ) && $style5_category == 'style5_category_2' ? 'selected' : ''; ?> >Style 2 | Thicker</option>
@@ -1129,1106 +1142,141 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 			  <span style=""><a href="https://designful.freshdesk.com/en/support/solutions/articles/48001081305-important-adding-the-price-list-to-your-web-page-shortcode-" target="_blank">Important tutorial for adding the shortcode</a></span>
 		  </div>
 	  </div>
-<div id="more-settings-wrapper">
-		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 cats-row more_setting" style="background-color:#f8faf9;padding:20px;border-radius:5px;margin-top:10px;"><!-- START of Left Price List Settings-->
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><!-- START of Dashboard Settings Category-->
-		<div class="df-spl-pl-settings-title">Dashboard Settings</div>
-		<hr class="df-spl-pl-settings-hr">
-		<div class="df-spl-row cats-row more_setting" style="clear:both;"><!-- Add Select Language-->
-			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
-				<label for="select_lang"><?php echo esc_attr($Select_Language); ?></label>
-				<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image"  title="Choose a language for this dashboard"/>
-			</div>
-			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa mw-400">
-				<select class="form-control" id="select_lang" name="select_lang">
-					<?php 
-					// phpcs:ignore
-					if ( isset( $_REQUEST['lang'] ) ) { ?>
-					  <option  value="EN" 
-						<?php
-						// phpcs:ignore
-						$language_choice = sanitize_text_field( $_REQUEST['lang'] );
-						if ( $language_choice == 'EN' ) {
-							echo 'selected'; }
-						?>
-						 >EN</option>
-					  <option  value="SP" 
-						<?php
-						if ( $language_choice == 'SP' ) {
-							echo 'selected'; }
-						?>
-						 >SP</option>
-					  <option  value="FR" 
-						<?php
-						if ( $language_choice == 'FR' ) {
-							echo 'selected'; }
-						?>
-						 >FR</option>
-					  <option  value="DE" 
-						<?php
-						if ( $language_choice == 'DE' ) {
-							echo 'selected'; }
-						?>
-						 >DE</option>
-						<?php
-					} else {
-						?>
-					<option  value="EN" 
-						<?php
-						if ( isset( $cats_data1['select_lang'] ) && $cats_data1['select_lang'] == 'EN' ) {
-							echo 'selected'; }
-						?>
-					 >EN</option>
-					<option  value="SP" 
-						<?php
-						if ( isset( $cats_data1['select_lang'] ) && $cats_data1['select_lang'] == 'SP' ) {
-							echo 'selected'; }
-						?>
-					 >SP</option>
-					<option  value="FR" 
-						<?php
-						if ( isset( $cats_data1['select_lang'] ) && $cats_data1['select_lang'] == 'FR' ) {
-							echo 'selected'; }
-						?>
-					 >FR</option>
-					<option  value="DE" 
-						<?php
-						if ( isset( $cats_data1['select_lang'] ) && $cats_data1['select_lang'] == 'DE' ) {
-							echo 'selected'; }
-						?>
-					 >DE</option>
-						<?php
-					}
-					?>
-			</select>
-			<div class="select-right-icon">
-				<span class="df-spl-eui-FormControlLayoutCustomIcon">
-					<img src="<?php echo SPL_URL . '/assets/images/cicle-icon.svg'; ?>" aria-hidden="true">
-				</span>
-			</div>
-		</div>
-	</div><!--End Select language-->
-</div><!-- End of Dashboard Settings Category-->
-<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><!-- START of Columns Settings Category-->
-	<div class="df-spl-pl-settings-title">Columns Settings</div>
-	<hr class="df-spl-pl-settings-hr">
-	<!-- START Select Column Count -->
-	<div class="df-spl-row cats-row more_setting">
-		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
-			<label for="select_lang"><?php echo esc_attr($Select_Column); ?></label>
-			<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image" title='Set the number of columns'/>
-			<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/majesticons_eye-line.svg'; ?>" data-image-tooltip="<?php echo esc_url(SPL_URL . 'assets/images/tooltip-images/one-two-columns.png'); ?>"/>
-		</div>
-		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa mw-400">
-			<select class="form-control" id="select_column" name="select_column">
-				<option><?php echo ( isset( $style ) && $style === 'style_3' ) ? "Three" : esc_attr($Select_Column); ?></option>
-				<option  value="One" 
-				<?php
-				if ( isset( $cats_data1['select_column'] ) && $cats_data1['select_column'] == 'One' ) {
-					echo 'selected'; }
-				?>
-				 >One</option>
-				<option  value="Two" 
-				<?php
-				if ( isset( $cats_data1['select_column'] ) && $cats_data1['select_column'] == 'Two' ) {
-					echo 'selected'; }
-				?>
-				 >Two</option>
-			</select>
-			<div class="select-right-icon">
-				<span class="df-spl-eui-FormControlLayoutCustomIcon">
-					<img src="<?php echo SPL_URL . '/assets/images/cicle-icon.svg'; ?>" aria-hidden="true">
-				</span>
-			</div>
-		</div>
-	</div>
-	<!-- End Select Column Count -->
-	<!-- START Max Width Box -->
-	<div class="df-spl-row cats-row more_setting">
-		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
-			<label for="select_lang"><?php echo esc_attr($Max_Width); ?></label>
-			<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image" title='Set the maximum width of the price-list container'/>
-		</div>
-		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa mw-400">
-			<input type="text" name="spl_container_max_width" placeholder="Example : 1200px" value="<?php echo isset( $cats_data['spl_container_max_width'] ) ? $cats_data['spl_container_max_width'] : ''; ?>" id="spl_container_max_width" class="form-control spl_container_max_width" />
-		</div>
-	</div>
-	<!-- END Max Width Box -->
-</div><!-- START of Columns Settings Category-->
-<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><!-- START of Category (Tab) Settings Category-->
-	<div class="df-spl-pl-settings-title">Category (Tab) Settings</div>
-	<hr class="df-spl-pl-settings-hr">
-	<!--Change All Tab name-->
-	<div class="df-spl-row cats-row more_setting">
-		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
-			<label for="all_tab"><?php echo esc_attr($Change_All_word_for_Categories); ?> <span class="all_tab_span">(<?php echo esc_attr($different_languages); ?>)</span></label>
-			<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image" title='Choose the word to show on the tab named "All"''/>
-			<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/majesticons_eye-line.svg'; ?>" data-image-tooltip="<?php echo esc_url(SPL_URL . 'assets/images/tooltip-images/all-wording.png'); ?>"/>
-		</div>
-		<?php
-		$all_tab = isset( $cats_data['all_tab'] ) ? $cats_data['all_tab'] : '';
-		if ( $all_tab != '' && isset( $all_tab ) ) {
-			$all_tab = $all_tab;
-		} else {
-			$all_tab = 'All';}
-		?>
-		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa mw-400">
-			<input type="text" name="all_tab" id="all_tab" class="form-control all_tab" value="<?php echo esc_attr($all_tab); ?>" title="">
-		</div>
-	</div>
-	<!--End Change All Tab name-->
-	<!-- Start of Change DEFAULT Tab name-->
-	<div class="df-spl-row more_setting">
-		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
-			<label for="default_tab"><?php echo esc_attr($Default_Tab); ?></label>
-			<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image" title="You can setup the default selected tab of the price-list here" />
-		</div>
-		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa mw-400">
-			<select style="max-width:400px" class="form-control sel1" name="default_tab">
-				<?php
-				if ( isset( $all_tab ) && $all_tab != '' ) {
-					$all = $all_tab;
-				} else {
-					$all = 'All';
-				}
-				?>
-				<option style="max-width:400px;" class="" value=""><?php echo esc_attr($all); ?></option>
-				<?php
-				if ( isset( $cats_data1 ) && is_array( $cats_data1 ) ) {
-					foreach ( $cats_data1['category'] as $key => $cats_datas['category'] ) {
-						if ( isset( $cats_data['default_tab'] ) && ( strtolower( $key ) == strtolower( $cats_data['default_tab'] ) ) ) {
-							$sel = 'Selected';
-						} else {
-							$sel = '';}
-						?>
-					 <option class="form-control default_tab 
-						<?php
-						if ( $cats_datas['category']['name'] == '' ) {
-							echo ' hidden';}
-						?>
-						" value="<?php echo esc_attr($key); ?>" <?php echo esc_attr($sel); ?>><?php echo esc_attr($cate_name = $cats_datas['category']['name']); ?></option>
-						<?php
-					}
-				}
-				?>
-			 </select>
-			 <div class="select-right-icon">
-				<span class="df-spl-eui-FormControlLayoutCustomIcon">
-					<img src="<?php echo SPL_URL . '/assets/images/cicle-icon.svg'; ?>" aria-hidden="true">
-				</span>
-			</div>
-		 </div>
-	 </div>
-	 <!-- END of Change DEFAULT Tab name-->
-	 <!--Start Hide All Tab-->
-	 <div class="df-spl-row cats-row more_setting">
-		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
-			<label for="default_tab"><?php echo esc_attr($Display_the_All_word); ?> <span class="all_tab_span" style="color:red"></span></label>
-			<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image" title='Choose if the category tab called "All" should be shown/hidden.'/>
-			<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/majesticons_eye-line.svg'; ?>" data-image-tooltip="<?php echo esc_url(SPL_URL . 'assets/images/tooltip-images/remove-all-tab.png'); ?>"/>
-		</div>
-		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-		  <?php
-			$toggle_all_tab = isset( $cats_data['toggle_all_tab'] ) ? $cats_data['toggle_all_tab'] : '';
-			$checked        = 'checked';
-			$unchecked      = '';
-			?>
-		  <div class="custom_radio_btn"><input type="radio" name="toggle_all_tab" class="toggle_all_tab" required="" value="0" 
-		  <?php
-			if ( $toggle_all_tab == 0 ) {
-				echo esc_attr($checked);
-			} else {
-				echo esc_attr($unchecked); }
-			?>
-			>Off<label class="radio-inline"><span></span></label></div>
-		  <div class="custom_radio_btn"><input type="radio" name="toggle_all_tab" class="toggle_all_tab" required="" value="1" 
-		  <?php
-			if ( $toggle_all_tab == 1 || $toggle_all_tab == '' ) {
-				echo esc_attr($checked);
-			} else {
-				echo esc_attr($unchecked); }
-			?>
-			>On<label class="radio-inline"><span></span></label></div>
-	  </div>
-  </div>
-	 <div class="df-spl-row cats-row more_setting">
-	 	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
-			<label><?php echo esc_attr($Style4_Divider_Style); ?> <span class="all_tab_span" style="color:red"></span></label>
-		</div>
-		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa mw-400">
-		  <?php
-			$style4_divider_style = isset( $cats_data['style4_divider_style'] ) ? $cats_data['style4_divider_style'] : 0;
-			?>
-			<select style="max-width:400px" class="form-control" name="style4_divider_style">
-				<option style="max-width:400px;" class="form-control default_tab" <?php echo selected( $style4_divider_style, '0' )  ?> value="0">Line Divider</option>
-				<option style="max-width:400px;" class="form-control default_tab" <?php echo selected( $style4_divider_style, '1' )  ?> value="1">Dotted Divider</option>
-			</select>
-			<div class="select-right-icon">
-				<span class="df-spl-eui-FormControlLayoutCustomIcon">
-					<img src="<?php echo SPL_URL . '/assets/images/cicle-icon.svg'; ?>" aria-hidden="true">
-				</span>
-			</div>
-		</div>
-  </div>
 
-<!-- Start of Style 10 Cover Image settings -->
-<div class="df-spl-row cats-row more_setting">
-	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
-	<label><?php echo esc_attr( $Category_Desc_Embed_To_Cover_Image_S10 ); ?> <span class="all_tab_span" style="color:red"></span></label>
-	<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image" title="Enable scrolling into view of the price list while switching between categories"/>
 
-	</div>
-	<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-	  <?php
-		$category_desc_embed_to_cover_image_s10 = isset( $cats_data['category_desc_embed_to_cover_image_s10'] ) ? $cats_data['category_desc_embed_to_cover_image_s10'] : 1;
-		if ( get_current_screen()->base == 'stylish-price-list_page_spl-tabs-new' ) {
-			$category_desc_embed_to_cover_image_s10 = 1;
-		}
-		$checked       = 'checked';
-		$unchecked     = '';
-		?>
-	  <div class="custom_radio_btn"><input type="radio" name="category_desc_embed_to_cover_image_s10" required="" value="0" 
-	  <?php
-		if ( $category_desc_embed_to_cover_image_s10 == 0 || $category_desc_embed_to_cover_image_s10 == '' ) {
-			echo esc_attr($checked);}
-		?>
-		 >Off<label class="radio-inline"><span></span></label></div>
-	  <div class="custom_radio_btn"><input type="radio" name="category_desc_embed_to_cover_image_s10" required="" value="1" 
-	  <?php
-		if ( $category_desc_embed_to_cover_image_s10 == 1 ) {
-			echo esc_attr($checked); }
-		?>
-		 >On<label class="radio-inline"><span></span></label></div>
-  </div>
-</div>
-	 <!-- End of Style 10 Cover Image settings -->
-  <div data-dependency-settings="category_desc_embed_to_cover_image_s10" class="df-spl-row cats-row more_setting <?php echo $category_desc_embed_to_cover_image_s10 ? '' : 'd-none' ?>">
-	 	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
-			<label><?php echo esc_attr($Category_Image_Overlay_Percent); ?> <span class="all_tab_span" style="color:red"></span></label>
-		</div>
-		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa mw-400">
-		  <?php
-			$category_image_overlay_percent = isset( $cats_data['category_image_overlay_percent'] ) ? $cats_data['category_image_overlay_percent'] : 31;
-			?>
-			<input style="max-width:400px;" type="number" name="category_image_overlay_percent" placeholder="%" value=<?php echo intval( $category_image_overlay_percent ) ?> class="form-control">
-		</div>
-			</div>
-  <!--End Hide All Tab-->
-  <!-- Start of Stylish Category Tab Button-->
-  <div class="df-spl-row cats-row more_setting">
-	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
-		<label for="category_tab_button"><?php echo esc_attr($Stylish_Category_Tabs_Buttons); ?><span class="category_tab_button" style="color:red"></span></label>
-		<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image" title="Adds more style to Style 1 category tabs"/>
-		<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/majesticons_eye-line.svg'; ?>" data-image-tooltip="<?php echo esc_url(SPL_URL . 'assets/images/tooltip-images/styled-category.png'); ?>"/>
-	</div>
-	<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa">
-	  <?php
-		$style_cat_tab_btn = isset( $cats_data['style_cat_tab_btn'] ) ? $cats_data['style_cat_tab_btn'] : '';
-		$checked           = 'checked';
-		$unchecked         = '';
-		?>
-	  <div class="custom_radio_btn"><input type="radio" name="style_cat_tab_btn" class="style_cat_tab_btn" required="" value="0" 
-	  <?php
-		if ( $style_cat_tab_btn == 0 || $toggle_all_tab == '' ) {
-			echo esc_attr($checked);
-		} else {
-			echo esc_attr($unchecked); }
-		?>
-		>Off<label class="radio-inline"><span></span></label></div>
-	  <div class="custom_radio_btn"><input type="radio" name="style_cat_tab_btn" class="style_cat_tab_btn" required="" value="1" 
-	  <?php
-		if ( $style_cat_tab_btn == 1 ) {
-			echo esc_attr($checked);
-		} else {
-			echo esc_attr($unchecked); }
-		?>
-		>On<label class="radio-inline"><span></span></label></div>
-  </div>
-</div>
-<!--End of Stylish Category Tab Button-->
-<!--Start of Category Separator setting-->
-<div class="df-spl-row cats-row more_setting">
-	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
-		<label for="default_tab"><?php echo esc_attr($Category_Separator_Symbol); ?><span class="category_separator_symbol" style="color:red"></span></label>
-		<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image" title="Choose if you want to show a separator between the categories. Only available in Style 1"/>
-		<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/majesticons_eye-line.svg'; ?>" data-image-tooltip="<?php echo esc_url(SPL_URL . 'assets/images/tooltip-images/category-separator.png'); ?>"/>
-
-	</div>
-	<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-	  <?php
-		$toggle    = isset( $cats_data['toggle'] ) ? $cats_data['toggle'] : '';
-		$checked   = 'checked';
-		$unchecked = '';
-		?>
-	  <div class="custom_radio_btn"><input type="radio" name="toggle" class="toggle" required="" value="0" 
-	  <?php
-		if ( $toggle == '0' || $toggle == '' ) {
-			echo esc_attr($checked);}
-		?>
-		 >Off<label class="radio-inline"><span></span></label></div>
-	  <div class="custom_radio_btn"><input type="radio" name="toggle" class="toggle" required="" value="1" 
-	  <?php
-		if ( $toggle == '1' ) {
-			echo esc_attr($checked); }
-		?>
-		 >On<label class="radio-inline"><span></span></label></div>
-  </div>
-</div>
-<!--End of Category Separator setting-->
-<!-- Start of category in a dropdown choice settings -->
-<div class="df-spl-row cats-row more_setting">
-	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
-		<label for="default_tab"><?php echo esc_attr($Arrange_Categories_In_Dropdown); ?><span class="category_separator_symbol" style="color:red"></span></label>
-		<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image" title="Choose if you want to have the catergories show up in a dropdown choice"/>
-		<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/majesticons_eye-line.svg'; ?>" data-image-tooltip="<?php echo esc_url(SPL_URL . 'assets/images/tooltip-images/dropdown-categories.png'); ?>"/>
-	</div>
-	<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-	  <?php
-		$show_dropdown = isset( $cats_data['show_dropdown'] ) ? $cats_data['show_dropdown'] : '';
-		$checked       = 'checked';
-		$unchecked     = '';
-		?>
-	  <div class="custom_radio_btn"><input type="radio" name="show_dropdown" class="show_dropdown" required="" value="0" 
-	  <?php
-		if ( $show_dropdown == '0' || $show_dropdown == '' ) {
-			echo esc_attr($checked);}
-		?>
-		 >Off<label class="radio-inline"><span></span></label></div>
-	  <div class="custom_radio_btn"><input type="radio" name="show_dropdown" class="show_dropdown" required="" value="1" 
-	  <?php
-		if ( $show_dropdown == '1' ) {
-			echo esc_attr($checked); }
-		?>
-		 >On<label class="radio-inline"><span></span></label></div>
-  </div>
-</div>
-<!-- End of category in a dropdown choice settings -->
-<!-- Start of category in a dropdown choice settings -->
-<div class="df-spl-row cats-row more_setting">
-	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
-		<label for="default_tab"><?php echo esc_attr($Categories_In_Dropdown_Prevent_Keyboard_Popup); ?><span class="category_separator_symbol" style="color:red"></span></label>
-		<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image" title="Choose if you want to have the catergories show up in a dropdown choice"/>
-		<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/majesticons_eye-line.svg'; ?>" data-image-tooltip="<?php echo esc_url(SPL_URL . 'assets/images/tooltip-images/dropdown-categories.png'); ?>"/>
-	</div>
-	<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-	  <?php
-		$dropdown_mobile_no_keyboard = isset( $cats_data['dropdown_mobile_no_keyboard'] ) ? $cats_data['dropdown_mobile_no_keyboard'] : '';
-		if ( get_current_screen()->base == 'stylish-price-list_page_spl-tabs-new' ) {
-			$dropdown_mobile_no_keyboard = 1;
-		}
-		$checked       = 'checked';
-		$unchecked     = '';
-		?>
-	  <div class="custom_radio_btn"><input type="radio" name="dropdown_mobile_no_keyboard" required="" value="0" 
-	  <?php
-		if ( $dropdown_mobile_no_keyboard == 0 || $dropdown_mobile_no_keyboard == '' ) {
-			echo esc_attr($checked);}
-		?>
-		 >Off<label class="radio-inline"><span></span></label></div>
-	  <div class="custom_radio_btn"><input type="radio" name="dropdown_mobile_no_keyboard" required="" value="1" 
-	  <?php
-		if ( $dropdown_mobile_no_keyboard == 1 ) {
-			echo esc_attr($checked); }
-		?>
-		 >On<label class="radio-inline"><span></span></label></div>
-  </div>
-</div>
-<!-- End of category in a dropdown choice settings -->
-<!-- Start of category in a dropdown choice settings -->
-<div class="df-spl-row cats-row more_setting">
-	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
-		<label for="default_tab"><?php echo esc_attr( $category_select_scroll_effect_label_text ); ?><span class="category_separator_symbol" style="color:red"></span></label>
-		<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image" title="Enable scrolling into view of the price list while switching between categories"/>	
-	</div>
-	<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-	  <?php
-		$category_select_scrolling = isset( $cats_data['category_select_scrolling'] ) ? $cats_data['category_select_scrolling'] : '';
-		if ( get_current_screen()->base == 'stylish-price-list_page_spl-tabs-new' ) {
-			$category_select_scrolling = 1;
-		}
-		$checked       = 'checked';
-		$unchecked     = '';
-		?>
-	  <div class="custom_radio_btn"><input type="radio" name="category_select_scrolling" required="" value="0" 
-	  <?php
-		if ( $category_select_scrolling == 0 || $category_select_scrolling == '' ) {
-			echo esc_attr($checked);}
-		?>
-		 >Off<label class="radio-inline"><span></span></label></div>
-	  <div class="custom_radio_btn"><input type="radio" name="category_select_scrolling" required="" value="1" 
-	  <?php
-		if ( $category_select_scrolling == 1 ) {
-			echo esc_attr($checked); }
-		?>
-		 >On<label class="radio-inline"><span></span></label></div>
-  </div>
-</div>
-<!-- End of category in a dropdown choice settings -->
-<!-- Start of category dropdown width settings -->
-<div class="df-spl-row cats-row more_setting">
-	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
-		<label for="default_tab"><?php echo esc_attr($Category_Dropdown_Width); ?><span class="category_separator_symbol" style="color:red"></span></label>
-		<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image" title="Choose if you want to have the catergories show up in a dropdown choice"/>
-		<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/majesticons_eye-line.svg'; ?>" data-image-tooltip="<?php echo esc_url(SPL_URL . 'assets/images/tooltip-images/dropdown-categories.png'); ?>"/>
-	</div>
-	<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa mw-400">
-		<input style="max-width:400px;" type="text" name="spl_cats_dropdown_width" placeholder="Example : 100%" value="<?php echo isset( $cats_data['spl_cats_dropdown_width'] ) ? $cats_data['spl_cats_dropdown_width'] : '300px'; ?>" id="spl_cats_dropdown_width" class="form-control spl_cats_dropdown_width" />
-	</div>
-</div>
-<!-- End of category dropdown width settings -->
-</div><!-- End of Category (Tab) Settings Category-->
-</div><!-- END of Left Price List Settings-->
-<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 cats-row more_setting" style="background-color:#f8faf9;padding:20px;border-radius:5px;margin-top:10px;"><!-- START of Right Price List Settings-->
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><!-- START of Title Settings Category-->
-		<div class="df-spl-pl-settings-title">Title Settings</div>
-		<hr class="df-spl-pl-settings-hr">
-		<!--START remove title-->
-		<div class="df-spl-row cats-row more_setting">
-			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
-				<label for="remove_title_tab"><?php echo esc_attr($Remove_title); ?> ? </label>
-				<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image" title="Enabling this option makes the title at the top of the price-list go away."/>
-				<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/majesticons_eye-line.svg'; ?>" data-image-tooltip="<?php echo esc_url(SPL_URL . 'assets/images/tooltip-images/title-switch.png'); ?>"/>
-			</div>
-			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-				<?php
-				$spl_remove_title = isset( $cats_data['spl_remove_title'] ) ? $cats_data['spl_remove_title'] : '';
-				$checked          = 'checked';
-				$unchecked        = '';
-				?>
-				<div class="custom_radio_btn"><input type="radio" name="spl_remove_title" class="spl_remove_title" required="" value="0" 
-				<?php
-				if ( empty( $spl_remove_title ) ) {
-					echo esc_attr($checked);
-				} else {
-					echo esc_attr($unchecked); }
-				?>
-				 >Off<label class="radio-inline"><span></span></label></div>
-				<div class="custom_radio_btn"><input type="radio" name="spl_remove_title" class="spl_remove_title" required="" value="1" 
-				<?php
-				if ( ! empty( $spl_remove_title ) ) {
-					echo esc_attr($checked);
-				} else {
-					echo esc_attr($unchecked); }
-				?>
-				 >On<label class="radio-inline"><span></span></label></div>
-			</div>
-		</div><!--END remove title-->
-		<!--Start Break Title of Item Name-->
-		<div class="df-spl-row cats-row more_setting">
-			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
-				<label for="category_tab_button"><?php echo esc_attr($Break_title_of_Service); ?></label>
-				<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image" title="Enabling this adds padding to the items under the 
-				list category titles. It helps break the title from the items.
-				Works on Style 4 only."/>
-				<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/majesticons_eye-line.svg'; ?>" data-image-tooltip="<?php echo esc_url(SPL_URL . 'assets/images/tooltip-images/break-line.png'); ?>"/>
-			</div>
-			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-				<?php
-				$brack_title_desktop = isset( $cats_data['brack_title_desktop'] ) ? $cats_data['brack_title_desktop'] : '';
-				$brack_title_tablets = isset( $cats_data['brack_title_tablets'] ) ? $cats_data['brack_title_tablets'] : '';
-				if ( $brack_title_desktop != '' && $brack_title_desktop == 1 ) {
-					$desktop_check = 'checked="checked"';
-				} else {
-					$desktop_check = '';
-				}
-				if ( $brack_title_tablets != '' && $brack_title_tablets == 1 ) {
-					$tab_check = 'checked="checked"';
-				} else {
-					$tab_check = '';
-				}
-				?>
-			   <div class="checkbox">
-				  <input class="df-spl-d-none" name="brack_title_desktop" id="brack_title_desktop" type="checkbox" value="1" <?php echo esc_attr($desktop_check); ?> >
-				  <label for="brack_title_desktop" class="radio-inline"><span></span></label><label for="brack_title_desktop"><?php echo esc_attr($Break_line_of_categories_on_Desktop); ?></label>
-			  </div>
-			  <div class="checkbox">
-				  <input class="df-spl-d-none" name="brack_title_tablets" id="brack_title_tablets" type="checkbox" value="1" <?php echo esc_attr($tab_check); ?> >
-				  <label for="brack_title_tablets" class="radio-inline"><span></span></label><label for="brack_title_tablets"><?php echo esc_attr($Break_line_of_categories_on_Tablets); ?></label>
-			  </div>
-		  </div>
-	  </div>
-	  <!--End of Break Title of Service-->
-  </div><!-- End of Title Settings Category-->
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><!-- START of Buy Buttons Settings Category-->
-	<div class="df-spl-pl-settings-title">Buy Button Settings</div>
-	<hr class="df-spl-pl-settings-hr">
-	<!--Open Buy now links in new tab-->
-	<div class="df-spl-row cats-row more_setting">
-		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
-			<label for="category_tab_button"><?php echo esc_attr($Open_Buy_Btn_Link_In_New_Tab); ?><span class="category_tab_button" style="color:red"></span></label>
-			<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image" title="Enabling this option will make the links under the price open in a new tab."/>
-		</div>
-		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-		  <?php
-			$style_buy_btn_newtab = isset( $cats_data['style_buy_btn_newtab'] ) ? $cats_data['style_buy_btn_newtab'] : 0;
-			$checked              = 'checked';
-			$unchecked            = '';
-			?>
-		  <div class="custom_radio_btn"><input type="radio" name="style_buy_btn_newtab" class="style_buy_btn_newtab" required="" value="0" 
-		  <?php
-			if ( $style_buy_btn_newtab == 0 || $toggle_all_tab == '' ) {
-				echo esc_attr($checked);
-			} else {
-				echo esc_attr($unchecked); }
-			?>
-			>Off<label class="radio-inline"><span></span></label></div>
-		  <div class="custom_radio_btn"><input type="radio" name="style_buy_btn_newtab" class="style_buy_btn_newtab" required="" value="1" 
-		  <?php
-			if ( $style_buy_btn_newtab == 1 ) {
-				echo esc_attr($checked);
-			} else {
-				echo esc_attr($unchecked); }
-			?>
-			>On<label class="radio-inline"><span></span></label></div>
-	  </div>
-  </div>
-  <!--End Open Buy now links in new tab-->
-</div><!-- End  of Buy Buttons Settings Category-->
-<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><!-- START of Search & Filter Settings Category-->
-	<div class="df-spl-pl-settings-title">Search & Filter Feature</div>
-	<hr class="df-spl-pl-settings-hr">
-	<!-- Start of Search & Filter Settings -->
-	<div class="df-spl-row cats-row more_setting">
-		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
-			<label for="category_tab_button"><?php echo esc_attr($Add_Search_Bar); ?><span class="category_tab_button" style="color:red"></span></label>
-			<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image" title="Enabling it will add a search box at the to right side of the price-list."/>
-			<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/majesticons_eye-line.svg'; ?>" data-image-tooltip="<?php echo esc_url(SPL_URL . 'assets/images/tooltip-images/search-box.png'); ?>"/>
-		</div>
-		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-		  <?php
-			$enable_searchbar = isset( $cats_data['enable_searchbar'] ) ? $cats_data['enable_searchbar'] : '';
-			$checked          = 'checked';
-			$unchecked        = '';
-			?>
-		  <div class="custom_radio_btn"><input type="radio" name="enable_searchbar" class="enable_searchbar" required="" value="0" 
-		  <?php
-			if ( empty( $enable_searchbar ) ) {
-				echo esc_attr($checked);
-			} else {
-				echo esc_attr($unchecked); }
-			?>
-			>Off<label class="radio-inline"><span></span></label></div>
-		  <div class="custom_radio_btn"><input type="radio" name="enable_searchbar" class="enable_searchbar" required="" value="1" 
-		  <?php
-			if ( ! empty( $enable_searchbar ) ) {
-				echo esc_attr($checked);
-			} else {
-				echo esc_attr($unchecked); }
-			?>
-			>On<label class="radio-inline"><span></span></label></div>
-	  </div>
-  </div>
-  <!-- End of Search & Filter Settings -->
-<!-- Start of Search & Filter Settings -->
-<div class="df-spl-row cats-row more_setting">
-	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
-		<label for="category_tab_button"><?php echo esc_attr($price_range_slider); ?><span class="category_tab_button" style="color:red"></span></label>
-		<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image" title="Enabling it will add a price range filter slider at the top of the price-list."/>
-	</div>
-	<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-		<?php
-		$enable_price_range_slider = isset( $cats_data['enable_price_range_slider'] ) ? $cats_data['enable_price_range_slider'] : '';
-		$checked                   = 'checked';
-		$unchecked                 = '';
-		?>
-		<div class="custom_radio_btn"><input type="radio" name="enable_price_range_slider" class="enable_price_range_slider" required="" value="0" 
-		<?php
-		if ( empty( $enable_price_range_slider ) ) {
-			echo esc_attr($checked);
-		} else {
-			echo esc_attr($unchecked); }
-		?>
-		>Off<label class="radio-inline"><span></span></label></div>
-		<div class="custom_radio_btn"><input type="radio" name="enable_price_range_slider" class="enable_price_range_slider" required="" value="1" 
-		<?php
-		if ( ! empty( $enable_price_range_slider ) ) {
-			echo esc_attr($checked);
-		} else {
-			echo esc_attr($unchecked); }
-		?>
-		>On<label class="radio-inline"><span></span></label></div>
-	</div>
-</div>
-<!-- End of Search & Filter Settings -->
-</div><!-- End of Search & Filter Settings Category-->
-<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><!-- START of Misc Settings Category-->
-	<div class="df-spl-pl-settings-title">Misc Settings</div>
-	<hr class="df-spl-pl-settings-hr">
-	<!--Add Textarea for price list description-->
-	<div class="df-spl-row cats-row more_setting">
-		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
-			<label for="all_tab"><?php echo stripslashes( $Price_List_Description ); ?></label>
-			<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image" title="Define the price-list description here."/>
-		</div>
-		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-			<textarea name="price_list_desc" id="price_list_desc" class="form-control price_list_desc" rows="2" cols="50">
-			<?php
-			if ( isset( $price_list_desc ) ) {
-				echo str_replace( '\"', '"', str_replace( "\'", "'", stripslashes( $price_list_desc ) ) ); }
-			?>
-			</textarea>
-		</div>
-	</div><!--End of Add Textarea for price list description-->
-	<div class="df-spl-row cats-row more_setting">
-		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
-			<label for="all_tab"><?php echo stripslashes( $items_price_currency ); ?></label>
-		</div>
-		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 no-pa mw-400">
-			<select class="form-control jsonld-currency" id="jsonld_currency" name="jsonld_currency">
-				<?php foreach ( DF_SPL_CURRENCIES as $key => $value ) {
-					?>
-					<option style="max-width:400px;" class="form-control" <?php echo selected( $jsonld_currency , $value['code'] )  ?> value="<?php echo $value['code']; ?>"><?php echo $value['currency']; ?></option>
-					<?php
-				} ?>
-			</select>
-			<div class="select-right-icon">
-				<span class="df-spl-eui-FormControlLayoutCustomIcon">
-					<img src="<?php echo SPL_URL . '/assets/images/cicle-icon.svg'; ?>" aria-hidden="true">
-				</span>
-			</div>
-		</div>
-	</div>
-	<div class="df-spl-row cats-row more_setting">
-		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 lbl">
-			<label for="category_tab_button"><?php echo esc_attr($enable_product_seo_schema); ?><span class="category_tab_button" style="color:red"></span></label>
-			<img class="spl-icon-info" src="<?php echo SPL_URL . '/assets/images/info.svg'; ?>" alt="some image" title="Activating this feature will create product-specific SEO code, helping search engines understand your products better and rank them higher in search results."/>
-		</div>
-		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-			<?php
-			$enable_seo_jsonld = isset( $cats_data['enable_seo_jsonld'] ) ? $cats_data['enable_seo_jsonld'] : '';
-			$checked                   = 'checked';
-			$unchecked                 = '';
-			?>
-			<div class="custom_radio_btn"><input type="radio" name="enable_seo_jsonld" class="enable_seo_jsonld" required="" value="0" 
-			<?php
-			if ( empty( $enable_seo_jsonld ) ) {
-				echo esc_attr($checked);
-			} else {
-				echo esc_attr($unchecked); }
-			?>
-			>Off<label class="radio-inline"><span></span></label></div>
-			<div class="custom_radio_btn"><input type="radio" name="enable_seo_jsonld" class="enable_seo_jsonld" required="" value="1" 
-			<?php
-			if ( ! empty( $enable_seo_jsonld ) ) {
-				echo esc_attr($checked);
-			} else {
-				echo esc_attr($unchecked); }
-			?>
-			>On<label class="radio-inline"><span></span></label></div>
-		</div>
-	</div>
-</div><!-- End of Misc Settings Category-->
-</div><!-- END of Right Price List Settings-->
-</div>
 	<?php
 	global $spl_googlefonts_var;
 	$google_fonts = $spl_googlefonts_var->$get_fonts_options(); ?>
-	<div class="font_setting_container" style="display:none;">
-	<div class="font-source-settings clearfix">
-		<div class="col-xs-5 col-sm-3 col-md-4 col-lg-4 lbl">
-			<label for="font_source">Font Source</label>
-			<i class="fa fa-info-circle" title="if page font is selected, stylish price list will use font used in the parent div containing it."></i>
-		</div>
-		<div class="col-xs-7 col-sm-7 col-md-8  col-lg-8 padl-align">
-			<select class="form-control sel1" name="font_source" id="font_source">
-				<option value="use-googlefont" <?php selected( isset( $cats_data['font_source'] ) && $cats_data['font_source'] == 'use-googlefont' ); ?>>Use Google Fonts</option>
-				<option value="use-pagefont" <?php selected( isset( $cats_data['font_source'] ) && $cats_data['font_source'] == 'use-pagefont' ); ?>>Use page fonts</option>
-			</select>
-		</div>
-	</div>
-	<div class="styled-accordion">
-		<div class="title">
-		  <span class="title-text">Title</span>
-          <i class="title-icon fas fa-angle-down"></i>
-        </div>
-		<div class="content">
-			<!-- START of Title Settings -->
-			<div class="title-list-style">
-			  <div class="df-spl-row cats-row">
-				<h4 class="title-font"><b><?php echo esc_attr($Title); ?></b></h4>
-			</div>
-			<div class="font-settings-body">
-			<div class="field-wrapper">
-					<label for="title_font_size"><?php echo esc_attr($Font_Size); ?></label>
-					<select class="form-control sel1" name="title_font_size" style="box-shadow: 2px 2px 0px #888;">
-					  <option class="form-control title_size" value="">Size</option>
-					  <?php
-						for ( $i = 1; $i <= 100; $i++ ) {
-							if ( array_key_exists( 'title_font_size', $cats_data ) ) {
-								if ( $i . 'px' == $cats_data['title_font_size'] ) {
-									$select_ser = 'selected';
-								} else {
-									$select_ser = '';
-								}
-							} else {
-								$select_ser = '';
-							}
-							?>
-						<option class="form-control title_font_size" value="<?php echo esc_attr($i); ?>px" <?php echo isset( $select_ser ) ? $select_ser : ''; ?>><?php echo esc_attr($i); ?>px</option>
-							<?php
-						}
-						?>
-				</select>
-		</div>
-		<?php
-		if ( $title_color_top == '' ) {
-			echo df_spl_color_out( 'title_color_top', '#000', $Font_Color ); }
-		?>
-		<?php
-		if ( $title_color_top != '' ) {
-			echo df_spl_color_out( 'title_color_top', $title_color_top, $Font_Color ); }
-		?>
-		<?php echo $html_out( 'list_name_font', $google_fonts, $list_name_font, $Font_Style ); ?>
-		<!--start spl font weight setting for title-->
-		<div class="field-wrapper font-weight-row">
-				<label for="title_font_weight">Font Weight</label>
-				<select class="form-control" id="title_font-weight" name="title_font-weight" style="box-shadow: 2px 2px 0px #888;">
-					<option class="form-control title_weight" value="">Font Weight</option>
-					<?php
-					foreach ( $optionArr as $key => $value ) {
-						$isSelected = ''; //added this line
-						if ( isset( $cats_data['title_font-weight'] ) && $cats_data['title_font-weight'] == $value ) {
-							$isSelected = 'selected';
-						}
-						echo '<option class="form-control title_font-weight" value="' . $value . '"' . $isSelected . '>' . str_replace( '_', ' ', $key ) . '</option>';
-					}
-					?>
-		 </select>
- </div>
- </div>
-			</div><!-- END of Title Settings -->
-		</div>
-		<div class="title">
-		  <span class="title-text">Category</span>
-          <i class="title-icon fas fa-angle-down"></i>
-        </div>
-		<div class="content">
-		
-			<!-- START of Category (Tabs) Settings -->
-			<div class="title-list-style">
-		<div class="df-spl-row cats-row">
-			<h4 class="title-font"><b><?php echo esc_attr($Category_Tabs); ?></b></h4>
-		</div>
-		<div class="font-settings-body">
-		<div class="field-wrapper">
-				<label for="tab_font_size"><?php echo esc_attr($Font_Size); ?></label>
-				<select class="form-control sel1" name="tab_font_size" style="box-shadow: 1px 1px 0px #888;">
-					<option class="form-control tab_size" value="">Size</option>
-					<?php
-					for ( $j = 1; $j <= 100; $j++ ) {
-						if ( array_key_exists( 'tab_font_size', $cats_data ) ) {
-							if ( $j . 'px' == $cats_data['tab_font_size'] ) {
-								$select_ser = 'selected';
-							} else {
-								$select_ser = '';
-							}
-						} else {
-							$select_ser = '';
-						}
-						?>
-						<option class="form-control tab_font_size" value="<?php echo isset( $j ) ? $j : ''; ?>px" <?php echo isset( $select_ser ) ? $select_ser : ''; ?>><?php echo isset( $j ) ? $j : ''; ?>px</option>
-						<?php
-					}
-					?>
-				</select>
-		</div>
-		<?php
-		if ( $title_color == '' ) {
-			echo df_spl_color_out( 'title_color', '#000', $Font_Color ); }
-		?>
-		<?php
-		if ( $title_color != '' ) {
-			echo df_spl_color_out( 'title_color', $title_color, $Font_Color ); }
-		?>
-		<?php echo $html_out( 'title_font', $google_fonts, $title_font, $Font_Style ); ?>
+
+
+    <?php include 'settings/settings-modal.php'; ?>
+
 	<script type="text/javascript">
-	  function splHandleFormSubmit($this = null) {
-		  event.preventDefault();
+		jQuery(function($) {
+			const settingsFieldSelector = '#list_name';
+			const headerFieldSelector = '[data-spl-list-name-field]';
+			const emptyLabel = <?php echo wp_json_encode( $Price_List_Name ); ?>;
+
+			if (!$(settingsFieldSelector).length || !$(headerFieldSelector).length) {
+				return;
+			}
+
+			const normalizeValue = function(value) {
+				return String(value || '').slice(0, 100);
+			};
+
+			const displayValue = function(value) {
+				const normalizedValue = normalizeValue(value).trim();
+
+				return normalizedValue || emptyLabel;
+			};
+
+			const syncHeaderFields = function(value, source) {
+				const normalizedValue = normalizeValue(value);
+
+				$(headerFieldSelector).each(function() {
+					const $field = $(this);
+					const $input = $field.find('[data-spl-list-name-input]');
+					const $text = $field.find('[data-spl-list-name-text]');
+
+					if (!source || $input.get(0) !== source) {
+						$input.val(normalizedValue);
+					}
+
+					$text.text(displayValue(normalizedValue));
+				});
+			};
+
+			const syncAllFields = function(value, source) {
+				const normalizedValue = normalizeValue(value);
+				$(settingsFieldSelector).val(normalizedValue);
+				syncHeaderFields(normalizedValue, source);
+			};
+
+			const closeEditor = function($field) {
+				$field.removeClass('is-editing');
+			};
+
+			const openEditor = function($field) {
+				const $input = $field.find('[data-spl-list-name-input]');
+
+				$(headerFieldSelector).not($field).each(function() {
+					closeEditor($(this));
+				});
+
+				$field.data('originalValue', normalizeValue($(settingsFieldSelector).val()));
+				$field.addClass('is-editing');
+				$input.trigger('focus').select();
+			};
+
+			syncHeaderFields($(settingsFieldSelector).val());
+
+			$(document)
+				.off('.splListNameMirror')
+				.on('input.splListNameMirror change.splListNameMirror', settingsFieldSelector, function() {
+					syncHeaderFields(this.value);
+				})
+				.on('click.splListNameMirror', '[data-spl-list-name-toggle]', function(event) {
+					event.preventDefault();
+					openEditor($(this).closest(headerFieldSelector));
+				})
+				.on('input.splListNameMirror change.splListNameMirror', '[data-spl-list-name-input]', function() {
+					syncAllFields(this.value, this);
+				})
+				.on('blur.splListNameMirror', '[data-spl-list-name-input]', function() {
+					closeEditor($(this).closest(headerFieldSelector));
+				})
+				.on('keydown.splListNameMirror', '[data-spl-list-name-input]', function(event) {
+					if (event.key === 'Enter') {
+						event.preventDefault();
+						this.blur();
+					}
+
+					if (event.key === 'Escape') {
+						event.preventDefault();
+						syncAllFields($(this).closest(headerFieldSelector).data('originalValue'), this);
+						this.blur();
+					}
+				});
+		});
+	</script>
+
+	<script type="text/javascript">
+	  function splHandleFormSubmit($this = null, evt = null) {
+		  if (evt && typeof evt.preventDefault === 'function') {
+			evt.preventDefault();
+		  } else if (typeof event !== 'undefined' && event && typeof event.preventDefault === 'function') {
+			event.preventDefault();
+		  }
 		  if ( $this ) {
 			$this.innerHTML = '<i class="gg-spinner"></i>';
 		  }
-		  jQuery('#submit_tabs').click();
+
+		  jQuery('#submit_tabs').trigger('click');
+		  return false;
 	  }
   </script>
-  <!--start spl font weight setting for category tabs-->
-  <div class="field-wrapper font-weight-row">
-		<label for="tab_font_weight">Font Weight</label>
-		<select class="form-control" id="catrgories-font-weight" name="tab_font-weight" style="box-shadow: 2px 2px 0px #888;">
-			<option class="form-control tab_weight" value="">Font Weight</option>
-			<?php
-			foreach ( $optionArr as $key => $value ) {
-				   $isSelected = ''; //added this line
-				if ( isset( $cats_data['tab_font-weight'] ) && $cats_data['tab_font-weight'] == $value ) {
-					$isSelected = 'selected';
-				}
-				 echo '<option class="form-control tab_font-weight" value="' . $value . '"' . $isSelected . '>' . str_replace( '_', ' ', $key ) . '</option>';
-			}
-			?>
-		 </select>
- </div>
-	</div>
- <!--end spl font weight setting for category tabs-->
-</div><!-- END of Category (Tabs) Settings -->	
- <!-- START of Category Description Settings -->
- <div class="title-list-style">
-		<div class="df-spl-row cats-row">
-			<h4 class="title-font"><b><?php echo esc_attr($Category_description_Tabs); ?></b></h4>
-		</div>
-		<div class="font-settings-body">
-		<div class="field-wrapper">
-				<label for="tab_description_font_size"><?php echo esc_attr($Font_Size); ?></label>
-				<select class="form-control sel1" name="tab_description_font_size" style="box-shadow: 1px 1px 0px #888;">
-					<option class="form-control tab_description_size" value="">Size</option>
-					<?php
-					for ( $j = 1; $j <= 100; $j++ ) {
-						if ( array_key_exists( 'tab_description_font_size', $cats_data ) ) {
-							if ( $j . 'px' == $cats_data['tab_description_font_size'] ) {
-								$select_ser = 'selected';
-							} else {
-								$select_ser = '';
-							}
-						} else {
-							$select_ser = '';
-						}
-						?>
-						<option class="form-control tab_description_font_size" value="<?php echo isset( $j ) ? $j : ''; ?>px" <?php echo isset( $select_ser ) ? $select_ser : ''; ?>><?php echo isset( $j ) ? $j : ''; ?>px</option>
-						<?php
-					}
-					?>
-				</select>
-		</div>
-		<?php
-		if ( $tab_description_color == '' ) {
-			echo df_spl_color_out( 'tab_description_color', '#000', $Font_Color ); }
-		?>
-		<?php
-		if ( $tab_description_color != '' ) {
-			echo df_spl_color_out( 'tab_description_color', $tab_description_color, $Font_Color ); }
-		?>
-		<?php echo $html_out( 'tab_description_font', $google_fonts, $tab_description_font, $Font_Style ); ?>
-<!--start spl font weight setting for category tabs-->
-<div class="field-wrapper">
-		<label for="tab_font_weight">Font Weight</label>
-		<select class="form-control" id="cat-tabs-font-weight" name="tab_description_font-weight" style="box-shadow: 2px 2px 0px #888;">
-			<option class="form-control tab_weight" value="">Font Weight</option>
-			<?php
-			foreach ( $optionArr as $key => $value ) {
-				   $isSelected = ''; //added this line
-				if ( isset( $cats_data['tab_description_font-weight'] ) && ( $cats_data['tab_description_font-weight'] == $value ) ) {
-					$isSelected = 'selected';
-				}
-				 echo '<option class="form-control tab_description_font-weight" value="' . $value . '"' . $isSelected . '>' . str_replace( '_', ' ', $key ) . '</option>';
-			}
-			?>
-		 </select>
- </div>
-		</div>
-</div><!-- END of Category Description Settings -->
-		</div>
-		<div class="title">
-		  <span class="title-text">Item</span>
-          <i class="title-icon fas fa-angle-down"></i>
-        </div>
-		<div class="content">
-			
-		<!-- START of Item Name Settings -->
-		<div class="title-list-style">
-		  <div class="df-spl-row cats-row">
-			<h4 class="title-font"><b><?php echo esc_attr($Service_Name); ?></B></h4>
-			</div>
-			<div class="font-settings-body">
-			<div class="field-wrapper">
-					<label for="tab_font_size"><?php echo esc_attr($Font_Size); ?></label>
-					<select class="form-control sel1" name="service_font_size" style="box-shadow: 2px 2px 0px #888;">
-					  <option class="form-control service_size" value="">Size</option>
-					  <?php
-						for ( $k = 1; $k <= 100; $k++ ) {
-							if ( array_key_exists( 'service_font_size', $cats_data ) ) {
-								if ( $k . 'px' == $cats_data['service_font_size'] ) {
-									$select_ser = 'selected';
-								} else {
-									$select_ser = '';
-								}
-							} else {
-								$select_ser = '';
-							}
-							?>
-						<option class="form-control service_font_size" value="<?php echo esc_attr($k); ?>px" <?php echo esc_attr($select_ser); ?>><?php echo esc_attr($k); ?>px</option>
-							<?php
-						}
-						?>
-				</select>
-		</div>
-		<?php
-		if ( $service_color == '' ) {
-			echo df_spl_color_out( 'service_color', '#000', $Font_Color ); }
-		?>
-		<?php
-		if ( $service_color != '' ) {
-			echo df_spl_color_out( 'service_color', $service_color, $Font_Color ); }
-		?>
-		<?php echo $html_out( 'desc_font', $google_fonts, $desc_font, $Font_Style ); ?>
-		<?php
-		if ( $hover_color == '' ) {
-			echo df_spl_color_out( 'hover_color', '#000', $Hover_Color ); }
-		?>
-		<?php
-		if ( $hover_color != '' ) {
-			echo df_spl_color_out( 'hover_color', $hover_color, $Hover_Color ); }
-		?>
-		<!--start spl font weight setting for services-->
-		<div class="field-wrapper">
-				<label for="service_font_weight">Font Weight</label>
-				<select class="form-control" id="service-font-weight" name="service_font-weight" style="box-shadow: 2px 2px 0px #888;">
-					<option class="form-control service_weight" value="">Font Weight</option>
-					<?php
-					foreach ( $optionArr as $key => $value ) {
-						$isSelected = ''; //added this line
-						if ( isset( $cats_data['service_font-weight'] ) && $cats_data['service_font-weight'] == $value ) {
-							$isSelected = 'selected';
-						}
-						echo '<option class="form-control service_font-weight" value="' . $value . '"' . $isSelected . '>' . str_replace( '_', ' ', $key ) . '</option>';
-					}
-					?>
-		 </select>
- </div>
- </div>
- <!--end spl font weight setting for services-->
-</div><!-- END of Item Name Settings -->
-			<!-- START of Price Settings -->
-			<div class="title-list-style">
-	  <div class="df-spl-row cats-row">
-		<h4 class="title-font"><b><?php echo esc_attr($Service_Price); ?></b></h4>
-	</div>
-	<div class="font-settings-body">
-	<div class="field-wrapper">
-			<label for="tab_font_size"><?php echo esc_attr($Font_Size); ?></label>
-			<select class="form-control sel1" name="service_price_font_size" style="box-shadow: 2px 2px 0px #888;">
-			  <option class="form-control service_price_font_size" value="">Size</option>
-			  <?php
-				for ( $n = 1; $n <= 100; $n++ ) {
-					$change_lang_value = '';
-					if ( array_key_exists( 'service_price_font_size', $cats_data ) ) {
-						if ( $n . 'px' == $cats_data['service_price_font_size'] ) {
-							$select_ser = 'selected';
-						} else {
-							$select_ser = '';
-						}
-					} else {
-						$select_ser = '';
-					}
-					?>
-			<option class="form-control service_price_font_size" value="<?php echo esc_attr($n); ?>px" <?php echo esc_attr($select_ser); ?>><?php echo esc_attr($n); ?>px</option>
-					<?php
-				}
-				?>
-	</select>
-</div>
-<?php
-if ( $price_color == '' ) {
-	echo df_spl_color_out( 'price_color', '#000', $Font_Color ); }
-?>
-<?php
-if ( $price_color != '' ) {
-	echo df_spl_color_out( 'price_color', $price_color, $Font_Color ); }
-?>
-<?php echo $html_out( 'price_font', $google_fonts, $price_font, $Font_Style ); ?>
-<!--start spl font weight setting for service price-->
-<div class="field-wrapper font-weight-row">
-		<label for="service_price_font_weight">Font Weight</label>
-		<select class="form-control" id="srv-price-font-weight" name="service_price_font-weight" style="box-shadow: 2px 2px 0px #888;">
-			<option class="form-control service_price_weight" value="">Font Weight</option>
-			<?php
-			foreach ( $optionArr as $key => $value ) {
-				   $isSelected = ''; //added this line
-				if ( isset( $cats_data['service_price_font-weight'] ) && ( $cats_data['service_price_font-weight'] == $value ) ) {
-					$isSelected = 'selected';
-				}
-				 echo '<option class="form-control service_price_font-weight" value="' . $value . '"' . $isSelected . '>' . str_replace( '_', ' ', $key ) . '</option>';
-			}
-			?>
-		 </select>
- </div>
- </div>
-</div><!-- END of Price Settings -->
- <!--end spl font weight setting for service price-->
- <!-- START of Description Settings -->
- <div class="title-list-style">
-	  <div class="df-spl-row cats-row">
-		<h4 class="title-font"><b><?php echo esc_attr($Service_Description); ?></b></h4>
-	</div>
-	<div class="font-settings-body">
-	<div class="field-wrapper">
-			<label for="tab_font_size"><?php echo esc_attr($Font_Size); ?></label>
-			<select class="form-control sel1" name="service_description_font_size" style="box-shadow: 2px 2px 0px #888;">
-			  <option class="form-control service_description_font_size" value="">Size</option>
-			  <?php
-				for ( $n = 1; $n <= 100; $n++ ) {
-					if ( array_key_exists( 'service_description_font_size', $cats_data ) ) {
-						if ( $n . 'px' == $cats_data['service_description_font_size'] ) {
-							$select_ser = 'selected';
-						} else {
-							$select_ser = '';
-						}
-					} else {
-						$select_ser = '';
-					}
-					?>
-				<option class="form-control service_description_font_size" value="<?php echo esc_attr($n); ?>px" <?php echo esc_attr($select_ser); ?>><?php echo esc_attr($n); ?>px</option>
-					<?php
-				}
-				?>
-		</select>
-</div>
-<?php
-if ( $service_description_color == '' ) {
-	echo df_spl_color_out( 'service_description_color', '#000', $Font_Color ); }
-?>
-<?php
-if ( $service_description_color != '' ) {
-	echo df_spl_color_out( 'service_description_color', $service_description_color, $Font_Color ); }
-?>
-<?php echo $html_out( 'service_description_font', $google_fonts, $service_description_font, $Font_Style ); ?>
-<script type="text/javascript">
-  jQuery(function($){
-   jQuery('.color-picker').wpColorPicker();
-});
-</script>
-<!--start spl font weight setting for description-->
-<div class="field-wrapper font-weight-row">
-		<label for="description_font_weight">Font Weight</label>
-		<select class="form-control" id="description_font-weight" name="description_font-weight" style="box-shadow: 2px 2px 0px #888;">
-			<option class="form-control description_weight" value="">Font Weight</option>
-			<?php
-			foreach ( $optionArr as $key => $value ) {
-				   $isSelected = ''; //added this line
-				if ( isset( $cats_data['description_font-weight'] ) && ( $cats_data['description_font-weight'] == $value ) ) {
-					$isSelected = 'selected';
-				}
-				 echo '<option class="form-control description_font-weight" value="' . $value . '"' . $isSelected . '>' . str_replace( '_', ' ', $key ) . '</option>';
-			}
-			?>
-		 </select>
- </div>
- </div>
- </div>
- <!-- END of Description Settings -->
-</div>
-		</div>
-	</div>
+
+	<script type="text/javascript">
+	  jQuery(function($){
+	   jQuery('.color-picker').wpColorPicker();
+	});
+	</script>
+
 		<div id="category-row-template" style="display:none;float: left;width: 100%;max-width: 900px;">
-			<?php
+		     <?php
 			echo category_row( 0, $init_cat, $max_service_count );
 			?>
 		</div> <!-- category-row-template -->
 			<?php
-			$opt = get_option( 'spllk_opt' );
+			
+			$opt = get_option( 'spllk_opt' ); 
 			if ( empty( $opt ) ) {
 				echo '<div class="free_version alert alert2 bg-warning">
 					<p>You are using the <span class="highlighted">free (demo)</span> version of the plugin. Click <span class="highlighted"><a href="https://stylishpricelist.com?utm_source=inside-plugin&utm_medium=buy-premium-cta-banner">here</a></span> to buy the premium version.</p>
 				</div>';
 			}
-			if ( ( isset( $opt['license'] ) && $opt['license'] !== 'valid' ) ) {
+			if ( ( isset( $opt['license'] ) && $opt['license'] !== 'valid' ) ) {  
 				echo '<div class="free_version alert alert2 bg-warning">
 					<p class="text-danger" id="edit-page-alert">Your License key has been expired. Some features might not work properly. Please renew. <a href="'. esc_attr( admin_url('admin.php?page=stylish_price_list_license') ) . '">Go to license manager</a></p>
 				</div>';
@@ -2237,28 +1285,29 @@ if ( $service_description_color != '' ) {
 		<div id="pricelist-editor-root" class="category-rows-master-cls">
 			<div id="category-rows-wrapper">
 				<div class="header">
-					<div class="title">List Builder</div>
-					<div class="des">See how will look your list</div>
+					<div class="title">Menu Content</div>
+					<div class="des">Manage your menu categories and items</div>
 				</div>
-				
+
 				<div class="categories">
 					<?php
-					$cats = $cats_data['category'];
-					foreach ( $cats as $cat_id => $cat ) {
-						// $cat_name=$cat['name'];
-						echo category_row( $cat_id, $cat, $max_service_count );
-						// unset($cat['name']);//remove the name items, so, we can use foreach to process
-						// foreach ($cat as $service_id => $service) {
-						//     echo category_row($cat_id,$service_id,$cat_name);
-						// }
+					if (isset($cats_data['category'])) {
+						$cats = $cats_data['category'];
+						foreach ( $cats as $cat_id => $cat ) {
+							// $cat_name=$cat['name'];
+						    echo category_row( $cat_id, $cat, $max_service_count );
+							// unset($cat['name']);//remove the name items, so, we can use foreach to process
+							// foreach ($cat as $service_id => $service) {
+							//     echo category_row($cat_id,$service_id,$cat_name);
+							// }
+						}
 					}
 					?>
 				</div>
 
-				<div class="action-button">
-					<a href="javascript:void(0);" class="add-category-btn" onclick="add_category(this)">
-						<i class="fas fa-plus-circle" style="margin-right: 2px;"></i>
-						<?php echo esc_attr($GLOBALS['Add_Category']); ?>
+				<div class="add_category">
+					<a href="javascript:void(0);" onclick="add_category(this)">
+						<span style="font-weight: bold;">+</span> <?php echo esc_attr($GLOBALS['Add_Category']); ?>
 					</a>
 				</div>
 
@@ -2266,8 +1315,8 @@ if ( $service_description_color != '' ) {
 			<div class="spl-preview">
 				<div class="header clearfix">
 					<div class="preview-info">
-						<div class="title">Preview</div>
-						<div class="des">See how will look your Price List</div>
+						<div class="title-preview">LIVE PREVIEW</div>
+
 					</div>
 					<div class="action-button spl-tect">
 						<div id="dock-to-bottom" title="Dock the preview pane to the bottom" data-dock-mode="bottom" role="button" onclick="handlePreviewDockMode(this, 'bottom', event)" class="use-tooltip m-0 btn" data-bs-original-title="Dock the preview pane to the bottom" aria-label="Dock the preview pane to the bottom"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-200v120h560v-120H200Zm0-80h560v-360H200v360Zm0 80v120-120Z" fill="currentColor"></path></svg></div>
@@ -2286,68 +1335,21 @@ if ( $service_description_color != '' ) {
 		<input type="hidden" name="field_id" class="form-control" value="<?php  esc_html_e( $id, 'text_domain' ); ?>">
 		<?php wp_nonce_field( 'spl_nonce' ); ?>
 		<input type="hidden" name="spl_nonce" value="<?php echo wp_create_nonce( 'spl_nonce' ); ?>">
-		<div class="clearfix df-spl-edit-nav df-spl-edit-nav-bottom">
-			<div class="spl-footer-wrapper">
-				<div class="save-button-wrapper"> 
-					<div class="bottom-save spl_btn_primary "><!----Start of Save Button (Bottom) ---->
-						<?php submit_button( __( $Save, 'spl' ), 'primary', 'submit_tabs' ); ?>
-					</div><!----End of Save Button (Bottom) ---->
-				</div>
-				<!--Start of BackUp Button-->
-				<?php
-				if ( $id != '' ) {
-					if ( ! empty( $opt ) && ( isset( $opt['result'] ) && $opt['result'] == 'success' ) ) {
-						$AddClass = '';
-						?>
-						<div class="navbar-bottom-links">
-						<ul class="nav navbar-nav">
-							<li><a href="https://stylishcostcalculator.com" target="_blank" id="myBtnSupport">STYLISH COST CALCULATOR</a></li>
-							<li><a href="https://designful.freshdesk.com/support/solutions/48000446986" target="_blank" id="myBtnSupport">KNOWLEDGE BASE</a></li>
-							<li><a href="https://designful.freshdesk.com/support/solutions/articles/48001184064-basics-explained-how-do-i-use-stylish-price-list-" id="myBtnSupport" target="_blank">VIDEO TUTORIAL</a></li>
-							<li><a href="https://stylishpricelist.com/live-preview/" target="_blank">LIVE DEMO</a></li>
-							<li><a href="https://stylishpricelist.com/support" target="_blank">CONTACT SUPPORT</a></li>
-						</ul>
-						</div>
-						<div class="spl-button-backup">
-						 <button  id="splButtom" type="button" name="backup" value=""
-						 	data-action="<?php echo esc_url( admin_url( 'admin-post.php' ) . '?action=spl_generate_backup' ); ?>"
-							data-list-id="<?php echo htmlentities( $id ); ?>"
-							data-list-name="<?php echo urlencode( htmlspecialchars( $list_name ) ); ?>"
-							data-nonce="<?php echo wp_create_nonce( 'spl_backup_nonce' ); ?>"
-						 	class="spl_btn_primary button button-primary backup " style="height: 45px;"><i class="fa fa-file" aria-hidden="true" style="font-size:18px;margin-right:15px;color:#6B6B6B"></i><?php echo esc_attr($Backup); ?></button>
-						 <?php if ( $id == '' || $id != '' ) {
-							if ( ! empty( $opt ) && ( isset( $opt['result'] ) && $opt['result'] == 'success' ) ) { ?>
-								<button id="splButtomRest" type="button" name="restore" value="" class="spl_btn_primary button button-primary restore" style="height: 45px;">
-									<img 	 src="<?php echo SPL_URL . '/assets/images/ICON22.svg'; ?>" aria-hidden="true" style="font-size:20px;vertical-align:middle;">
-									<?php echo esc_attr($Restore); ?>
-								</button>
-								<?php
-							}
-						} ?>
-					 </div>
-						<?php
-					}
-				} else {
-				?>
-				<div class="col-md-8"></div>
-				<div class="col-md-2 spl-button-backup">
-					<div class="col-md-8"></div>
-					<?php if ( $id == '' || $id != '' ) {
-					if ( ! empty( $opt ) && ( isset( $opt['result'] ) && $opt['result'] == 'success' ) ) { ?>
-						<button id="splButtomRest" type="button" name="restore" value="" class="spl_btn_primary button button-primary restore" style="height: 45px;">
-							<img 	 src="<?php echo SPL_URL . '/assets/images/ICON22.svg'; ?>" aria-hidden="true" style="font-size:20px;vertical-align:middle;"> <!-- Aquí se agrega la imagen -->
-							<?php echo esc_attr($Restore); ?>
-						</button>
-						<?php
-					}
-					} ?>
-				</div>
-				<?php } ?>
-		   <!--End of BackUp Button-->
-	   </div>
-   </div>
 </div>
 </form><!----Preview, Restore & Backup Section---->
+
+<form class="custom-backup-restore" id="spl_restore_backup_form" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) . '?action=spl_restore_backup' ); ?>" enctype="multipart/form-data" style="display:none;">
+	<?php wp_nonce_field( 'spl_restore_nonce' ); ?>
+	<input type="hidden" name="list_id" value="<?php  esc_html_e( $id, 'text_domain' ); ?>">
+	<input type="hidden" name="restore" value="restore">
+</form>
+
+<form method="post" class="license-right-form" novalidate="novalidate" spellcheck="false" style="display:none;">
+	<input type="hidden" name="_action" value="refresh">
+	<input type="hidden" name="_nonce" value="<?php echo wp_create_nonce( 'spl-license' ); ?>">
+	<input type="hidden" name="license_key" value="<?php echo get_option( 'stylishpl_license_key', '' ); ?>">
+</form>
+
 <!----Preview, Restore & Backup Section---->
 <div class="df-spl-row">
 </div>
@@ -2361,8 +1363,12 @@ if ( $id == '' || $id != '' ) {
 					<form class="custom-backup-restore" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) . '?action=spl_restore_backup' ); ?>" enctype="multipart/form-data">
 						<?php wp_nonce_field( 'spl_restore_nonce' ); ?>
 						<input type="hidden" name="list_id" value="<?php  esc_html_e( $id, 'text_domain' ); ?>">
-						<input type="file" name="importtocsv" id="fileupload">
-						<button type="submit" name="restore" value="restore" class="spl_btn_primary button button-primary" style="width:200px;background:orange!important;"><?php echo esc_attr($Restore); ?> Now</button>
+						<input type="hidden" name="restore" value="restore">
+						<input type="file" name="importtocsv" id="fileupload_legacy" class="spl_restore_fileupload" accept=".csv">
+						<div class="spl_restore_progress" aria-live="polite" style="display:none;">
+							<i class="gg-spinner" aria-hidden="true"></i>
+							<span><?php echo esc_html__( 'Restoring backup. Please wait...', 'spl' ); ?></span>
+						</div>
 					</form>
 				</div>
 			</div>
@@ -2501,17 +1507,15 @@ if ( array_key_exists( 'lang', $_REQUEST ) ) {
 		</div>
 	</div>
 </div>
+
+
+
+
+
+
 <style>
-	.df-spl-pl-settings-title{
-		font-size:18px;
-		color:#5bb3a7;
-		font-weight:bold;
-		margin-top:20px;
-	}
-	.df-spl-pl-settings-hr{
-		color:#5bb3a7;
-		height:1px;
-	}
+
+
 	a.add-service.add-remove-service {
 		color: #5bb3a7;
 	}
@@ -2519,8 +1523,9 @@ if ( array_key_exists( 'lang', $_REQUEST ) ) {
 		color: grey;
 	}
 	p.submit input.button {
-		padding-right: 30px;
-		padding-left: 30px;
+		padding: 5px 15px;
+		background: #000;
+		border-radius: 10px;
 	}
 	.df-spl-euiOverlayMask {
 	  position: fixed;
@@ -2832,8 +1837,7 @@ if ( array_key_exists( 'lang', $_REQUEST ) ) {
 }
 .add_to_webpage{
 	flex-direction: column !important;
-    display: flex;
-	text-align:center;
+    text-align:center;
 }
 .add_to_webpage img {
 	height: 21px;
@@ -2841,22 +1845,7 @@ if ( array_key_exists( 'lang', $_REQUEST ) ) {
 .add_to_webpage{
 	text-align:center;
 }
-.advance_setting{
-	flex-direction: column !important;
-    display: flex;
-	text-align:center;
-}
-.advance_setting img{
-	height: 21px;
-}
-.font_settitng{
-	flex-direction: column !important;
-    display: flex;
-	text-align:center;
-}
-.font_settitng img{
-	height:21px;
-}
+
 </style>
 <footer id="admin_footer">
 	<?php
@@ -2864,6 +1853,24 @@ if ( array_key_exists( 'lang', $_REQUEST ) ) {
 	?>
 </footer>
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+	document.getElementById('settings-link').onclick = function(e) {
+		e.preventDefault();
+		document.getElementById('settingsModal').style.display = 'block';
+	};
+
+	document.querySelector('.closesupport').onclick = function() {
+		document.getElementById('settingsModal').style.display = 'none';
+	};
+});
+
+		window.onclick = function(e) {
+			var modal = document.getElementById('settingsModal');
+			if (e.target == modal) {
+				modal.style.display = 'none';
+			}
+		};
+
 	jQuery(document).ready(function($){
 		let ab = document.querySelector('.category-rows-master-cls');
 		// INITIATING SORTING CAPABILITY FOR ITEMS IN THE CATEGORIES
@@ -2971,12 +1978,12 @@ window.onclick = function(event) {
 }
 </script>
 <script>
-	jQuery(".service-price-length-rows-wrapper").mouseenter(function() {
+	/*jQuery(".service-price-length-rows-wrapper").mouseenter(function() {
 		jQuery(this).add(this.nextElementSibling).css('box-shadow','0px 1px 6px rgb(91, 179, 167)');
-	}).mouseleave(function() {
-		
+	}).mouseleave(function()
+
 		jQuery(this).add(this.nextElementSibling).css('box-shadow','none');
-	});
+	});*/
 	jQuery(".service-advance-settings").mouseenter(function() {
 		jQuery(this).add(this.previousElementSibling).css('box-shadow','rgb(91, 179, 167) 0px 5px 6px');
 	}).mouseleave(function() {

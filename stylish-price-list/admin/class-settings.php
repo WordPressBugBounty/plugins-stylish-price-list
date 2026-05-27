@@ -365,7 +365,7 @@ class Stylish_Price_List_Settings {
 		// add_management_page('Stylish Price List','Stylish Price List', 'manage_options', 'stylish_price_list_settings', array($this,'option_page'));
 		add_submenu_page( 'spl-tabs', __( 'Help', 'stylishpl' ), __( 'Help', 'stylishpl' ), 'manage_options', 'stylish_price_list_help', array( $this, 'help_page' ) );
 		add_submenu_page( 'spl-tabs', __( 'Video Tutorials', 'stylishpl' ), __( 'Video Tutorials', 'stylishpl' ), 'manage_options', 'stylish_price_list_video', array( $this, 'video_page' ) );
-		add_submenu_page( 'spl-tabs', __( 'Settings', 'stylishpl' ), __( 'Settings', 'stylishpl' ), 'manage_options', 'stylish_price_list_settings', array( $this, 'option_page' ) );
+		//add_submenu_page( 'spl-tabs', __( 'Settings', 'stylishpl' ), __( 'Settings', 'stylishpl' ), 'manage_options', 'stylish_price_list_settings', array( $this, 'option_page' ) );
 		add_submenu_page( 'spl-tabs', __( 'License', 'stylishpl' ), __( 'License', 'stylishpl' ), 'manage_options', 'stylish_price_list_license', array( new SPL_LicensePage(), 'page' ) );
 	}
 }

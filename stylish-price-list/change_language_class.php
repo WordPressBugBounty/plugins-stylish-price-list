@@ -65,7 +65,7 @@ class df_spl_convert_lang {
 		$language['EN']['Service_URL']                         = df_spl_remove_slash_quotes( 'Service URL' );
 		$language['EN']['Remove_Service']                      = df_spl_remove_slash_quotes( 'Remove Service' );
 		$language['EN']['Add_Service']                         = df_spl_remove_slash_quotes( 'Add Service' );
-		$language['EN']['Add_Category']                        = df_spl_remove_slash_quotes( 'Add Category' );
+		$language['EN']['Add_Category']                        = df_spl_remove_slash_quotes( 'Add New Category' );
 		$language['EN']['Remove_Category']                     = df_spl_remove_slash_quotes( 'Remove Category' );
 		$language['EN']['Restore']                             = df_spl_remove_slash_quotes( 'Restore' );
 		$language['EN']['Backup']                              = df_spl_remove_slash_quotes( 'Backup' );

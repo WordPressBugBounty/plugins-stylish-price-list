@@ -39,7 +39,7 @@ class Stylish_Price_List_Tabs_Form_Handler {
 		if ( ! isset( $_POST['submit_tabs'] ) ) {
 			return;
 		}
-		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'spl_nonce' ) ) {
+        if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'spl_nonce' ) ) {
 			die( __( 'Error: WP Verify Nonce error. Try to log out of WP and log back in, clear your cache. Try to disable Word Fence or any security pluigin. If the problem persist, please contact support at https://stylishpricelist.com/support/', 'spl' ) );
 		}
 		if ( ! current_user_can( 'manage_options' ) ) {
@@ -100,6 +100,11 @@ class Stylish_Price_List_Tabs_Form_Handler {
 		} else {
 			update_option( 'spl_save_count', $save_count + 1 );
 		}
+		
+		// Manually process and save the extra settings since this is a custom form handler
+	    // Ensure 'load-style-all-pages' is updated properly from the form POST data
+		$extraSettings['load-style-all-pages'] = (isset( $_POST['load-style-all-pages'] )) ? 'on' : null;
+		update_option( 'spl_extra_settings', $extraSettings );
 		if ( ! $field_id ) {
 			$insert_id = df_spl_insert_tabs( $fields );
 			$page_url  = admin_url( 'admin.php?page=spl-tabs&action=edit&id=' . $insert_id );

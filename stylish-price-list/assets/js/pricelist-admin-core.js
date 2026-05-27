@@ -8,25 +8,73 @@ jQuery( '.add_to_webpage' ).click( function({currentTarget}) {
 	jQuery( '.more_setting' ).hide();
 } );
 
-jQuery( '.font_settitng' ).click( function({currentTarget}) {
-	event.preventDefault(); 
-	jQuery('.add_to_webpage, .font_settitng, .advance_setting').not(currentTarget).removeClass('active');
-	jQuery( '.font_setting_container' ).toggle(function() {
-		jQuery(currentTarget).toggleClass('active');
-	});
-	jQuery( '.show_hide_shortcode' ).hide();
-	jQuery( '.more_setting' ).hide();
-} );
 
-jQuery( '.advance_setting' ).click( function({currentTarget}) {
-	event.preventDefault(); 
-	jQuery('.add_to_webpage, .font_settitng, .advance_setting').not(currentTarget).removeClass('active');
-	jQuery( '.more_setting' ).toggle(function() {
-		jQuery(currentTarget).toggleClass('active');
-	});
-	jQuery( '.font_setting_container' ).hide();
-	jQuery( '.show_hide_shortcode' ).hide();
-} );
+function settingsHandler(currentTarget) {
+	jQuery('.spl-button-settings').removeClass('spl_checked');
+	jQuery(currentTarget).addClass('spl_checked');
+	jQuery('.spl-settings-container').addClass('hide-settings');
+	jQuery('#settingsModal').animate({ scrollTop: jQuery('.settings-right').offset().top }, 'slow');
+} 
+
+jQuery('#settingsGeneral').click(function(e){
+	e.preventDefault();
+	settingsHandler(this);
+	jQuery('#settings-general').removeClass('hide-settings');
+});
+
+jQuery('#settingsLayout').click(function(e) {
+	e.preventDefault();
+	settingsHandler(this);
+	jQuery('#settings-layout').removeClass('hide-settings');
+});
+
+jQuery('#settingsCategories').click(function(e) {
+	e.preventDefault();
+	settingsHandler(this);
+	jQuery('#settings-categories').removeClass('hide-settings');
+});
+
+jQuery('#settingsFeatures').click(function(e) {
+	e.preventDefault();
+	settingsHandler(this);
+	jQuery('#settings-features').removeClass('hide-settings');
+});
+
+jQuery('#settingsQrCode').click(function(e) {
+	e.preventDefault();
+	settingsHandler(this);
+	jQuery('#settings-qrcode').removeClass('hide-settings');
+});
+
+jQuery('#settingsSEO').click(function(e) {
+	e.preventDefault();
+	settingsHandler(this);
+	jQuery('#settings-seo').removeClass('hide-settings');
+});
+
+jQuery('#settingsFonts').click(function(e) {
+	e.preventDefault();
+	settingsHandler(this);
+	jQuery('#settings-fonts').removeClass('hide-settings');
+});
+
+jQuery('#settingsBackup').click(function(e) {
+	e.preventDefault();
+	settingsHandler(this);
+	jQuery('#settings-backup').removeClass('hide-settings');
+});
+
+jQuery('#settingsGlobal').click(function(e) {
+	e.preventDefault();
+	settingsHandler(this);
+	jQuery('#settings-global').removeClass('hide-settings');
+});
+
+jQuery('#settingsLicense').click(function(e) {
+	e.preventDefault();
+	settingsHandler(this);
+	jQuery('#settings-license').removeClass('hide-settings');
+});
 
 jQuery( '.preview_list' ).click( function() {
 	jQuery( '.backup_content' ).hide(), jQuery( '.restore_content' ).hide();
@@ -35,6 +83,7 @@ jQuery( '.preview_list' ).click( function() {
 jQuery( '.backup' ).click( function({target}) {
 	const {action, listId, listName, nonce} = target.dataset;
 	// quit if any of the required fields are empty
+	
 	if ( ! action || ! listId || ! listName || ! nonce ) {
 		return;
 	}
@@ -74,6 +123,21 @@ jQuery( '.backup' ).click( function({target}) {
 
 jQuery( '.restore' ).click( function() {
 	jQuery( '.backup_content' ).hide(), jQuery( '.restore_content' ).toggle();
+} );
+
+jQuery( '.spl_restore_fileupload' ).on( 'change', function() {
+	const restoreForm = this.form;
+
+	if ( ! this.files.length || ! restoreForm ) {
+		return;
+	}
+
+	const progress = jQuery( this ).siblings( '.spl_restore_progress' );
+	( progress.length ? progress : jQuery( '.spl_restore_progress' ) ).css( 'display', 'inline-flex' );
+
+	requestAnimationFrame( function() {
+		restoreForm.submit();
+	} );
 } );
 
 const settingsWithDependency = jQuery('[data-dependency-settings]');
@@ -735,7 +799,7 @@ function get_category_count( wrapper_id ) {
 function get_category_max( wrapper_id ) {
 	const cat_input_ids = jQuery( wrapper_id ).find( '.category_name' ).map( ( i, e ) => parseInt( e.getAttribute( 'id' ).split( '_' )[ 1 ] ) ).get();
 	const cat_input_id_max = Math.max( ...cat_input_ids );
-	return cat_input_id_max;
+	return isFinite( cat_input_id_max ) ? cat_input_id_max : 0;
 }
 
 function get_cat_id_from_name( name_string ) {
@@ -944,3 +1008,17 @@ function sccSkipFeedbackModal() {
 	  document.querySelector( '#user-scc-sv' ).style.display = 'none';
 	} );
 }
+
+// Settings checkbox toggle handler
+jQuery( document ).on( 'click', '.settingsCheckbox', function( e ) {
+	e.preventDefault();
+	jQuery( this ).toggleClass( 'checked' );
+	let dn = jQuery( this ).attr('data-name');
+    let $input = jQuery(this).parent().parent().find('input[name="'+dn+'"]');
+
+	if (jQuery(this).hasClass('loadStyle')) {
+		$input.prop('checked', jQuery(this).hasClass('checked'));
+	 } else {
+		$input.val(jQuery(this).hasClass('checked') ? 1 : 0);
+	}
+} );
