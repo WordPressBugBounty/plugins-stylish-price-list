@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 * Hook 'em all
 */
 class Stylish_Price_List_Tabs_Form_Handler {
+	const MAX_INPUT_VARS_BUFFER = 25;
+
 	/**
 	 * Normalize price-like text after generic cleaning so currency symbols remain intact.
 	 *
@@ -24,6 +26,64 @@ class Stylish_Price_List_Tabs_Form_Handler {
 		}
 
 		return html_entity_decode( wp_unslash( (string) $value ), ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+	}
+
+	/**
+	 * Safely trim text even when the mbstring extension is unavailable.
+	 *
+	 * @param mixed $value Raw field value.
+	 * @param int   $length Maximum character length.
+	 * @return string
+	 */
+	private function limit_text_field( $value, $length ) {
+		if ( ! is_scalar( $value ) ) {
+			return '';
+		}
+
+		$value = (string) $value;
+
+		if ( function_exists( 'mb_substr' ) ) {
+			return mb_substr( $value, 0, $length );
+		}
+
+		return substr( $value, 0, $length );
+	}
+
+	/**
+	 * Count posted input variables recursively to avoid saving truncated large forms.
+	 *
+	 * @param mixed $value Posted value.
+	 * @return int
+	 */
+	private function count_input_vars( $value ) {
+		if ( ! is_array( $value ) ) {
+			return 1;
+		}
+
+		$count = 0;
+		foreach ( $value as $child_value ) {
+			$count += $this->count_input_vars( $child_value );
+		}
+
+		return $count;
+	}
+
+	/**
+	 * Determine whether the submitted POST is close enough to max_input_vars to risk truncation.
+	 *
+	 * @return bool
+	 */
+	private function is_max_input_vars_limit_reached() {
+		$max_input_vars = absint( ini_get( 'max_input_vars' ) );
+
+		if ( ! $max_input_vars ) {
+			return false;
+		}
+
+		$posted_vars = $this->count_input_vars( $_POST );
+		$threshold   = max( 1, $max_input_vars - self::MAX_INPUT_VARS_BUFFER );
+
+		return $posted_vars >= $threshold;
 	}
 
 	public function __construct() {
@@ -40,7 +100,12 @@ class Stylish_Price_List_Tabs_Form_Handler {
 			return;
 		}
         if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'spl_nonce' ) ) {
-			die( __( 'Error: WP Verify Nonce error. Try to log out of WP and log back in, clear your cache. Try to disable Word Fence or any security pluigin. If the problem persist, please contact support at https://stylishpricelist.com/support/', 'spl' ) );
+			wp_die(
+				esc_html__(
+					'Error: This editor page has expired or was served from cache. Please reload the editor and try saving again. If this keeps happening, exclude Stylish Price List admin pages from Wordfence or other page caching/security plugins.',
+					'spl'
+				)
+			);
 		}
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( __( 'Error: Permission Denied! Current user cannot manage options.', 'spl' ) );
@@ -48,6 +113,9 @@ class Stylish_Price_List_Tabs_Form_Handler {
 		$errors   = array();
 		$field_id = isset( $_POST['field_id'] ) ? intval( $_POST['field_id'] ) : '';
 		$page_url = admin_url( 'admin.php?page=spl-tabs&action=edit&id=' . $field_id );
+		if ( $this->is_max_input_vars_limit_reached() ) {
+			$errors[] = __( 'Your price list is too large for the current PHP max_input_vars setting. Increase max_input_vars before saving to prevent data loss.', 'spl' );
+		}
 		if ( $errors ) {
 			$first_error = reset( $errors );
 			$redirect_to = add_query_arg( array( 'error' => urlencode( $first_error ) ), $page_url );
@@ -59,18 +127,23 @@ class Stylish_Price_List_Tabs_Form_Handler {
 			}
 			unset( $_POST['_wpnonce'] );
 			unset( $_POST['_wp_http_referer'] );
+			unset( $_POST['spl_nonce'] );
+			unset( $_POST['submit_tabs'] );
 			$fields     = df_spl_clean( $_POST );
-			$fields['list_name'] = mb_substr( $fields['list_name'], 0, 100 );
+			if ( ! isset( $fields['list_name'] ) ) {
+				$fields['list_name'] = '';
+			}
+			$fields['list_name'] = $this->limit_text_field( $fields['list_name'], 100 );
 			if ( isset( $fields['category'] ) && is_array( $fields['category'] ) ) {
 				foreach ( $fields['category'] as $cat_id => $cat_data ) {
 					if ( isset( $cat_data['name'] ) ) {
-						$fields['category'][ $cat_id ]['name'] = mb_substr( $cat_data['name'], 0, 60 );
+						$fields['category'][ $cat_id ]['name'] = $this->limit_text_field( $cat_data['name'], 60 );
 					}
 					if ( isset( $cat_data['description'] ) ) {
-						$fields['category'][ $cat_id ]['description'] = mb_substr( $cat_data['description'], 0, 500 );
+						$fields['category'][ $cat_id ]['description'] = $this->limit_text_field( $cat_data['description'], 500 );
 					}
 					if ( isset( $cat_data['price'] ) ) {
-						$fields['category'][ $cat_id ]['price'] = mb_substr( $this->normalize_price_field( $cat_data['price'] ), 0, 30 );
+						$fields['category'][ $cat_id ]['price'] = $this->limit_text_field( $this->normalize_price_field( $cat_data['price'] ), 30 );
 					}
 					foreach ( $cat_data as $service_id => $service_data ) {
 						if ( ! is_array( $service_data ) ) {
@@ -82,13 +155,13 @@ class Stylish_Price_List_Tabs_Form_Handler {
 							}
 							// Limit user input on the server side
 							if ( in_array( $service_key, array( 'service_price', 'service_regular_price', 'settings_compare_at' ), true ) ) {
-								$fields['category'][ $cat_id ][ $service_id ][ $service_key ] = mb_substr( $this->normalize_price_field( $service_value ), 0, 30 );
+								$fields['category'][ $cat_id ][ $service_id ][ $service_key ] = $this->limit_text_field( $this->normalize_price_field( $service_value ), 30 );
 							} elseif ( $service_key === 'service_desc' ) {
-								$fields['category'][ $cat_id ][ $service_id ][ $service_key ] = mb_substr( $service_value, 0, 1000 );
+								$fields['category'][ $cat_id ][ $service_id ][ $service_key ] = $this->limit_text_field( $service_value, 1000 );
 							} elseif ( $service_key === 'service_long_description' ) {
 								continue; // intentionally unlimited to match UI
 							} else {
-								$fields['category'][ $cat_id ][ $service_id ][ $service_key ] = mb_substr( $service_value, 0, 100 );
+								$fields['category'][ $cat_id ][ $service_id ][ $service_key ] = $this->limit_text_field( $service_value, 100 );
 							}
 						}
 					}

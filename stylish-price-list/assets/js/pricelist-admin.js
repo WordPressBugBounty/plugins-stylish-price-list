@@ -101,6 +101,7 @@ function add_service( service_link ) {
 		update_all_service_rows_html_in_wrapper( category_row );
 		imagePickerEventHandler( service_rows_wrapper[0] );
 		loadStylishUploadButton( service_rows_wrapper );
+		initializePriceCharacterLimitIndicators( service_rows_clone[0] );
 	}
 }
 
@@ -193,6 +194,7 @@ function update_all_service_rows_html_in_wrapper( category_row ) {
 			service_id = i + 1;
 			update_service_rows_html( jQuery( service_rows[ i ] ), cat_id, service_id );
 		}
+		initializePriceCharacterLimitIndicators( category_row[0] );
 	}
 }
 
@@ -218,12 +220,106 @@ function add_category( add_cat_row_ele ) {
 		updateCategorySummary( cat_clone );
 		setCategoryAccordionState( cat_clone, true, false );
 		makeServiceSortable( cat_clone.find( '.service-container' ).first()[0] );
+		initializePriceCharacterLimitIndicators( cat_clone[0] );
 		cat_count = parseInt( get_category_count( jQuery( '#category-rows-wrapper' ) ) );
 		if ( cat_count >= splSettings.maxCats ) {
 			show_license_tips_for_category( add_cat_row_ele );
 		}
 	}
 }
+
+const priceCharacterLimitInputSelector = 'input.service_price[maxlength]';
+const priceCharacterLimitVisibleThreshold = 5;
+const splPriceListI18n = ( () => {
+	const wpI18n = window.wp && window.wp.i18n ? window.wp.i18n : {};
+	const __ = typeof wpI18n.__ === 'function' ? wpI18n.__ : ( text ) => text;
+	const _n = typeof wpI18n._n === 'function' ? wpI18n._n : ( single, plural, count ) => count === 1 ? single : plural;
+	const sprintf = typeof wpI18n.sprintf === 'function'
+		? wpI18n.sprintf
+		: ( format, ...args ) => format.replace( /%(\d+\$)?s/g, ( match, position ) => {
+			if ( position ) {
+				return args[ parseInt( position, 10 ) - 1 ];
+			}
+
+			return args.shift();
+		} );
+
+	return { __, _n, sprintf };
+} )();
+
+function ensurePriceCharacterLimitIndicator( input ) {
+	if ( ! input || input.closest( '#category-row-template' ) ) {
+		return null;
+	}
+
+	const maxLength = parseInt( input.getAttribute( 'maxlength' ), 10 );
+	if ( Number.isNaN( maxLength ) || maxLength <= 0 ) {
+		return null;
+	}
+
+	let indicator = input.nextElementSibling;
+	if ( ! indicator || ! indicator.classList.contains( 'spl-price-character-limit-indicator' ) ) {
+		indicator = document.createElement( 'div' );
+		indicator.className = 'spl-price-character-limit-indicator';
+		indicator.setAttribute( 'aria-live', 'polite' );
+		input.insertAdjacentElement( 'afterend', indicator );
+	}
+
+	if ( input.id ) {
+		const indicatorId = `${input.id}_character_limit`;
+		const describedBy = ( input.getAttribute( 'aria-describedby' ) || '' )
+			.split( /\s+/ )
+			.filter( ( id ) => id && ! id.endsWith( '_character_limit' ) );
+
+		indicator.id = indicatorId;
+		input.setAttribute( 'aria-describedby', [ ...describedBy, indicatorId ].join( ' ' ) );
+	}
+
+	return indicator;
+}
+
+function updatePriceCharacterLimitIndicator( input ) {
+	const indicator = ensurePriceCharacterLimitIndicator( input );
+	if ( ! indicator ) {
+		return;
+	}
+
+	const maxLength = parseInt( input.getAttribute( 'maxlength' ), 10 );
+	const currentLength = input.value.length;
+	const remaining = Math.max( maxLength - currentLength, 0 );
+	const isAtLimit = remaining === 0;
+	const shouldShow = remaining <= priceCharacterLimitVisibleThreshold;
+
+	indicator.textContent = isAtLimit
+		? splPriceListI18n.sprintf(
+			splPriceListI18n.__( '%1$s/%2$s characters used. Maximum reached.', 'spl' ),
+			currentLength,
+			maxLength,
+		)
+		: splPriceListI18n.sprintf(
+			splPriceListI18n._n( '%s character remaining.', '%s characters remaining.', remaining, 'spl' ),
+			remaining,
+		);
+	indicator.classList.toggle( 'is-visible', shouldShow );
+	indicator.classList.toggle( 'is-at-limit', isAtLimit );
+	indicator.setAttribute( 'aria-hidden', shouldShow ? 'false' : 'true' );
+	input.classList.toggle( 'spl-price-input-at-limit', isAtLimit );
+}
+
+function initializePriceCharacterLimitIndicators( queryRoot = document ) {
+	const root = jQuery( queryRoot );
+	const inputs = root.is( priceCharacterLimitInputSelector )
+		? root
+		: root.find( priceCharacterLimitInputSelector );
+
+	inputs.each( function() {
+		updatePriceCharacterLimitIndicator( this );
+	} );
+}
+
+jQuery( document ).on( 'input', priceCharacterLimitInputSelector, function() {
+	updatePriceCharacterLimitIndicator( this );
+} );
 
 function splEvaluate( count, type ) {
 	if ( type == 'category' ) {
@@ -641,6 +737,7 @@ function initializeStylishPriceListBackend(maxAttempts = 50) { // Max 5 seconds 
 	}
 
 	loadStylishUploadButton();
+	initializePriceCharacterLimitIndicators( document.getElementById( 'category-rows-wrapper' ) || document );
 
 	jQuery( document ).on( 'click', '.category-accordion-toggle', function( event ) {
 		event.preventDefault();
@@ -731,6 +828,8 @@ initializeStylishPriceListBackend();
 
 // Also try to initialize when DOM is ready as a backup
 jQuery(document).ready(function() {
+	initializePriceCharacterLimitIndicators( document.getElementById( 'category-rows-wrapper' ) || document );
+
 	// If not already initialized, try again
 	if (!window.splInitialized && typeof window.splSettings !== 'undefined' && window.splSettings) {
 		initializeStylishPriceListBackend();

@@ -11,6 +11,7 @@ class Stylish_Price_List_Tabs {
 		    add_action( 'wp_ajax_df_spl_feedback_manage', array( $this, 'feedback_manage' ) );
 		    add_action( 'wp_ajax_stylish-price-list-submit-uninstall-reason', array( $this, 'uninstall_reason' ) );
 		    add_action( 'wp_ajax_spl_setup_wizard', array( $this, 'spl_setup_wizard' ) );
+        add_action('admin_init', array($this, 'send_editor_no_cache_headers_for_request'), 0);
         add_action('admin_init', array($this, 'handle_delete_action'));
         add_action( 'wp_ajax_spl_handle_license', [ $this, 'ajax_handle_license' ] );
 		    // spl_setup_wizard
@@ -262,7 +263,24 @@ class Stylish_Price_List_Tabs {
 		// spl-assisted-new
 		add_submenu_page( 'spl-tabs', __( 'SPL Diagnostic', 'spl' ), __( 'SPL Diagnostic', 'spl' ), 'manage_options', 'spl-tabs-diagnostic', array( $this, 'plugin_page_diagnostic' ) );
 	}
+
+	private function send_editor_no_cache_headers() {
+		if ( ! headers_sent() ) {
+			nocache_headers();
+		}
+	}
+
+	public function send_editor_no_cache_headers_for_request() {
+		$page   = isset( $_REQUEST['page'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['page'] ) ) : '';
+		$action = isset( $_REQUEST['action'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['action'] ) ) : '';
+
+		if ( $page === 'spl-tabs-new' || ( $page === 'spl-tabs' && in_array( $action, array( 'edit', 'new' ), true ) ) ) {
+			$this->send_editor_no_cache_headers();
+		}
+	}
+
 	public function plugin_page_new() {
+		$this->send_editor_no_cache_headers();
 		wp_enqueue_style( 'spl-bootstrap-min' );
 		wp_enqueue_style( 'spl-list-style' );
 		wp_enqueue_style( 'spl-admin-style' );
@@ -360,10 +378,12 @@ public function plugin_page() {
             break;
 
         case 'edit':
+            $this->send_editor_no_cache_headers();
             $template = dirname(__FILE__) . '/views/tabs-edit.php';
             break;
 
         case 'new':
+            $this->send_editor_no_cache_headers();
             $template = dirname(__FILE__) . '/views/tabs-new.php';
             break;
 

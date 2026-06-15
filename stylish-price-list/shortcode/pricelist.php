@@ -62,7 +62,10 @@ function spl_js_css_enqueue_scripts( $hook ) {
 
 	wp_register_script( 'spl-pricelist-admin-core', $assets_url . '/js/pricelist-admin-core.js', array( 'jquery' ), df_spl_get_file_version( $assets_path . '/js/pricelist-admin-core.js' ), true );
 	wp_register_script( 'spl-pricelist-jquery-wookmark', $assets_url . '/js/jquery.wookmark.js', array( 'jquery' ), df_spl_get_file_version( $assets_path . '/js/jquery.wookmark.js' ), true );
-	wp_register_script( 'spl-pricelist-admin', $assets_url . '/js/pricelist-admin.js', array( 'jquery', 'wp-color-picker' ), df_spl_get_file_version( $assets_path . '/js/pricelist-admin.js' ), true );
+	wp_register_script( 'spl-pricelist-admin', $assets_url . '/js/pricelist-admin.js', array( 'jquery', 'wp-color-picker', 'wp-i18n' ), df_spl_get_file_version( $assets_path . '/js/pricelist-admin.js' ), true );
+	if ( function_exists( 'wp_set_script_translations' ) ) {
+		wp_set_script_translations( 'spl-pricelist-admin', 'spl', SPL_DIR . '/languages' );
+	}
 	wp_register_script( 'spl-pricelist-colorpicker', $assets_url . '/js/toolcool-color-picker.min.js', array( 'jquery', 'wp-color-picker' ), df_spl_get_file_version( $assets_path . '/js/toolcool-color-picker.min.js' ), true );
 	wp_register_style( 'spl-bootstrap-min', $assets_url . '/lib/bootstrap-3.3.5/dist/css/stylish-price-list-style.min.css', array(), df_spl_get_file_version( $assets_path . '/lib/bootstrap-3.3.5/dist/css/stylish-price-list-style.min.css' ) );
 	wp_register_style( 'spl-list-style', $assets_url . '/css/frontend-style.css', array(), df_spl_get_file_version( $assets_path . '/css/frontend-style.css' ) );
@@ -101,7 +104,10 @@ function spl_js_css_enqueue_scripts_admin( $hook ) {
 	$assets_path = SPL_DIR . '/assets';
 	wp_register_script( 'spl-pricelist-admin-core', $assets_url . '/js/pricelist-admin-core.js', array( 'jquery' ), df_spl_get_file_version( $assets_path . '/js/pricelist-admin-core.js' ), true );
 	wp_register_script( 'spl-pricelist-jquery-wookmark', $assets_url . '/js/jquery.wookmark.js', array( 'jquery' ), df_spl_get_file_version( $assets_path . '/js/jquery.wookmark.js' ), true );
-	wp_register_script( 'spl-pricelist-admin', $assets_url . '/js/pricelist-admin.js', array( 'jquery', 'wp-color-picker' ), df_spl_get_file_version( $assets_path . '/js/pricelist-admin.js' ), true );
+	wp_register_script( 'spl-pricelist-admin', $assets_url . '/js/pricelist-admin.js', array( 'jquery', 'wp-color-picker', 'wp-i18n' ), df_spl_get_file_version( $assets_path . '/js/pricelist-admin.js' ), true );
+	if ( function_exists( 'wp_set_script_translations' ) ) {
+		wp_set_script_translations( 'spl-pricelist-admin', 'spl', SPL_DIR . '/languages' );
+	}
 	wp_register_script( 'spl-pricelist-colorpicker', $assets_url . '/js/toolcool-color-picker.min.js', array( 'jquery' ), df_spl_get_file_version( $assets_path . '/js/toolcool-color-picker.min.js' ), true );
 	wp_register_style( 'font-awwsone', $assets_url . '/font-awesome/css/font-awesome.min.css', array(), df_spl_get_file_version( $assets_path . '/font-awesome/css/font-awesome.min.css' ) );
 	wp_register_style( 'spl-style-10', $assets_url . '/css/spl-style10.css', array(), df_spl_get_file_version( $assets_path . '/css/spl-style10.css' ) );

@@ -1248,6 +1248,9 @@ $google_fonts = $spl_googlefonts_var->$get_fonts_options();
 		  } else if (typeof event !== 'undefined' && event && typeof event.preventDefault === 'function') {
 			event.preventDefault();
 		  }
+		  if (typeof window.splCheckIfMaxVarsReached === 'function' && window.splCheckIfMaxVarsReached()) {
+			return false;
+		  }
 		  if ( $this ) {
 			$this.innerHTML = '<i class="gg-spinner"></i>';
 		  }
@@ -1493,13 +1496,13 @@ if ( array_key_exists( 'lang', $_REQUEST ) ) {
 		<button class="df-spl-euiButtonIcon df-spl-euiButtonIcon--text df-spl-euiModal__closeIcon" style="background-color: #fff;" type="button" data-dismiss="modal" aria-label="Closes this modal window"><svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" class="df-spl-euiIcon df-spl-euiIcon--medium df-spl-euiButtonIcon__icon" focusable="false" role="img" aria-hidden="true"><path d="M7.293 8L3.146 3.854a.5.5 0 11.708-.708L8 7.293l4.146-4.147a.5.5 0 01.708.708L8.707 8l4.147 4.146a.5.5 0 01-.708.708L8 8.707l-4.146 4.147a.5.5 0 01-.708-.708L7.293 8z"></path></svg></button>
 			<div class="df-spl-euiModal__flex">
 				<div class="df-spl-euiModalHeader" style="background-color: red; color: #fff">
-					<div class="df-spl-euiModalHeader__title trn" style="color: #fff">PHP environment has low Max Input Variable</div>
+					<div class="df-spl-euiModalHeader__title trn" style="color: #fff">PHP environment has low max_input_vars</div>
 				</div>
 				<div class="df-spl-euiModalBody">
 					<div class="df-spl-euiModalBody__overflow">
 						<div class="df-spl-euiText df-spl-euiText--medium">
-							<p>Please consider raising the <a href="https://www.a2hosting.com/kb/developer-corner/php/using-php.ini-directives/php-max-input-vars-directive" target="_blank"> maximum number of input variables</a> to prevent data loss.<br>Current value is <?php echo esc_attr($current_max_input_var); ?></p>
-							<p>After raising the MAX_INPUT_VARS parameter, close this dialog and save your work.</p>
+							<p>This price list has too many fields for the current <a href="https://www.a2hosting.com/kb/developer-corner/php/using-php.ini-directives/php-max-input-vars-directive" target="_blank">max_input_vars</a> setting. Saving is blocked to prevent data loss.<br>Current value is <?php echo esc_attr($current_max_input_var); ?></p>
+							<p>Increase max_input_vars, reload this editor, and then save your work.</p>
 						</div>
 					</div>
 				</div>
@@ -1906,12 +1909,20 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 
 		// check for max_input vars
-		window.checkIfMaxVarsReached = function () {
-			if (jQuery('#main_form input').length >= <?php echo intval($current_max_input_var); ?>) {
+		window.splCheckIfMaxVarsReached = function () {
+			const maxInputVars = <?php echo intval($current_max_input_var); ?>;
+			const threshold = Math.max(1, maxInputVars - 25);
+			const namedFieldsCount = jQuery('#main_form').serializeArray().length;
+
+			if (maxInputVars > 0 && namedFieldsCount >= threshold) {
 				jQuery('#maxvars_warning').removeClass('fade').show(300).trigger('show.bs.modal');
+				return true;
 			}
+
+			return false;
 		}
-		checkIfMaxVarsReached();
+		window.checkIfMaxVarsReached = window.splCheckIfMaxVarsReached;
+		window.splCheckIfMaxVarsReached();
 	});
 </script>
 <script>

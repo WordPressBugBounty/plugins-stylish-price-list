@@ -35,12 +35,37 @@ function df_spl_get_tabs_count() {
 	return $listCount;
 }
 function df_spl_insert_tabs( $cats_data ) {
+	global $wpdb;
+
 	$insert_id = time();
 	if ( ! empty( $cats_data['id'] ) ) {
 		$insert_id = $cats_data['id'];
 	}
 	$option_name = df_spl_get_option_name( $insert_id );
-	update_option( $option_name, $cats_data );
+
+	if ( isset( $wpdb->last_error ) ) {
+		$wpdb->last_error = '';
+	}
+
+	$updated     = update_option( $option_name, $cats_data );
+
+	if ( ! $updated ) {
+		$stored_data = get_option( $option_name );
+
+		if ( $stored_data != $cats_data ) {
+			$error_message = sprintf(
+				'Unable to save price list option "%s".',
+				$option_name
+			);
+
+			if ( ! empty( $wpdb->last_error ) ) {
+				$error_message .= ' Database error: ' . $wpdb->last_error;
+			}
+
+			return new WP_Error( 'spl_save_failed', $error_message );
+		}
+	}
+
 	return $insert_id;
 }
 function df_spl_get_option_name( $id ) {
@@ -73,4 +98,3 @@ function df_spl_clean( $var ) {
 		return is_scalar( $var ) ? addslashes( htmlentities( wp_kses_post( $var ))) : $var;
 	}
 }
-

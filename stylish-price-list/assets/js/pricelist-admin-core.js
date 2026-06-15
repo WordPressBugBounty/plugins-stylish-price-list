@@ -864,6 +864,11 @@ function update_category_row_html( cat_wrapper, cat_id, service_id ) {
 	_cat_action_link.attr( 'name', 'category[' + cat_id + '][action_link]' );
 	_cat_action_link.attr( 'id', 'category_' + cat_id + '_action_link' );
 
+	const _cat_cover_image = cat_wrapper.find( '.category_image' );
+	_cat_cover_image.attr( 'name', 'category[' + cat_id + '][cover-image]' );
+	_cat_cover_image.filter( '[type="file"]' ).attr( 'id', 'category_' + cat_id + '_cover-image' );
+	_cat_cover_image.filter( '[type="hidden"]' ).attr( 'id', 'category_' + cat_id + '_cover-image_value' );
+
 	update_service_rows_html( cat_wrapper.find( '.service:last' ), cat_id, service_id );
 	return cat_wrapper.find( '.category-row' ).html();
 }

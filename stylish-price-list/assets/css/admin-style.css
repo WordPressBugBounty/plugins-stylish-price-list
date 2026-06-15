@@ -812,6 +812,26 @@ p.submit input.button{
 .service-price-length .lbl {
 	line-height: 30px
 }
+.spl-price-character-limit-indicator {
+	color: #667085;
+	display: none;
+	font-size: 12px;
+	line-height: 16px;
+	margin-top: 4px;
+	text-align: right;
+}
+.spl-price-character-limit-indicator.is-visible {
+	display: block;
+}
+.spl-price-character-limit-indicator.is-at-limit {
+	color: #b42318;
+	font-weight: 600;
+}
+input.form-control.spl-price-input-at-limit,
+input.form-control.spl-price-input-at-limit:focus {
+	border-color: #d92d20 !important;
+	box-shadow: 0 0 0 1px rgba(217, 45, 32, 0.24) !important;
+}
 .title-list-style {
 	border-radius: 6px;
 	background: #fff;

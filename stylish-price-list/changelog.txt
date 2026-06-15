@@ -1,3 +1,18 @@
+## 7.2.9 - 2026-06-15
+
+**Editing Page Changes:**
+- Added a visual character limit indicator for item prices in the editor.
+- Added localized messaging for price character limit warnings.
+- Improved save protection for large price lists by checking submitted field counts before saving.
+- Improved editor cache handling to reduce stale asset and unsafe save issues.
+
+**Frontend Changes:**
+- Fixed category cover image handling after category reordering so images stay attached to the correct category.
+
+**Backend Changes:**
+- Fixed price list save payload handling by excluding transient form controls from stored price list data.
+- Improved option save failure detection so database write issues are surfaced instead of reporting a false success.
+
 ## 7.2.8 - 2026-05-27
 
 **Editing Page Changes:**
