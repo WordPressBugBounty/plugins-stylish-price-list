@@ -101,6 +101,7 @@ function add_service( service_link ) {
 		update_all_service_rows_html_in_wrapper( category_row );
 		imagePickerEventHandler( service_rows_wrapper[0] );
 		loadStylishUploadButton( service_rows_wrapper );
+		disableProServiceImageFields( service_rows_wrapper );
 		initializePriceCharacterLimitIndicators( service_rows_clone[0] );
 	}
 }
@@ -171,6 +172,7 @@ function copy_service( copy_icon ) {
 		);
 		service_rows_wrapper.after( service_rows_clone );
 		update_all_service_rows_html_in_wrapper( category_row );
+		disableProServiceImageFields( category_row );
 	}
 }
 
@@ -194,6 +196,7 @@ function update_all_service_rows_html_in_wrapper( category_row ) {
 			service_id = i + 1;
 			update_service_rows_html( jQuery( service_rows[ i ] ), cat_id, service_id );
 		}
+		disableProServiceImageFields( category_row );
 		initializePriceCharacterLimitIndicators( category_row[0] );
 	}
 }
@@ -217,6 +220,7 @@ function add_category( add_cat_row_ele ) {
 		cat_clone.appendTo( '#category-rows-wrapper .categories' );
 		imagePickerEventHandler( cat_clone[0] );
 		loadStylishUploadButton( cat_clone );
+		disableProServiceImageFields( cat_clone );
 		updateCategorySummary( cat_clone );
 		setCategoryAccordionState( cat_clone, true, false );
 		makeServiceSortable( cat_clone.find( '.service-container' ).first()[0] );
@@ -367,6 +371,20 @@ function loadStylishUploadButton( queryRoot = document ) {
 	jQuery('.stylish-upload-btn .upload-btn', queryRoot).click(function () {
 		jQuery(this).siblings('input[type="file"]').click();
 	});
+}
+
+function disableProServiceImageFields( queryRoot = document ) {
+	if ( typeof window.splSettings === 'undefined' || ! window.splSettings || window.splSettings.maxList !== 1 ) {
+		return;
+	}
+
+	const root = jQuery( queryRoot );
+	const serviceImageRows = root
+		.find( '.service-advance-settings .spl_service_image_element, .service-advance-settings label[data-tooltip-image-key="image"]' )
+		.closest( '.df-spl-row' );
+
+	serviceImageRows.find( 'input[type="file"]' ).prop( 'disabled', true ).attr( 'aria-disabled', 'true' );
+	serviceImageRows.find( 'label' ).removeAttr( 'for' ).prop( 'htmlFor', '' ).attr( 'aria-disabled', 'true' );
 }
 
 const handlePreviewDockMode = ( element, mode, event, scrollTo = true ) => {
@@ -526,6 +544,10 @@ const imagePickerEventHandler = ( queryRoot = document ) => {
 			evt.preventDefault();
 
 			const inputSrc = evt.target;
+			if ( inputSrc.disabled || inputSrc.getAttribute( 'aria-disabled' ) === 'true' ) {
+				evt.stopImmediatePropagation();
+				return;
+			}
 
 			const mediaUploader = wp.media.frames.file_frame = wp.media( {
 				title: 'Choose Image',
@@ -637,6 +659,11 @@ function initializeStylishPriceListBackend(maxAttempts = 50) { // Max 5 seconds 
 	// Safety check for splSettings before using it
 	if ( typeof window.splSettings !== 'undefined' && window.splSettings && window.splSettings.maxList === 1 ) {
 		jQuery( '.service-advance-settings .upload-btn' ).text( 'This feature is available in the PRO version.' );
+		disableProServiceImageFields();
+		jQuery( document ).on( 'click', '.service-advance-settings label[aria-disabled="true"]', ( evt ) => {
+			evt.preventDefault();
+			evt.stopImmediatePropagation();
+		} );
 		jQuery( '.service-advance-settings input.service_button' ).attr( 'disabled', true );
 		jQuery( '.service-advance-settings input.service_button_url' ).attr( 'disabled', true );
 		jQuery( '.premium-cta' ).removeClass( 'd-none' );

@@ -1,3 +1,9 @@
+## 7.2.10 - 2026-07-08
+
+**Editing Page Changes:**
+- Fixed style switch modal footer button alignment so actions stay centered and wrap cleanly.
+- Prevented disabled service image fields from opening the image picker in free-mode editing, including newly added or copied services and categories.
+
 ## 7.2.9 - 2026-06-15
 
 **Editing Page Changes:**

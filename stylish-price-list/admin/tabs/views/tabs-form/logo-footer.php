@@ -744,19 +744,26 @@ if ( ! defined( 'ABSPATH' ) ) {
     border: none !important;
 }
 .spl-container-buttom {
-    height: 83px;
+    min-height: 83px;
+    height: auto;
     background: white;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: center;
     margin-top: 18px;
     border-radius: 5px; /* Añade un valor para el radio de borde */
 }
 
 .spl-button-container {
     display: flex;
-    justify-content: space-between; /* Espacio entre elementos */
+    justify-content: center; /* Center the action group in the footer */
     align-items: center; /* Alineación vertical al centro */
-    padding: 0 27px; /* Añade espaciado a los lados para separación */
+    flex-wrap: wrap;
+    gap: 20px;
+    width: auto;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 16px 27px; /* Añade espaciado a los lados para separación */
 }
 
 .spl-button{
@@ -770,7 +777,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	user-select: none;
 	cursor: pointer;
 	color:#5bb3a7;
-	margin-right: 10px;
+	margin-right: 0;
 }
 .spl-button:hover{
 	background: #5bb3a7;
