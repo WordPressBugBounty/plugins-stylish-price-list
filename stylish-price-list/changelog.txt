@@ -1,3 +1,8 @@
+## 7.2.11 - 2026-07-12
+
+**Frontend Changes:**
+- Fixed style 4 price lists rendering empty on the frontend when the desktop/tablet title-break setting was stored as "0".
+
 ## 7.2.10 - 2026-07-08
 
 **Editing Page Changes:**

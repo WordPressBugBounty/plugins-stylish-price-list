@@ -66,8 +66,8 @@ if ( ! empty( $id ) ) {
 	$price_list_desc                             = isset( $cats_data['price_list_desc'] ) ? $cats_data['price_list_desc'] : '';
 	$enable_searchbar                            = isset( $cats_data['enable_searchbar'] ) ? absint( $cats_data['enable_searchbar'] ) : 0;
 	$enable_price_range_slider                   = isset( $cats_data['enable_price_range_slider'] ) ? absint( $cats_data['enable_price_range_slider'] ) : 0;
-	$brack_title_desktop                         = isset( $cats_data['brack_title_desktop'] ) ? $cats_data['brack_title_desktop'] : '';
-	$brack_title_tablets                         = isset( $cats_data['brack_title_tablets'] ) ? $cats_data['brack_title_tablets'] : '';
+	$brack_title_desktop                         = ! empty( $cats_data['brack_title_desktop'] ) ? 1 : '';
+	$brack_title_tablets                         = ! empty( $cats_data['brack_title_tablets'] ) ? 1 : '';
 	$fonts['list_name_font']['family']           = $list_name_font;
 	$fonts['title_font']['family']               = $title_font;
 	$fonts['price_font']['family']               = $price_font;
