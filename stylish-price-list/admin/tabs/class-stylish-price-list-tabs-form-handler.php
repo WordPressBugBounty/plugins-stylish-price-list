@@ -160,6 +160,11 @@ class Stylish_Price_List_Tabs_Form_Handler {
 								$fields['category'][ $cat_id ][ $service_id ][ $service_key ] = $this->limit_text_field( $service_value, 1000 );
 							} elseif ( $service_key === 'service_long_description' ) {
 								continue; // intentionally unlimited to match UI
+							} elseif ( $service_key === 'service_button_url' ) {
+								// URLs are entity-encoded by df_spl_clean(); decode before re-sanitizing as a URL
+								// and skip the generic 100-char limit, which truncates long query strings
+								// (e.g. Fresha/Booksy booking links) and corrupts trailing parameters.
+								$fields['category'][ $cat_id ][ $service_id ][ $service_key ] = esc_url_raw( html_entity_decode( wp_unslash( (string) $service_value ), ENT_QUOTES | ENT_HTML5, 'UTF-8' ) );
 							} else {
 								$fields['category'][ $cat_id ][ $service_id ][ $service_key ] = $this->limit_text_field( $service_value, 100 );
 							}

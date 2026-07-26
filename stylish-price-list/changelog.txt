@@ -1,3 +1,8 @@
+## 7.2.12 - 2026-07-26
+
+**Editing Page Changes:**
+- Fixed long service button URLs being truncated or corrupted when saving, preserving booking links with query parameters.
+
 ## 7.2.11 - 2026-07-12
 
 **Frontend Changes:**
