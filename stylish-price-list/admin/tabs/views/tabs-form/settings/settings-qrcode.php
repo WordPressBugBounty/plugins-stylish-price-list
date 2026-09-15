@@ -1,3 +1,8 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+?>
 <div class="spl-settings-container hide-settings" id="settings-qrcode">
 <div class="spl_flex_1 spl_overflowY custom-scrollbar">
     <div class="spl_padding_8">

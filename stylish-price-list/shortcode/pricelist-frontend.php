@@ -3434,7 +3434,7 @@ if ( $style == 'style_8' ) :
 <?php endif; ?>
 <?php if ($style == 'style_table_1'): 
 
-	if(isset($category_background_color)){
+	if ( ! isset( $category_background_color ) ) {
 		$category_background_color = '#fff';
 	}
 	?>
@@ -3558,7 +3558,7 @@ if ( $style == 'style_8' ) :
 <?php endif; ?>
 <?php if ($style == 'style_table_2'): 
 
-	if(isset($category_background_color)){
+	if ( ! isset( $category_background_color ) ) {
 		$category_background_color = '#fff';
 	}
 	?>
