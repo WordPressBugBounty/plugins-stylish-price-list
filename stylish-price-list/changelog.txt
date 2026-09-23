@@ -1,3 +1,11 @@
+## 7.2.15 - 2026-09-23
+
+**Backend Changes:**
+- Added first-install lifecycle reporting and installation timestamps for activation and deactivation events.
+
+**Deployment Changes:**
+- Updated test-site deployment networking and replaced the third-party Slack action with direct webhook notifications.
+
 ## 7.2.14 - 2026-09-15
 
 **Frontend Changes:**

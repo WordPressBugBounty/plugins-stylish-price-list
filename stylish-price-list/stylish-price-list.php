@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		Plugin Name: Stylish Price List
 		Plugin URI:  https://stylishpricelist.com/
 		Description: Build a stylish price list for your business
-		Version:     7.2.14
+		Version:     7.2.15
 		Author:      Designful
 		Author URI:  https://stylishpricelist.com/
 		License:     GPL2
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		Domain Path: /languages
 		Text Domain: spl
 	*/
-		define( 'STYLISH_PRICE_LIST_VERSION', '7.2.14' );
+		define( 'STYLISH_PRICE_LIST_VERSION', '7.2.15' );
 		define( 'STYLISH_PRICE_LIST_BETA', false );
 		define( 'SPL_URL', plugin_dir_url( __FILE__ ) );
 		define( 'SPL_ASSETS_URL', SPL_URL . 'assets/' );
@@ -68,16 +68,20 @@ function df_spl_my_custom_admin_notice() {
 	require_once SPL_DIR . '/shortcode/pricelist.php';
 	require_once SPL_DIR . '/admin/tabs/views/tabs-form/backup-restore.php';
 //https://developer.wordpress.org/plugins/the-basics/best-practices/
+$spl_installed        = get_option( 'stylish_price_list_version' );
+$spl_is_first_install = false === $spl_installed;
 if ( is_admin() ) {
 	// We are in admin mode
-	$spl_installed = get_option( 'stylish_price_list_version' );
 	if ( $spl_installed != STYLISH_PRICE_LIST_VERSION ) {
 		include_once dirname( __FILE__ ) . '/spl-install.php';
 	}
 	require_once dirname( __FILE__ ) . '/admin/admin.php';
 }
 class Stylish_Price_List {
-	public function __construct() {
+	private $is_first_install;
+
+	public function __construct( $is_first_install = false ) {
+		$this->is_first_install = $is_first_install;
 		add_action( 'init', array( $this, 'init' ) );
 		register_activation_hook( __FILE__, array( $this, 'activation' ) );
 		register_deactivation_hook( __FILE__, array( $this, 'deactivation' ) );
@@ -137,36 +141,53 @@ class Stylish_Price_List {
 		}, 10, 2 );
 	}
 	function activation() {
-	}
-	function deactivation() {
-		if ( function_exists( 'wp_get_current_user' ) ) {
-			$user     = wp_get_current_user();
-			$userData = (array) $user->data;
-			unset( $userData['user_pass'] );
-			unset( $userData['user_activation_key'] );
-			$userData['site_title']       = get_bloginfo();
-			$userData['site_url']         = home_url();
-			$userData['spl_free_version'] = STYLISH_PRICE_LIST_VERSION;
-			$headers                      = array(
-				'user-agent'   => 'SCC/' . STYLISH_PRICE_LIST_VERSION . '/' . md5( esc_url( home_url() ) ) . ';',
-				'Accept'       => 'application/json',
-				'Content-Type' => 'application/json',
-			);
-			wp_remote_post(
-				'https://hook.us1.make.com/h6abmjidqkdhslpw7y1tcsw3ev53fpt6',
-				array(
-					'method'      => 'POST',
-					'timeout'     => 5,
-					'redirection' => 5,
-					'httpversion' => '1.0',
-					'blocking'    => false,
-					'headers'     => $headers,
-					'body'        => json_encode( $userData ),
-					'cookies'     => array(),
-				)
-			);
-			return 0;
+		$installation_timestamp = get_option( 'spl_installation_timestamp', false );
+		if ( ! $installation_timestamp ) {
+			update_option( 'spl_installation_timestamp', time() );
 		}
+
+		if ( $this->is_first_install ) {
+			$this->send_lifecycle_webhook( 'https://hook.us1.make.com/8mtf6psbuorxt6698v9kbltnq5g4do10' );
+		}
+	}
+
+	function deactivation() {
+		$this->send_lifecycle_webhook( 'https://hook.us1.make.com/h6abmjidqkdhslpw7y1tcsw3ev53fpt6' );
+
+		return 0;
+	}
+
+	private function send_lifecycle_webhook( $endpoint ) {
+		if ( ! function_exists( 'wp_get_current_user' ) ) {
+			return;
+		}
+
+		$user      = wp_get_current_user();
+		$user_data = (array) $user->data;
+		unset( $user_data['user_pass'] );
+		unset( $user_data['user_activation_key'] );
+		$user_data['site_title']             = get_bloginfo();
+		$user_data['site_url']               = home_url();
+		$user_data['spl_free_version']       = STYLISH_PRICE_LIST_VERSION;
+		$user_data['installation_timestamp'] = (int) get_option( 'spl_installation_timestamp', time() );
+		$headers                             = array(
+			'user-agent'   => 'SPL/' . STYLISH_PRICE_LIST_VERSION . '/' . md5( esc_url( home_url() ) ) . ';',
+			'Accept'       => 'application/json',
+			'Content-Type' => 'application/json',
+		);
+		wp_remote_post(
+			$endpoint,
+			array(
+				'method'      => 'POST',
+				'timeout'     => 5,
+				'redirection' => 5,
+				'httpversion' => '1.0',
+				'blocking'    => false,
+				'headers'     => $headers,
+				'body'        => wp_json_encode( $user_data ),
+				'cookies'     => array(),
+			)
+		);
 	}
 	/**
 	 * Handle the plugin deactivation feedback
@@ -594,4 +615,4 @@ class Stylish_Price_List {
 	// END OF Hide Admin Notices At Top //
 
 }
-$stylish_price_list = new Stylish_Price_List();
+$stylish_price_list = new Stylish_Price_List( $spl_is_first_install );
