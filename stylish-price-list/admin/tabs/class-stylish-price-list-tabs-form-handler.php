@@ -154,7 +154,9 @@ class Stylish_Price_List_Tabs_Form_Handler {
 								continue;
 							}
 							// Limit user input on the server side
-							if ( in_array( $service_key, array( 'service_price', 'service_regular_price', 'settings_compare_at' ), true ) ) {
+							if ( $service_key === 'service_price' ) {
+								$fields['category'][ $cat_id ][ $service_id ][ $service_key ] = $this->limit_text_field( $this->normalize_price_field( $service_value ), 160 );
+							} elseif ( in_array( $service_key, array( 'service_regular_price', 'settings_compare_at' ), true ) ) {
 								$fields['category'][ $cat_id ][ $service_id ][ $service_key ] = $this->limit_text_field( $this->normalize_price_field( $service_value ), 30 );
 							} elseif ( $service_key === 'service_desc' ) {
 								$fields['category'][ $cat_id ][ $service_id ][ $service_key ] = $this->limit_text_field( $service_value, 1000 );

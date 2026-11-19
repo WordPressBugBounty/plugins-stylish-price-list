@@ -578,7 +578,7 @@ if ( ! function_exists( 'service_item' ) ) {
 				<textarea name="<?php echo esc_attr($name); ?>" id="<?php echo esc_attr($html_id); ?>" class="form-control <?php echo esc_attr($id); ?>" rows="5" cols="33"><?php echo esc_attr($value); ?></textarea>
 			<?php } else {
 				if ( $id === 'service_price' ) {
-					$lengthLimit = '30';
+					$lengthLimit = '160';
 				}
 				elseif ( $id === 'service_desc' ) {
 					$lengthLimit = '1000';
