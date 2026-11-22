@@ -1,3 +1,8 @@
+## 7.2.19 - 2026-11-21
+
+**Backend Changes:**
+- Updated: Reviewed declared compatibility metadata for WordPress 7.1.
+
 ## 7.2.18 - 2026-11-19
 
 **Editing Page Changes:**
